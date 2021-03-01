@@ -18,6 +18,7 @@ import configuration.ConfigXML;
 import configuration.UtilDate;
 import domain.Event;
 import domain.Question;
+import domain.User;
 import exceptions.QuestionAlreadyExist;
 
 /**
@@ -264,4 +265,14 @@ public class DataAccess  {
 		db.close();
 		System.out.println("DataBase is closed");
 	}
+	
+	public void storeUser(String userp, String passwordp){
+        db.getTransaction().begin();
+
+        User user= new User(0/*id-a sartzeko metodon bat pentsau +1 iteona*/, userp, passwordp);
+        db.persist(user);
+        db.getTransaction().commit();
+        System.out.println(userp+" Registered!");
+        this.close();
+    }
 }
