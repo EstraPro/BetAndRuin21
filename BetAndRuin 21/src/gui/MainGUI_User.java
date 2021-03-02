@@ -20,7 +20,7 @@ import javax.swing.SwingConstants;
 import businessLogic.BlFacade;
 import domain.Event;
 
-public class MainGUI extends JFrame {
+public class MainGUI_User extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class MainGUI extends JFrame {
 		businessLogic = afi;
 	}
 
-	public MainGUI() {
+	public MainGUI_User() {
 		super();
 
 		addWindowListener(new WindowAdapter() {
@@ -80,7 +80,7 @@ public class MainGUI extends JFrame {
 
 		initializeBrowseQuestionsBtn();
 		mainPane.add(browseQuestionsBtn);
-		initializeCreateQuestionBtn();
+		initializeCancelBetsBtn();
 		mainPane.add(createQuestionBtn);
 
 		initializeLocalePane();
@@ -99,15 +99,13 @@ public class MainGUI extends JFrame {
 		});
 	}
 
-	private void initializeCreateQuestionBtn() {
+	private void initializeCancelBetsBtn() {
 		createQuestionBtn = new JButton();
-		createQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
+		createQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("MainGUI_User.createQuestionBtn.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		createQuestionBtn.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				CreateQuestionGUI createQuestionWindow = new CreateQuestionGUI(businessLogic, new Vector<Event>());
-				createQuestionWindow.setBusinessLogic(businessLogic);
-				createQuestionWindow.setVisible(true);
+
 			}
 		});
 	}

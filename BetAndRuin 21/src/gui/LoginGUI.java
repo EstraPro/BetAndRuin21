@@ -87,14 +87,14 @@ public class LoginGUI extends JFrame {
 				// userra baldin bada use case bat ireki
 				if (businessLogic.checkCredentialsUser(UsnametextField.getText(),
 						String.valueOf(passwordField.getPassword()))) {
-					MainGUI Mainwindow = new MainGUI();
+					MainGUI_User Mainwindow = new MainGUI_User();
 					Mainwindow.setVisible(true);
 				}
 
 				// administratzailea baldin bada bertze use case bat ireki
 				else if (businessLogic.checkCredentialsAdmin(UsnametextField.getText(),
 						String.valueOf(passwordField.getPassword()))) {
-					MainGUI Mainwindow = new MainGUI();
+					MainGUI_Admin Mainwindow = new MainGUI_Admin();
 					Mainwindow.setVisible(true);
 				}
 

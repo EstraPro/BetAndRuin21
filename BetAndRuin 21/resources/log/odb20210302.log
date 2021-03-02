@@ -70,3 +70,17 @@ Type domain.Question is not enhanced.
 [2021-03-02 13:36:27 #4 type] 
 Type domain.Event is not enhanced.
 
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-03-02 17:08:52 #1 store] 
+Database '/home/estrapro/git/BetAndRuin_repos/BetAndRuin 21/bets.temp' is opened by 6891@estrapro-pc
+
+[2021-03-02 17:08:52 #2 store] 
+Configuration path: ?
+
+[2021-03-02 17:08:52 #3 type] 
+Type domain.Question is not enhanced.
+
+[2021-03-02 17:08:52 #4 type] 
+Type domain.Event is not enhanced.
+

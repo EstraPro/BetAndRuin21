@@ -27,7 +27,7 @@ public class PassChecker {
 	 * @return true if they match, false if not
 	 */
 	public boolean checkCredentialsAdmin(String usname, String passwd) {
-		if (usname.equals("administrator") && passwd.equals("administrator")) {
+		if (usname.equals("admin") && passwd.equals("admin")) {
 			return true;
 		} else {
 			return false;
