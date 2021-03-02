@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
   <businessLogic local="false"> 
-	<businessLogicNode>0.0.0.0</businessLogicNode>
+	<businessLogicNode>192.168.1.97</businessLogicNode>
 	<businessLogicPort>1099</businessLogicPort>
 	<businessLogicName>Bets</businessLogicName>
   </businessLogic>
