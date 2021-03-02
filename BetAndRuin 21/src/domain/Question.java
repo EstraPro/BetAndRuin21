@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
-@SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 public class Question implements Serializable {

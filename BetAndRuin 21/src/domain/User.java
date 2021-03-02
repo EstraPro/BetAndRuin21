@@ -10,9 +10,16 @@ public class User {
 	private int id;
 	private String username;
 	private String password;
-	
+
+	/**
+	 * Constructor for User
+	 * 
+	 * @param id
+	 * @param usr
+	 * @param passwd
+	 */
 	public User(int id, String usr, String passwd) {
-		
+
 		this.id = id;
 		username = usr;
 		password = passwd;
@@ -41,6 +48,5 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
+
 }
