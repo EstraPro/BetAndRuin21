@@ -27,7 +27,7 @@ public class RegisterGUI extends JFrame {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	private JPasswordField txtRetypePass;
-	private DataAccess db = new DataAccess(false);
+	private DataAccess db = new DataAccess();
 
 	/**
 	 * Launch the application.
@@ -50,7 +50,7 @@ public class RegisterGUI extends JFrame {
 	 */
 	public RegisterGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 408, 410);
+		setBounds(100, 100, 433, 396);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -76,22 +76,22 @@ public class RegisterGUI extends JFrame {
 		
 		JLabel UsernameLabel = new JLabel("Username: ");
 		UsernameLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		UsernameLabel.setBounds(63, 125, 79, 28);
+		UsernameLabel.setBounds(63, 125, 105, 28);
 		contentPane.add(UsernameLabel);
 		
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPassword.setBounds(70, 174, 72, 28);
+		lblPassword.setBounds(70, 174, 98, 28);
 		contentPane.add(lblPassword);
 		
 		JLabel lblRetypePassword = new JLabel("Retype password:");
 		lblRetypePassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblRetypePassword.setBounds(20, 232, 119, 28);
+		lblRetypePassword.setBounds(20, 232, 148, 28);
 		contentPane.add(lblRetypePassword);
 		
 		JLabel RegisterLabel = new JLabel("Register");
 		RegisterLabel.setFont(new Font("Segoe UI Semilight", Font.BOLD, 27));
-		RegisterLabel.setBounds(143, 24, 109, 50);
+		RegisterLabel.setBounds(143, 24, 154, 50);
 		contentPane.add(RegisterLabel);
 		
 		JTextArea dispalyTxt = new JTextArea();
@@ -103,8 +103,9 @@ public class RegisterGUI extends JFrame {
 		DoneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispalyTxt.setText(null);
-				if(String.valueOf(txtPassword.getPassword())==String.valueOf(txtRetypePass.getPassword())) {
+				if(String.valueOf(txtPassword.getPassword()).equals(String.valueOf(txtRetypePass.getPassword()))) {
 					db.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
+					dispalyTxt.setText("Registered!");
 			}else {
 				dispalyTxt.setText("Password MissMatch($·$)");
 			}
@@ -117,3 +118,4 @@ public class RegisterGUI extends JFrame {
 		
 	}
 }
+
