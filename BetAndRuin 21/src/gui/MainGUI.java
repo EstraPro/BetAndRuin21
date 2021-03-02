@@ -34,7 +34,7 @@ public class MainGUI extends JFrame {
 	private JRadioButton castellanoRbtn;
 	private JRadioButton englishRbtn;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-
+	
 	private BlFacade businessLogic;
 
 	public BlFacade getBusinessLogic(){
