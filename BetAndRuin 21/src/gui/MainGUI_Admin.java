@@ -88,13 +88,17 @@ public class MainGUI_Admin extends JFrame {
 	}
 
 	private void initializeBrowseQuestionsBtn() {
+		
+		JFrame thisFrame = this;
 		browseQuestionsBtn = new JButton();
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		browseQuestionsBtn.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
+				setVisible(false);
 				BrowseQuestionsGUI findQuestionsWindow = new BrowseQuestionsGUI(businessLogic);
 				findQuestionsWindow.setVisible(true);
+				findQuestionsWindow.previousFrame(thisFrame);
 			}
 		});
 	}
@@ -105,9 +109,11 @@ public class MainGUI_Admin extends JFrame {
 		createQuestionBtn.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
+
 				CreateQuestionGUI createQuestionWindow = new CreateQuestionGUI(businessLogic, new Vector<Event>());
 				createQuestionWindow.setBusinessLogic(businessLogic);
 				createQuestionWindow.setVisible(true);
+				
 			}
 		});
 	}

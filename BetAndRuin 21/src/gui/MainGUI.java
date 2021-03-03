@@ -7,8 +7,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,9 +16,8 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 import businessLogic.BlFacade;
-import domain.Event;
 
-public class MainGUI_User extends JFrame {
+public class MainGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +41,7 @@ public class MainGUI_User extends JFrame {
 		businessLogic = afi;
 	}
 
-	public MainGUI_User() {
+	public MainGUI() {
 		super();
 
 		addWindowListener(new WindowAdapter() {
@@ -74,7 +71,7 @@ public class MainGUI_User extends JFrame {
 		mainPane = new JPanel();
 		mainPane.setLayout(new GridLayout(4, 1, 0, 0));
 
-		selectOptionLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("SelectUseCase"));
+		selectOptionLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
 		selectOptionLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		mainPane.add(selectOptionLbl);
 
@@ -88,13 +85,18 @@ public class MainGUI_User extends JFrame {
 	}
 
 	private void initializeBrowseQuestionsBtn() {
+		
+		JFrame thisFrame = this;
 		browseQuestionsBtn = new JButton();
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		browseQuestionsBtn.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
+				
+				setVisible(false);
 				BrowseQuestionsGUI findQuestionsWindow = new BrowseQuestionsGUI(businessLogic);
 				findQuestionsWindow.setVisible(true);
+				findQuestionsWindow.previousFrame(thisFrame);
 			}
 		});
 	}

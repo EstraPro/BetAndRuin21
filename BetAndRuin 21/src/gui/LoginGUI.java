@@ -87,7 +87,7 @@ public class LoginGUI extends JFrame {
 				// userra baldin bada use case bat ireki
 				if (businessLogic.checkCredentialsUser(UsnametextField.getText(),
 						String.valueOf(passwordField.getPassword()))) {
-					MainGUI_User Mainwindow = new MainGUI_User();
+					MainGUI Mainwindow = new MainGUI();
 					Mainwindow.setVisible(true);
 				}
 

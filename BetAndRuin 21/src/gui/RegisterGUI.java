@@ -42,6 +42,8 @@ public class RegisterGUI extends JFrame {
 			public void run() {
 				try {
 					RegisterGUI frame = new RegisterGUI();
+					PassChecker bl = new PassChecker();
+					frame.setBusinessLogic(bl);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -109,8 +111,8 @@ public class RegisterGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispalyTxt.setText(null);
 
-				if (/*businessLogic.passwdMatches(String.valueOf(txtPassword.getPassword()),
-						String.valueOf(txtRetypePass.getPassword()))*/true) {
+				if (businessLogic.passwdMatches(String.valueOf(txtPassword.getPassword()),
+						String.valueOf(txtRetypePass.getPassword()))) {
 					db.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
 					dispalyTxt.setText("Registered!");
 				} else {

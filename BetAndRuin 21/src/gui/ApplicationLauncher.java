@@ -20,7 +20,7 @@ public class ApplicationLauncher {
 
 		Locale.setDefault(new Locale(config.getLocale()));
 		System.out.println("Locale: " + Locale.getDefault());
-		MainGUI_Admin initWindow = new MainGUI_Admin();
+		MainGUI initWindow = new MainGUI();
 		BlFacade businessLogic;
 
 		try {
