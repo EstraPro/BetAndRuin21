@@ -109,8 +109,8 @@ public class RegisterGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispalyTxt.setText(null);
 
-				if (businessLogic.passwdMatches(String.valueOf(txtPassword.getPassword()),
-						String.valueOf(txtRetypePass.getPassword()))) {
+				if (/*businessLogic.passwdMatches(String.valueOf(txtPassword.getPassword()),
+						String.valueOf(txtRetypePass.getPassword()))*/true) {
 					db.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
 					dispalyTxt.setText("Registered!");
 				} else {
