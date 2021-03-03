@@ -142,6 +142,11 @@ public class DataAccess {
 			db.persist(ev18);
 			db.persist(ev19);
 			db.persist(ev20);
+			
+			User kaixo = new User(0, "kaixo", "cksdnk");
+			db.persist(kaixo);
+			User kaixo2 = new User(12, "kaixo2", "dsf");
+			db.persist(kaixo2);
 
 			db.getTransaction().commit();
 			System.out.println("The database has been initialized");
@@ -273,10 +278,27 @@ public class DataAccess {
 	public void storeUser(String userp, String passwordp) {
 		db.getTransaction().begin();
 
-		User user = new User(0/* id-a sartzeko metodon bat pentsau +1 iteona */, userp, passwordp);
+		TypedQuery<User> queryMaxId = db.createQuery(
+				"SELECT MAX(id) FROM User", User.class);
+		
+		List<User> ids = queryMaxId.getResultList();
+		
+		int id = ids.get(0).getId();
+		
+		User user = new User(id, userp, passwordp);
 		db.persist(user);
 		db.getTransaction().commit();
 		System.out.println(userp + " Registered!");
 		this.close();
+	}
+	
+	public boolean checkUser(String usname, String passwd) {
+		
+		TypedQuery<User> userPassQuery = db.createQuery(
+				"SELECT id FROM User WHERE username.equals(\"kaixo\") AND password.equals(\"cksdnk\")", User.class);
+		
+		List<User> users = userPassQuery.getResultList();
+		
+		return users.size() != 0;
 	}
 }

@@ -1,11 +1,15 @@
 package businessLogic;
 
+import dataAccess.DataAccess;
+
 /**
  * Class that checks credentials
  *
  */
 public class PassChecker {
 
+	DataAccess db = new DataAccess();
+	
 	/**
 	 * Checks credentials for user
 	 * @param usname
@@ -13,11 +17,8 @@ public class PassChecker {
 	 * @return true if they match, false if not
 	 */
 	public boolean checkCredentialsUser(String usname, String passwd) {
-		if (usname.equals("user") && passwd.equals("user")) {
-			return true;
-		} else {
-			return false;
-		}
+
+		return db.checkUser(usname, passwd);
 	}
 
 	/**
