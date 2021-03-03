@@ -278,14 +278,14 @@ public class DataAccess {
 	public void storeUser(String userp, String passwordp) {
 		db.getTransaction().begin();
 
-		TypedQuery<User> queryMaxId = db.createQuery(
-				"SELECT MAX(id) FROM User", User.class);
+		TypedQuery<Integer> queryMaxId = db.createQuery(
+				"SELECT MAX(id) FROM User", Integer.class);
 		
-		List<User> ids = queryMaxId.getResultList();
+		List<Integer> ids = queryMaxId.getResultList();
 		
-		int id = ids.get(0).getId();
+		int id = ids.get(0);
 		
-		User user = new User(id, userp, passwordp);
+		User user = new User(id + 1, userp, passwordp);
 		db.persist(user);
 		db.getTransaction().commit();
 		System.out.println(userp + " Registered!");

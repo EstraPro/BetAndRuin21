@@ -42,6 +42,8 @@ public class RegisterGUI extends JFrame {
 			public void run() {
 				try {
 					RegisterGUI frame = new RegisterGUI();
+					PassChecker bl = new PassChecker();
+					frame.setBusinessLogic(bl);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

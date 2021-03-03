@@ -31,6 +31,8 @@ import domain.Question;
 public class BrowseQuestionsGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	private JFrame prevFrame;
 
 	private BlFacade businessLogic;
 
@@ -104,6 +106,7 @@ public class BrowseQuestionsGUI extends JFrame {
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				jButton2_actionPerformed(e);
 			}
 		});
@@ -233,6 +236,17 @@ public class BrowseQuestionsGUI extends JFrame {
 	}
 
 	private void jButton2_actionPerformed(ActionEvent e) {
-		this.setVisible(false);
+		
+		this.dispose();
+		prevFrame.setVisible(true);
+	}
+	
+	/**
+	 * Gets the previous frame
+	 * @param frame
+	 */
+	public void previousFrame(JFrame frame) {
+		
+		prevFrame = frame;
 	}
 }
