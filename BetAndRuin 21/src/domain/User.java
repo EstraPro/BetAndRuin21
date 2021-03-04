@@ -40,7 +40,12 @@ public class User {
 	 * @return the made bet(s) in that question
 	 */
 	public ArrayList<Integer> getQuestionBets(Integer questionId) {
-		return madeBets.get(questionId);
+		
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		
+		if(madeBets.get(questionId) != null) list = madeBets.get(questionId);
+				
+		return list;
 	}
 	
 	/**

@@ -101,12 +101,12 @@ public class DataAccess {
 				q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
 				q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
 			} else if (Locale.getDefault().equals(new Locale("en"))) {
-				q1 = ev1.addQuestion("Who will win the match?", 1);
-				q2 = ev1.addQuestion("Who will score first?", 2);
-				q3 = ev11.addQuestion("Who will win the match?", 1);
-				q4 = ev11.addQuestion("How many goals will be scored in the match?", 2);
-				q5 = ev17.addQuestion("Who will win the match?", 1);
-				q6 = ev17.addQuestion("Will there be goals in the first half?", 2);
+				q1 = ev1.addQuestion("Athletic will win the match", 1);
+				q2 = ev1.addQuestion("Athletico will win the match", 2);
+				q3 = ev11.addQuestion("Athletic will win the match", 1);
+				q4 = ev11.addQuestion("Athletico will win the match", 2);
+				q5 = ev17.addQuestion("Malaga will win the match", 1);
+				q6 = ev17.addQuestion("Valencia will win the match", 2);
 			} else {
 				q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1);
 				q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2);
@@ -297,12 +297,13 @@ public class DataAccess {
 	 * @param questionId
 	 * @param amount
 	 */
-	public void storeBet(String userid, Integer questionId, int amount) {
+	public void storeBet(int userid, Integer betKey, int amount) {
 		User user = this.getUserByName(userid);
 		db.getTransaction().begin();
-		user.storeBet(questionId, amount);
+		user.storeBet(betKey, amount);
 		db.getTransaction().commit();
 		System.out.println(user.getUsername() + " has been updated");
+		this.close();
 	}
 	
 	/**
@@ -310,15 +311,28 @@ public class DataAccess {
 	 * @param userid
 	 * @return
 	 */
-	public User getUserByName(String userid) {
-		TypedQuery<User> q2 = db.createQuery("SELECT u FROM User " + "u WHERE u.id = ?1",
+	public User getUserByName(int userid) {
+		
+		System.out.println("kaicooo " + db.isOpen());
+		db.getTransaction().begin();
+		TypedQuery<User> q2 = db.createQuery("SELECT u FROM User u WHERE u.id = ?1",
 				User.class);
 		q2.setParameter(1, userid);
 		List<User> user = q2.getResultList();
 		
+		db.getTransaction().commit();
+		
+		//this.close();
+		
 		return user.get(0);
 	}
 	
+	/**
+	 * Check user credentials
+	 * @param usname
+	 * @param passwd
+	 * @return
+	 */
 	public boolean checkUser(String usname, String passwd) {
 		
 		TypedQuery<User> userPassQuery = db.createQuery(
@@ -368,5 +382,24 @@ public class DataAccess {
 		}
 		db.getTransaction().commit();
 		this.close();
+	}
+	
+	/**
+	 * Return id of logged user
+	 * @return
+	 */
+	public int getLoggedUserId() {
+		
+		db.getTransaction().begin();
+
+		TypedQuery<Integer> queryLoggedUsers = db.createQuery(
+				"SELECT id FROM User WHERE loggedIn=true", Integer.class);
+		
+		List<Integer> ids = queryLoggedUsers.getResultList();
+
+		db.getTransaction().commit();
+		//this.close();
+		
+		return ids.get(0);
 	}
 }

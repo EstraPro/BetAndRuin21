@@ -240,13 +240,18 @@ public class BrowseQuestionsGUI extends JFrame {
 		this.getContentPane().add(eventScrollPane, null);
 		this.getContentPane().add(questionScrollPane, null);
 		
+		JFrame thisFrame = this;
 		JButton btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		btnBet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(questionTable.getSelectedRow()!=-1 && eventTable.getSelectedRow()!=-1 ) {
 					int questNumber = (int) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
 					int eventNumber = (int) eventTable.getValueAt(questionTable.getSelectedRow(), 0);
-					
+					setVisible(false);
+					ConfirmGUI confirmation = new ConfirmGUI();
+					confirmation.setVisible(true);
+					confirmation.previousFrame(thisFrame);
+					confirmation.setValues(eventNumber, questNumber, Integer.parseInt(betInp.getText()));
 				}
 			}
 		});

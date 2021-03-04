@@ -8,7 +8,12 @@ import dataAccess.DataAccess;
  */
 public class UserManager {
 
-	DataAccess db = new DataAccess();
+	DataAccess db;
+	
+	public UserManager() {
+		
+		db = new DataAccess();
+	}
 	
 	/**
 	 * Checks credentials for user
@@ -75,5 +80,25 @@ public class UserManager {
 	public void resetLogins() {
 		
 		db.resetLogins();
+	}
+	
+	/**
+	 * Return id of logged user
+	 * @return
+	 */
+	public int getLoggedUserId() {
+		
+		return db.getLoggedUserId();
+	}
+	
+	/**
+	 * Updates the given bets of the user, by adding the recent one
+	 * @param userid
+	 * @param questionId
+	 * @param amount
+	 */
+	public void storeBet(int userid, Integer betKey, int amount) {
+		
+		db.storeBet(userid, betKey, amount);
 	}
 }
