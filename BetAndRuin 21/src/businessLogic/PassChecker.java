@@ -43,7 +43,7 @@ public class PassChecker {
 	 */
 	public boolean passwdMatches(String pass1, String pass2) {
 
-		if (pass1.equals(pass2)) {
+		if (pass1.equals(pass2) && pass1.length() != 0) {
 			return true;
 		} else {
 			return false;

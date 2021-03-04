@@ -144,11 +144,9 @@ public class DataAccess {
 			db.persist(ev19);
 			db.persist(ev20);
 			
-			User kaixo = new User(0, "kaixo", "cksdnk");
-			db.persist(kaixo);
-			User kaixo2 = new User(12, "kaixo2", "dsf");
-			db.persist(kaixo2);
-
+			User admin = new User(0, "admin", "admin");
+			db.persist(admin);
+			
 			db.getTransaction().commit();
 			System.out.println("The database has been initialized");
 		} catch (Exception e) {

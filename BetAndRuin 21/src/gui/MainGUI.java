@@ -32,6 +32,9 @@ public class MainGUI extends JFrame {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	private BlFacade businessLogic;
+	private JPanel panel;
+	private JButton btnRegister;
+	private JButton btnLogin;
 
 	public BlFacade getBusinessLogic() {
 		return businessLogic;
@@ -43,6 +46,7 @@ public class MainGUI extends JFrame {
 
 	public MainGUI() {
 		super();
+		setResizable(false);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -57,7 +61,7 @@ public class MainGUI extends JFrame {
 			}
 		});
 
-		this.setBounds(100, 100, 500, 300);
+		this.setBounds(100, 100, 373, 241);
 
 		this.initializeMainPane();
 		this.setContentPane(mainPane);
@@ -69,7 +73,7 @@ public class MainGUI extends JFrame {
 
 	private void initializeMainPane() {
 		mainPane = new JPanel();
-		mainPane.setLayout(new GridLayout(4, 1, 0, 0));
+		mainPane.setLayout(new GridLayout(5, 1, 0, 0));
 
 		selectOptionLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
 		selectOptionLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -81,6 +85,41 @@ public class MainGUI extends JFrame {
 		mainPane.add(createQuestionBtn);
 
 		initializeLocalePane();
+		{
+			panel = new JPanel();
+			mainPane.add(panel);
+			{
+				MainGUI thisFrame = this;
+				btnRegister = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MainGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
+				btnRegister.setBounds(0, 0, 89, 34);
+				btnRegister.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						setVisible(false);
+						RegisterGUI RegisterWindow = new RegisterGUI();
+						RegisterWindow.setVisible(true);
+						RegisterWindow.previousFrame(thisFrame);
+					}
+				});
+				panel.setLayout(null);
+				panel.add(btnRegister);
+			}
+			{
+				MainGUI thisFrame = this;
+				btnLogin = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MainGUI.btnNewButton_1.text"));
+				btnLogin.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						setVisible(false);
+						LoginGUI LoginWindow = new LoginGUI();
+						LoginWindow.setVisible(true);
+						LoginWindow.previousFrame(thisFrame);
+					}
+				});
+				btnLogin.setBounds(134, 0, 83, 33);
+				panel.add(btnLogin);
+			}
+		}
 		mainPane.add(localePane);
 	}
 
@@ -169,5 +208,21 @@ public class MainGUI extends JFrame {
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		createQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
+	}
+
+	public JButton getBtnRegister() {
+		return btnRegister;
+	}
+
+	public void setBtnRegister(JButton btnNewButton) {
+		this.btnRegister = btnNewButton;
+	}
+
+	public JButton getBtnLogin() {
+		return btnLogin;
+	}
+
+	public void setBtnLogin(JButton btnLogin) {
+		this.btnLogin = btnLogin;
 	}
 }

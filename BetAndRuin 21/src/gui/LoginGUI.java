@@ -30,6 +30,7 @@ public class LoginGUI extends JFrame {
 	private JTextField UsnametextField;
 	private JPasswordField passwordField;
 	private PassChecker businessLogic;
+	MainGUI prevFrame;
 
 	public void setBusinessLogic(PassChecker checker) {
 		businessLogic = checker;
@@ -57,6 +58,9 @@ public class LoginGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginGUI() {
+		
+		PassChecker bl = new PassChecker();
+		this.setBusinessLogic(bl);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -87,15 +91,19 @@ public class LoginGUI extends JFrame {
 				// userra baldin bada use case bat ireki
 				if (businessLogic.checkCredentialsUser(UsnametextField.getText(),
 						String.valueOf(passwordField.getPassword()))) {
-					MainGUI Mainwindow = new MainGUI();
-					Mainwindow.setVisible(true);
+					setVisible(false);
+					prevFrame.setVisible(true);
+					prevFrame.getBtnLogin().setVisible(false);;
+					prevFrame.getBtnRegister().setVisible(false);
 				}
 
 				// administratzailea baldin bada bertze use case bat ireki
 				else if (businessLogic.checkCredentialsAdmin(UsnametextField.getText(),
 						String.valueOf(passwordField.getPassword()))) {
-					MainGUI_Admin Mainwindow = new MainGUI_Admin();
-					Mainwindow.setVisible(true);
+					setVisible(false);
+					prevFrame.setVisible(true);
+					prevFrame.getBtnLogin().setVisible(false);;
+					prevFrame.getBtnRegister().setVisible(false);
 				}
 
 				else {
@@ -147,5 +155,14 @@ public class LoginGUI extends JFrame {
 						GroupLayout.PREFERRED_SIZE)
 				.addContainerGap(24, Short.MAX_VALUE)));
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	/**
+	 * Gets the previous frame
+	 * @param frame
+	 */
+	public void previousFrame(MainGUI frame) {
+		
+		prevFrame = frame;
 	}
 }

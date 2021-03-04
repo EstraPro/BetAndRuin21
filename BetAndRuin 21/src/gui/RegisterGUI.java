@@ -27,6 +27,7 @@ public class RegisterGUI extends JFrame {
 	private JPasswordField txtPassword;
 	private JPasswordField txtRetypePass;
 	private DataAccess db = new DataAccess();
+	MainGUI prevFrame;
 
 	private PassChecker businessLogic;
 
@@ -56,6 +57,9 @@ public class RegisterGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public RegisterGUI() {
+		PassChecker bl = new PassChecker();
+		this.setBusinessLogic(bl);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 433, 396);
 		contentPane = new JPanel();
@@ -115,6 +119,10 @@ public class RegisterGUI extends JFrame {
 						String.valueOf(txtRetypePass.getPassword()))) {
 					db.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
 					dispalyTxt.setText("Registered!");
+				
+					setVisible(false);
+					prevFrame.setVisible(true);
+					
 				} else {
 					dispalyTxt.setText("Password MissMatch($·$)");
 				}
@@ -124,5 +132,14 @@ public class RegisterGUI extends JFrame {
 		DoneButton.setBounds(132, 289, 119, 23);
 		contentPane.add(DoneButton);
 
+	}
+	
+	/**
+	 * Gets the previous frame
+	 * @param frame
+	 */
+	public void previousFrame(MainGUI frame) {
+		
+		prevFrame = frame;
 	}
 }
