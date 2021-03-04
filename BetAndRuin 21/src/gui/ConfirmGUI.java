@@ -56,7 +56,7 @@ public class ConfirmGUI extends JFrame {
 		btnYes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int s = Integer.toString(questionNum).length();
-				businessLogic.storeBet(businessLogic.getLoggedUserId(), (int)(eventNum*Math.pow(10, s))+questionNum, amount);
+				businessLogic.storeBet(businessLogic.getLoggedUserId(), (int)((int)eventNum*Math.pow(10, s))+questionNum, amount);
 				setVisible(false);
 				prevFrame.setVisible(true);
 			}

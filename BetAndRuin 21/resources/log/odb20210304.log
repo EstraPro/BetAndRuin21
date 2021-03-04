@@ -1354,3 +1354,74 @@ Type domain.Question is not enhanced.
 [2021-03-04 20:27:21 #5 type] 
 Type domain.Event is not enhanced.
 
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-03-04 22:16:47 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 3772@LASTO-P
+
+[2021-03-04 22:16:47 #2 store] 
+Configuration path: ?
+
+[2021-03-04 22:16:47 #3 type] 
+Type domain.User is not enhanced.
+
+[2021-03-04 22:16:47 #4 type] 
+Type domain.Question is not enhanced.
+
+[2021-03-04 22:16:47 #5 type] 
+Type domain.Event is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-03-04 22:19:04 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 21692@LASTO-P
+
+[2021-03-04 22:19:04 #2 store] 
+Configuration path: ?
+
+[2021-03-04 22:19:04 #3 type] 
+Type domain.User is not enhanced.
+
+[2021-03-04 22:19:04 #4 type] 
+Type domain.Question is not enhanced.
+
+[2021-03-04 22:19:04 #5 type] 
+Type domain.Event is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-03-04 22:20:29 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 16372@LASTO-P
+
+[2021-03-04 22:20:29 #2 store] 
+Configuration path: ?
+
+[2021-03-04 22:20:29 #3 type] 
+Type domain.User is not enhanced.
+
+[2021-03-04 22:20:30 #4 type] 
+Type domain.Question is not enhanced.
+
+[2021-03-04 22:20:30 #5 type] 
+Type domain.Event is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-03-04 22:21:33 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' has been recovered (tr. 1-6)
+
+[2021-03-04 22:21:33 #2 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 884@LASTO-P
+
+[2021-03-04 22:21:33 #3 store] 
+Configuration path: ?
+
+[2021-03-04 22:21:33 #4 type] 
+Type domain.User is not enhanced.
+
+[2021-03-04 22:21:33 #5 type] 
+Type domain.Question is not enhanced.
+
+[2021-03-04 22:21:33 #6 type] 
+Type domain.Event is not enhanced.
+
