@@ -27,6 +27,11 @@ import com.toedter.calendar.JCalendar;
 import businessLogic.BlFacade;
 import configuration.UtilDate;
 import domain.Question;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
+import javax.swing.DropMode;
 
 public class BrowseQuestionsGUI extends JFrame {
 
@@ -70,6 +75,7 @@ public class BrowseQuestionsGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("QuestionN"), 
 			ResourceBundle.getBundle("Etiquetas").getString("Question")
 	};
+	private JTextField betInp;
 
 
 	public void setBusinessLogic(BlFacade bl) {
@@ -90,7 +96,7 @@ public class BrowseQuestionsGUI extends JFrame {
 	private void jbInit() throws Exception {
 
 		this.getContentPane().setLayout(null);
-		this.setSize(new Dimension(700, 500));
+		this.setSize(new Dimension(759, 500));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 
 		eventDateLbl.setBounds(new Rectangle(40, 15, 140, 25));
@@ -233,6 +239,31 @@ public class BrowseQuestionsGUI extends JFrame {
 
 		this.getContentPane().add(eventScrollPane, null);
 		this.getContentPane().add(questionScrollPane, null);
+		
+		JButton btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		btnBet.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(questionTable.getSelectedRow()!=-1 && eventTable.getSelectedRow()!=-1 ) {
+					int questNumber = (int) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
+					int eventNumber = (int) eventTable.getValueAt(questionTable.getSelectedRow(), 0);
+					
+				}
+			}
+		});
+		btnBet.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnBet.setBounds(589, 347, 89, 43);
+		getContentPane().add(btnBet);
+		
+		betInp = new JTextField();
+		betInp.setColumns(10);
+		betInp.setText("");
+		betInp.setBounds(589, 315, 89, 20);
+		getContentPane().add(betInp);
+		
+		JLabel lblEnterAmount = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.lblNewLabel.text"));
+		lblEnterAmount.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblEnterAmount.setBounds(555, 272, 167, 30);
+		getContentPane().add(lblEnterAmount);
 	}
 
 	private void jButton2_actionPerformed(ActionEvent e) {

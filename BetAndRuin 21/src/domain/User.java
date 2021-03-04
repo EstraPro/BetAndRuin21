@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -10,6 +13,7 @@ public class User {
 	private int id;
 	private String username;
 	private String password;
+	private HashMap<Integer, ArrayList<Integer>> madeBets;
 
 	/**
 	 * Constructor for User
@@ -23,8 +27,33 @@ public class User {
 		this.id = id;
 		username = usr;
 		password = passwd;
+		madeBets = new HashMap<Integer,ArrayList<Integer>>();
 	}
 
+	public HashMap<Integer, ArrayList<Integer>> getAllBets() {
+		return madeBets;
+	}
+	/**
+	 * Return the bet made in the specific question.
+	 * @param questionId the question number of the bet want to fetch
+	 * @return the made bet(s) in that question
+	 */
+	public ArrayList<Integer> getQuestionBets(Integer questionId) {
+		return madeBets.get(questionId);
+	}
+	
+	/**
+	 * Stores bet in the indicated question and bet.
+	 * @param questionId
+	 * @param amount
+	 */
+	public void storeBet(Integer questionId, int amount) {
+		
+		ArrayList<Integer> actualBets = this.getQuestionBets(questionId);
+		actualBets.add(amount);
+		madeBets.put(questionId, actualBets);
+
+	}
 	public int getId() {
 		return id;
 	}
@@ -48,5 +77,5 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
 }

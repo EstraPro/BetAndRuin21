@@ -1,6 +1,7 @@
 package dataAccess;
 
 import java.util.Calendar;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -290,6 +291,34 @@ public class DataAccess {
 		db.getTransaction().commit();
 		System.out.println(userp + " Registered!");
 		this.close();
+	}
+	
+	/**
+	 * Updates the given bets of the user, by adding the recent one
+	 * @param userid
+	 * @param questionId
+	 * @param amount
+	 */
+	public void storeBet(String userid, Integer questionId, int amount) {
+		User user = this.getUserByName(userid);
+		db.getTransaction().begin();
+		user.storeBet(questionId, amount);
+		db.getTransaction().commit();
+		System.out.println(user.getUsername() + " has been updated");
+	}
+	
+	/**
+	 * Gets the needed user stored in the database
+	 * @param userid
+	 * @return
+	 */
+	public User getUserByName(String userid) {
+		TypedQuery<User> q2 = db.createQuery("SELECT u FROM User " + "u WHERE u.id = ?1",
+				User.class);
+		q2.setParameter(1, userid);
+		List<User> user = q2.getResultList();
+		
+		return user.get(0);
 	}
 	
 	public boolean checkUser(String usname, String passwd) {

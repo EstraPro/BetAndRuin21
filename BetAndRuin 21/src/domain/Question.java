@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.*;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -19,7 +20,7 @@ public class Question implements Serializable {
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@GeneratedValue
 	private Integer questionNumber;
-
+	
 	private String question; 
 	private float betMinimum;
 	private String result;  
