@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import businessLogic.PassChecker;
+import businessLogic.UserManager;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -29,10 +29,10 @@ public class LoginGUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField UsnametextField;
 	private JPasswordField passwordField;
-	private PassChecker businessLogic;
+	private UserManager businessLogic;
 	MainGUI prevFrame;
 
-	public void setBusinessLogic(PassChecker checker) {
+	public void setBusinessLogic(UserManager checker) {
 		businessLogic = checker;
 	}
 
@@ -45,7 +45,7 @@ public class LoginGUI extends JFrame {
 				try {
 					LoginGUI frame = new LoginGUI();
 					frame.setVisible(true);
-					PassChecker bl = new PassChecker();
+					UserManager bl = new UserManager();
 					frame.setBusinessLogic(bl);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -59,7 +59,7 @@ public class LoginGUI extends JFrame {
 	 */
 	public LoginGUI() {
 		
-		PassChecker bl = new PassChecker();
+		UserManager bl = new UserManager();
 		this.setBusinessLogic(bl);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -89,21 +89,27 @@ public class LoginGUI extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				// userra baldin bada use case bat ireki
-				if (businessLogic.checkCredentialsUser(UsnametextField.getText(),
+				if (businessLogic.checkCredentialsAdmin(UsnametextField.getText(),
 						String.valueOf(passwordField.getPassword()))) {
 					setVisible(false);
 					prevFrame.setVisible(true);
-					prevFrame.getBtnLogin().setVisible(false);;
+					prevFrame.getBtnLogin().setVisible(false);
 					prevFrame.getBtnRegister().setVisible(false);
+					prevFrame.getBifunctionalBtn().setVisible(true);
+					prevFrame.getBifunctionalBtn().setText("Create Questions");
+					businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
 				}
 
 				// administratzailea baldin bada bertze use case bat ireki
-				else if (businessLogic.checkCredentialsAdmin(UsnametextField.getText(),
+				else if (businessLogic.checkCredentialsUser(UsnametextField.getText(),
 						String.valueOf(passwordField.getPassword()))) {
 					setVisible(false);
 					prevFrame.setVisible(true);
-					prevFrame.getBtnLogin().setVisible(false);;
+					prevFrame.getBtnLogin().setVisible(false);
 					prevFrame.getBtnRegister().setVisible(false);
+					prevFrame.getBifunctionalBtn().setVisible(true);
+					prevFrame.getBifunctionalBtn().setText("Cancel Bets");
+					businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
 				}
 
 				else {

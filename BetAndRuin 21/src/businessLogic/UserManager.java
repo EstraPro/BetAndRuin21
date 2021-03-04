@@ -6,7 +6,7 @@ import dataAccess.DataAccess;
  * Class that checks credentials
  *
  */
-public class PassChecker {
+public class UserManager {
 
 	DataAccess db = new DataAccess();
 	
@@ -48,5 +48,32 @@ public class PassChecker {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Stores a newly registered user to the database
+	 * 
+	 * @param userp
+	 * @param passwordp
+	 */
+	public void storeUser(String userp, String passwordp) {
+		
+		db.storeUser(userp, passwordp);
+	}
+	
+	/**
+	 * Marks loggedIn attribute as true
+	 */
+	public void markLogin(String user, String passwd) {
+		
+		db.markLogin(user, passwd);
+	}
+	
+	/**
+	 * Resets all Users login status
+	 */
+	public void resetLogins() {
+		
+		db.resetLogins();
 	}
 }

@@ -322,10 +322,51 @@ public class DataAccess {
 	public boolean checkUser(String usname, String passwd) {
 		
 		TypedQuery<User> userPassQuery = db.createQuery(
-				"SELECT id FROM User WHERE username.equals(\"kaixo\") AND password.equals(\"cksdnk\")", User.class);
+				"SELECT id FROM User WHERE username.equals(\"" + usname + "\") AND password.equals(\"" + passwd + "\")", User.class);
 		
 		List<User> users = userPassQuery.getResultList();
 		
 		return users.size() != 0;
+	}
+	
+	/**
+	 * Marks loggedIn attribute as true
+	 */
+	public void markLogin(String user, String passwd) {
+		
+		db.getTransaction().begin();
+
+		TypedQuery<User> queryUser = db.createQuery(
+				"SELECT FROM User WHERE username.equals(\"" + user +"\") AND password.equals(\"" + passwd + "\")", User.class);
+		
+		List<User> users = queryUser.getResultList();
+		
+		User usr = users.get(0);
+		usr.setLoggedIn(true);
+		db.persist(usr);
+		db.getTransaction().commit();
+		System.out.println(usr.getUsername() + " Logged!");
+		this.close();
+	}
+	
+	/**
+	 * Resets all Users login status
+	 */
+	public void resetLogins() {
+		
+		db.getTransaction().begin();
+
+		TypedQuery<User> queryAllUsers = db.createQuery(
+				"SELECT FROM User", User.class);
+		
+		List<User> users = queryAllUsers.getResultList();
+		
+		for (User usr : users) {
+			
+			usr.setLoggedIn(false);
+			db.persist(usr);
+		}
+		db.getTransaction().commit();
+		this.close();
 	}
 }

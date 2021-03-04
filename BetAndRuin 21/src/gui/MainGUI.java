@@ -16,6 +16,7 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 import businessLogic.BlFacade;
+import businessLogic.UserManager;
 
 public class MainGUI extends JFrame {
 
@@ -24,7 +25,7 @@ public class MainGUI extends JFrame {
 	private JPanel mainPane;
 	protected JLabel selectOptionLbl;
 	private JButton browseQuestionsBtn;
-	private JButton createQuestionBtn;
+	private JButton BifunctionalBtn;
 	private JPanel localePane;
 	private JRadioButton euskaraRbtn;
 	private JRadioButton castellanoRbtn;
@@ -35,6 +36,7 @@ public class MainGUI extends JFrame {
 	private JPanel panel;
 	private JButton btnRegister;
 	private JButton btnLogin;
+	private UserManager um = new UserManager();
 
 	public BlFacade getBusinessLogic() {
 		return businessLogic;
@@ -65,6 +67,8 @@ public class MainGUI extends JFrame {
 
 		this.initializeMainPane();
 		this.setContentPane(mainPane);
+		
+		um.resetLogins();
 
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
 		this.pack();
@@ -82,7 +86,7 @@ public class MainGUI extends JFrame {
 		initializeBrowseQuestionsBtn();
 		mainPane.add(browseQuestionsBtn);
 		initializeCancelBetsBtn();
-		mainPane.add(createQuestionBtn);
+		mainPane.add(BifunctionalBtn);
 
 		initializeLocalePane();
 		{
@@ -91,7 +95,7 @@ public class MainGUI extends JFrame {
 			{
 				MainGUI thisFrame = this;
 				btnRegister = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MainGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
-				btnRegister.setBounds(0, 0, 89, 34);
+				btnRegister.setBounds(0, 0, 122, 34);
 				btnRegister.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
@@ -116,7 +120,7 @@ public class MainGUI extends JFrame {
 						LoginWindow.previousFrame(thisFrame);
 					}
 				});
-				btnLogin.setBounds(134, 0, 83, 33);
+				btnLogin.setBounds(164, 1, 115, 33);
 				panel.add(btnLogin);
 			}
 		}
@@ -141,9 +145,10 @@ public class MainGUI extends JFrame {
 	}
 
 	private void initializeCancelBetsBtn() {
-		createQuestionBtn = new JButton();
-		createQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("MainGUI_User.createQuestionBtn.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		createQuestionBtn.addActionListener(new java.awt.event.ActionListener() {
+		BifunctionalBtn = new JButton();
+		BifunctionalBtn.setVisible(false);
+		BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("MainGUI_User.BifunctionalBtn.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		BifunctionalBtn.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
@@ -206,7 +211,7 @@ public class MainGUI extends JFrame {
 	private void redraw() {
 		selectOptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectUseCase"));
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
-		createQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
+		BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
 	}
 
@@ -224,5 +229,13 @@ public class MainGUI extends JFrame {
 
 	public void setBtnLogin(JButton btnLogin) {
 		this.btnLogin = btnLogin;
+	}
+
+	public JButton getBifunctionalBtn() {
+		return BifunctionalBtn;
+	}
+
+	public void setBifunctionalBtn(JButton bifunctionalBtn) {
+		BifunctionalBtn = bifunctionalBtn;
 	}
 }

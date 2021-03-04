@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import businessLogic.PassChecker;
+import businessLogic.UserManager;
 import dataAccess.DataAccess;
 
 import javax.swing.JTextField;
@@ -26,12 +26,11 @@ public class RegisterGUI extends JFrame {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	private JPasswordField txtRetypePass;
-	private DataAccess db = new DataAccess();
 	MainGUI prevFrame;
 
-	private PassChecker businessLogic;
+	private UserManager businessLogic;
 
-	public void setBusinessLogic(PassChecker checker) {
+	public void setBusinessLogic(UserManager checker) {
 		businessLogic = checker;
 	}
 
@@ -43,7 +42,7 @@ public class RegisterGUI extends JFrame {
 			public void run() {
 				try {
 					RegisterGUI frame = new RegisterGUI();
-					PassChecker bl = new PassChecker();
+					UserManager bl = new UserManager();
 					frame.setBusinessLogic(bl);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -57,7 +56,7 @@ public class RegisterGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public RegisterGUI() {
-		PassChecker bl = new PassChecker();
+		UserManager bl = new UserManager();
 		this.setBusinessLogic(bl);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,7 +116,7 @@ public class RegisterGUI extends JFrame {
 
 				if (businessLogic.passwdMatches(String.valueOf(txtPassword.getPassword()),
 						String.valueOf(txtRetypePass.getPassword()))) {
-					db.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
+					businessLogic.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
 					dispalyTxt.setText("Registered!");
 				
 					setVisible(false);
