@@ -274,7 +274,7 @@ public class DataAccess {
 	 * @param userp
 	 * @param passwordp
 	 */
-	public void storeUser(String userp, String passwordp) {
+	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email) {
 		db.getTransaction().begin();
 
 		TypedQuery<Integer> queryMaxId = db.createQuery(
@@ -284,7 +284,7 @@ public class DataAccess {
 		
 		int id = ids.get(0);
 		
-		User user = new User(id + 1, userp, passwordp);
+		User user = new User(id + 1, userp, passwordp, birthDate, name, surname, email);
 		db.persist(user);
 		db.getTransaction().commit();
 		System.out.println(userp + " Registered!");
@@ -298,7 +298,7 @@ public class DataAccess {
 	 * @param amount
 	 */
 	public void storeBet(int userid, Integer betKey, int amount) {
-		User user = this.getUserByName(userid);
+		User user = this.getUserById(userid);
 		db.getTransaction().begin();
 		user.storeBet(betKey, amount);
 		db.getTransaction().commit();
@@ -311,14 +311,14 @@ public class DataAccess {
 	 * @param userid
 	 * @return
 	 */
-	public User getUserByName(int userid) {
+	public User getUserById(int userid) {
 		
 		System.out.println("kaicooo " + db.isOpen());
 		db.getTransaction().begin();
-		TypedQuery<User> q2 = db.createQuery("SELECT u FROM User u WHERE u.id = ?1",
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1",
 				User.class);
-		q2.setParameter(1, userid);
-		List<User> user = q2.getResultList();
+		query.setParameter(1, userid);
+		List<User> user = query.getResultList();
 		
 		db.getTransaction().commit();
 		

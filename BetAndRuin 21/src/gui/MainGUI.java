@@ -63,7 +63,7 @@ public class MainGUI extends JFrame {
 			}
 		});
 
-		this.setBounds(100, 100, 373, 241);
+		this.setBounds(100, 100, 249, 205);
 
 		this.initializeMainPane();
 		this.setContentPane(mainPane);
@@ -120,7 +120,7 @@ public class MainGUI extends JFrame {
 						LoginWindow.previousFrame(thisFrame);
 					}
 				});
-				btnLogin.setBounds(164, 1, 115, 33);
+				btnLogin.setBounds(132, 1, 115, 33);
 				panel.add(btnLogin);
 			}
 		}

@@ -1,5 +1,9 @@
 package businessLogic;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
 import dataAccess.DataAccess;
 
 /**
@@ -61,9 +65,9 @@ public class UserManager {
 	 * @param userp
 	 * @param passwordp
 	 */
-	public void storeUser(String userp, String passwordp) {
+	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email) {
 		
-		db.storeUser(userp, passwordp);
+		db.storeUser(userp, passwordp,birthDate, name, surname, email);
 	}
 	
 	/**
