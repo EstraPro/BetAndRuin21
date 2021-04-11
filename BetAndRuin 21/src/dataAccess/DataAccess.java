@@ -101,12 +101,12 @@ public class DataAccess {
 				q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
 				q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
 			} else if (Locale.getDefault().equals(new Locale("en"))) {
-				q1 = ev1.addQuestion("Athletic will win the match", 1);
-				q2 = ev1.addQuestion("Athletico will win the match", 2);
-				q3 = ev11.addQuestion("Athletic will win the match", 1);
-				q4 = ev11.addQuestion("Athletico will win the match", 2);
-				q5 = ev17.addQuestion("Malaga will win the match", 1);
-				q6 = ev17.addQuestion("Valencia will win the match", 2);
+				q1 = ev1.addQuestion("Who will win the match?", 1);
+				q2 = ev1.addQuestion("Which team will score first?", 2);
+				q3 = ev11.addQuestion("Who will win the match?", 1);
+				q4 = ev11.addQuestion("Which team will score first?", 2);
+				q5 = ev17.addQuestion("Who will win the match?", 1);
+				q6 = ev17.addQuestion("Which team will score first?", 2);
 			} else {
 				q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1);
 				q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2);
