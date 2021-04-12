@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
@@ -19,7 +22,8 @@ public class User {
 	private String username;
 	private String password;
 	private boolean loggedIn = false;
-	private HashMap<Integer, ArrayList<Integer>> madeBets;
+	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	private ArrayList<Bet> madeBets;
 
 	/**
 	 * Constructor for Admin
@@ -33,7 +37,7 @@ public class User {
 		this.id = id;
 		username = usr;
 		password = passwd;
-		madeBets = new HashMap<Integer,ArrayList<Integer>>();
+		madeBets = new ArrayList<Bet>();
 	}
 	
 	
@@ -55,17 +59,18 @@ public class User {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.madeBets = new HashMap<Integer,ArrayList<Integer>>();
+		this.madeBets = new ArrayList<Bet>();
 	}
 
-	public HashMap<Integer, ArrayList<Integer>> getAllBets() {
+	public ArrayList<Bet> getAllBets() {
 		return madeBets;
 	}
-	/**
+	/*
 	 * Return the bet made in the specific question.
 	 * @param questionId the question number of the bet want to fetch
 	 * @return the made bet(s) in that question
 	 */
+	/*
 	public ArrayList<Integer> getQuestionBets(Integer questionId) {
 		
 		ArrayList<Integer> list = new ArrayList<Integer>();
@@ -74,18 +79,15 @@ public class User {
 				
 		return list;
 	}
-	
+	*/
 	/**
 	 * Stores bet in the indicated question and bet.
 	 * @param questionId
 	 * @param amount
 	 */
-	public void storeBet(Integer questionId, int amount) {
-		
-		ArrayList<Integer> actualBets = this.getQuestionBets(questionId);
-		actualBets.add(amount);
-		madeBets.put(questionId, actualBets);
-
+	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
+		Bet bet= new Bet(question,answer, event, date, amount);
+		madeBets.add(bet);
 	}
 	public int getId() {
 		return id;
@@ -152,11 +154,11 @@ public class User {
 		Email = email;
 	}
 
-	public HashMap<Integer, ArrayList<Integer>> getMadeBets() {
+	public ArrayList<Bet> getMadeBets() {
 		return madeBets;
 	}
 
-	public void setMadeBets(HashMap<Integer, ArrayList<Integer>> madeBets) {
+	public void setMadeBets(ArrayList<Bet> madeBets) {
 		this.madeBets = madeBets;
 	}
 	

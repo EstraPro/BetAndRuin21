@@ -17,6 +17,7 @@ import javax.persistence.TypedQuery;
 
 import configuration.ConfigXML;
 import configuration.UtilDate;
+import domain.Answer;
 import domain.Event;
 import domain.Question;
 import domain.User;
@@ -297,11 +298,16 @@ public class DataAccess {
 	 * @param questionId
 	 * @param amount
 	 */
-	public void storeBet(int userid, Integer betKey, int amount) {
+	public void storeBet(int userid, Question question, Answer answer, Event event, Date date, int amount) {
+		
 		User user = this.getUserById(userid);
+		
 		db.getTransaction().begin();
-		user.storeBet(betKey, amount);
+		
+		user.storeBet(question, answer, event, date, amount);
+		
 		db.getTransaction().commit();
+		
 		System.out.println(user.getUsername() + " has been updated");
 		this.close();
 	}
@@ -313,7 +319,7 @@ public class DataAccess {
 	 */
 	public User getUserById(int userid) {
 		
-		System.out.println("kaicooo " + db.isOpen());
+		System.out.println("kaixooo " + db.isOpen());
 		db.getTransaction().begin();
 		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1",
 				User.class);
@@ -401,5 +407,33 @@ public class DataAccess {
 		//this.close();
 		
 		return ids.get(0);
+	}
+	
+	public Event getEvent(Integer eventNum) {
+		
+		db.getTransaction().begin();
+		
+		TypedQuery<Event> queryEvent = db.createQuery("SELECT e FROM Event WHERE e.eventNumber = 1?",
+				Event.class);
+		queryEvent.setParameter(1, eventNum);
+		
+		Event event = queryEvent.getResultList().get(0);
+		
+		db.getTransaction().commit();
+		 
+		return event;
+		
+	}
+
+	public Question getQuestion(Integer eventNum, Integer questionNum) {
+		
+		Question question = this.getEvent(eventNum).getSpecificQuestion(questionNum);
+
+		return question;
+	}
+	
+	public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum) {
+		
+		return this.getQuestion(questionNum, answerNum).getSpecificAnswer(answerNum);
 	}
 }

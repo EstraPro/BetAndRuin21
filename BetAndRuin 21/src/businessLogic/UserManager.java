@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 
 import dataAccess.DataAccess;
+import domain.Answer;
+import domain.Event;
+import domain.Question;
 
 /**
  * Class that checks credentials
@@ -101,8 +104,21 @@ public class UserManager {
 	 * @param questionId
 	 * @param amount
 	 */
-	public void storeBet(int userid, Integer betKey, int amount) {
+	public void storeBet(int userid, Question question, Answer answer, Event event, Date date, int amount) {
 		
-		db.storeBet(userid, betKey, amount);
+		db.storeBet(userid, question, answer, event, date, amount);
 	}
+	
+	public Question getQuestion(int eventNum, int questionNum) {
+		return db.getQuestion(eventNum, questionNum);
+	}
+	
+	public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum) {
+		return db.getAnswer(eventNum, questionNum, answerNum);
+	}
+	
+	public Event getEvent(Integer eventNum) {
+		return db.getEvent(eventNum);
+	}
+	
 }

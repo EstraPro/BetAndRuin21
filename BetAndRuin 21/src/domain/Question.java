@@ -1,7 +1,7 @@
 package domain;
 
 import java.io.*;
-
+import java.util.ArrayList;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -24,7 +24,8 @@ public class Question implements Serializable {
 	
 	private String question; 
 	private float betMinimum;
-	private String result; 
+	private String result;
+	private ArrayList<Answer> answerList;
 
 	@XmlIDREF
 	private Event event;
@@ -141,9 +142,33 @@ public class Question implements Serializable {
 	public void setEvent(Event event) {
 		this.event = event;
 	}
+	
+	
 
+	public ArrayList<Answer> getAnswerList() {
+		return answerList;
+	}
+
+	public void setAnswerList(ArrayList<Answer> answerList) {
+		this.answerList = answerList;
+	}
+	
+	public Answer getSpecificAnswer(Integer answerNum)  {
+		
+		for (Answer q:this.getAnswerList()){
+			if (q.getAnswerId().compareTo(answerNum)==0)
+				return q;
+		}
+		return null;
+	}
+	
+	public void addSpecificAnswer(Answer answer) {
+		answerList.add(answer);
+	}
 	@Override
 	public String toString(){
 		return questionNumber + ";" + question + ";" + Float.toString(betMinimum);
 	}	
+	
+	
 }

@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class ConfirmGUI extends JFrame {
@@ -21,7 +23,7 @@ public class ConfirmGUI extends JFrame {
 
 	private JFrame prevFrame;
 
-	private int id, eventNum, questionNum, amount;
+	private Integer id, eventNum, questionNum, answerNum, amount;
 
 	private UserManager businessLogic = new UserManager();
 
@@ -55,8 +57,8 @@ public class ConfirmGUI extends JFrame {
 		JButton btnYes = new JButton("YES");
 		btnYes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int s = Integer.toString(questionNum).length();
-				businessLogic.storeBet(businessLogic.getLoggedUserId(), (int)((int)eventNum*Math.pow(10, s))+questionNum, amount);
+				businessLogic.storeBet(businessLogic.getLoggedUserId(), businessLogic.getQuestion(eventNum,questionNum), 
+						businessLogic.getAnswer(eventNum,questionNum, answerNum), businessLogic.getEvent(eventNum), new Date(), amount);
 				setVisible(false);
 				prevFrame.setVisible(true);
 			}
@@ -89,11 +91,12 @@ public class ConfirmGUI extends JFrame {
 	 * @param questionNum
 	 * @param amount
 	 */
-	public void setValues(int eventNum, int questionNum, int amount) {
+	public void setValues(Integer eventNum, Integer questionNum, Integer amount, Integer answerNum) {
 
 		this.eventNum = eventNum;
 		this.questionNum = questionNum;
 		this.amount = amount;
+		this.answerNum = answerNum;
 	}
 
 	/**

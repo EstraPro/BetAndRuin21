@@ -1,7 +1,6 @@
 package domain;
 
 import java.util.ArrayList;
-
 import javax.persistence.*;
 
 
@@ -9,7 +8,7 @@ import javax.persistence.*;
 public class Answer {
 	
 	@Id
-	private int answerId;
+	private Integer answerId;
 	private String content;
 	private ArrayList<Question> question;
 	
@@ -19,7 +18,7 @@ public class Answer {
 	 * @param content
 	 */
 	
-	public Answer(int answerId, String content) {
+	public Answer(Integer answerId, String content) {
 		super();
 		this.answerId = answerId;
 		this.content = content;
@@ -43,7 +42,7 @@ public class Answer {
 	 * Getter for id
 	 * @return
 	 */
-	public int getAnswerId() {
+	public Integer getAnswerId() {
 		return answerId;
 	}
 
@@ -52,7 +51,7 @@ public class Answer {
 	 * Setter for id
 	 * @param answerId
 	 */
-	public void setAnswerId(int answerId) {
+	public void setAnswerId(Integer answerId) {
 		this.answerId = answerId;
 	}
 

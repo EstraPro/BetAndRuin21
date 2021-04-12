@@ -32,7 +32,7 @@ public class Event implements Serializable {
 	public Vector<Question> getQuestions() {
 		return questions;
 	}
-
+	
 	public void setQuestions(Vector<Question> questions) {
 		this.questions = questions;
 	}
@@ -108,6 +108,14 @@ public class Event implements Serializable {
 				return true;
 		}
 		return false;
+	}
+	
+	public Question getSpecificQuestion(int questionNum)  {
+			for (Question q:this.getQuestions()){
+			if (q.getQuestionNumber().compareTo(questionNum)==0)
+				return q;
+		}
+		return null;
 	}
 
 	@Override

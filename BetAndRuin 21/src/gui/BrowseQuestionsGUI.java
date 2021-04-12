@@ -251,7 +251,7 @@ public class BrowseQuestionsGUI extends JFrame {
 					ConfirmGUI confirmation = new ConfirmGUI();
 					confirmation.setVisible(true);
 					confirmation.previousFrame(thisFrame);
-					confirmation.setValues(eventNumber, questNumber, Integer.parseInt(betInp.getText()));
+					confirmation.setValues(eventNumber, questNumber,3 /*anserNum*/, Integer.parseInt(betInp.getText()));
 				}
 			}
 		});
