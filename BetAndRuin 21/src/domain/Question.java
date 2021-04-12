@@ -25,6 +25,7 @@ public class Question implements Serializable {
 	private String question; 
 	private float betMinimum;
 	private String result;
+	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private ArrayList<Answer> answerList;
 
 	@XmlIDREF

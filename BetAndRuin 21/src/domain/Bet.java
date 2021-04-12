@@ -70,6 +70,12 @@ public class Bet {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
+	@Override
+	public String toString() {
+		return "Bet [question=" + question + ", answer=" + answer + ", event=" + event + ", amount=" + amount
+				+ ", date=" + date + "]";
+	}
 	
 	
 	
