@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class User {
@@ -22,8 +23,10 @@ public class User {
 	private String username;
 	private String password;
 	private boolean loggedIn = false;
-	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private ArrayList<Bet> madeBets;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	private Wallet wallet;
 
 	/**
 	 * Constructor for Admin
@@ -31,18 +34,19 @@ public class User {
 	 * @param id
 	 * @param usr
 	 * @param passwd
-	**/
+	 **/
 	public User(int id, String usr, String passwd) {
 
 		this.id = id;
 		username = usr;
 		password = passwd;
 		madeBets = new ArrayList<Bet>();
+		wallet = new Wallet();
 	}
-	
-	
+
 	/**
 	 * Constructor for user
+	 * 
 	 * @param id
 	 * @param username
 	 * @param password
@@ -65,30 +69,36 @@ public class User {
 	public ArrayList<Bet> getAllBets() {
 		return madeBets;
 	}
+
 	/*
 	 * Return the bet made in the specific question.
+	 * 
 	 * @param questionId the question number of the bet want to fetch
+	 * 
 	 * @return the made bet(s) in that question
 	 */
 	/*
-	public ArrayList<Integer> getQuestionBets(Integer questionId) {
-		
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		
-		if(madeBets.get(questionId) != null) list = madeBets.get(questionId);
-				
-		return list;
-	}
-	*/
+	 * public ArrayList<Integer> getQuestionBets(Integer questionId) {
+	 * 
+	 * ArrayList<Integer> list = new ArrayList<Integer>();
+	 * 
+	 * if(madeBets.get(questionId) != null) list = madeBets.get(questionId);
+	 * 
+	 * return list; }
+	 */
 	/**
 	 * Stores bet in the indicated question and bet.
+	 * 
 	 * @param questionId
 	 * @param amount
 	 */
 	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
-		Bet bet= new Bet(question,answer, event, date, amount);
+
+		Bet bet = new Bet(question, answer, event, date, amount);
 		madeBets.add(bet);
+		wallet.removeMoney(amount);
 	}
+
 	public int getId() {
 		return id;
 	}
@@ -112,9 +122,9 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public boolean isLoggedIn() {
-		
+
 		return loggedIn;
 	}
 
@@ -161,5 +171,5 @@ public class User {
 	public void setMadeBets(ArrayList<Bet> madeBets) {
 		this.madeBets = madeBets;
 	}
-	
+
 }
