@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -65,6 +66,7 @@ public class BrowseQuestionsGUI extends JFrame {
 
 	private DefaultTableModel eventTableModel;
 	private DefaultTableModel questionTableModel;
+	private DefaultTableModel answerTableModel;
 
 	private String[] eventColumnNames = new String[] {
 			ResourceBundle.getBundle("Etiquetas").getString("EventN"), 
@@ -75,7 +77,13 @@ public class BrowseQuestionsGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("QuestionN"), 
 			ResourceBundle.getBundle("Etiquetas").getString("Question")
 	};
+	private String[] answerColumnNames = new String[] {
+			ResourceBundle.getBundle("Etiquetas").getString("AnswerN"), 
+			ResourceBundle.getBundle("Etiquetas").getString("Answer")
+	};
+	
 	private JTextField betInp;
+	private JTable answerTable;
 
 
 	public void setBusinessLogic(BlFacade bl) {
@@ -96,7 +104,7 @@ public class BrowseQuestionsGUI extends JFrame {
 	private void jbInit() throws Exception {
 
 		this.getContentPane().setLayout(null);
-		this.setSize(new Dimension(759, 500));
+		this.setSize(new Dimension(774, 706));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 
 		eventDateLbl.setBounds(new Rectangle(40, 15, 140, 25));
@@ -107,7 +115,7 @@ public class BrowseQuestionsGUI extends JFrame {
 		this.getContentPane().add(questionLbl);
 		this.getContentPane().add(eventLbl);
 
-		closeBtn.setBounds(new Rectangle(274, 419, 130, 30));
+		closeBtn.setBounds(new Rectangle(276, 595, 130, 30));
 
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
@@ -229,7 +237,8 @@ public class BrowseQuestionsGUI extends JFrame {
 		eventTable.setModel(eventTableModel);
 		eventTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 		eventTable.getColumnModel().getColumn(1).setPreferredWidth(268);
-
+		
+		
 		questionScrollPane.setViewportView(questionTable);
 		questionTableModel = new DefaultTableModel(null, questionColumnNames);
 
@@ -239,19 +248,21 @@ public class BrowseQuestionsGUI extends JFrame {
 
 		this.getContentPane().add(eventScrollPane, null);
 		this.getContentPane().add(questionScrollPane, null);
+
 		
 		JFrame thisFrame = this;
 		JButton btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		btnBet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(questionTable.getSelectedRow()!=-1 && eventTable.getSelectedRow()!=-1 ) {
-					int questNumber = (int) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
-					int eventNumber = (int) eventTable.getValueAt(questionTable.getSelectedRow(), 0);
+				if(questionTable.getSelectedRow()!=-1 && eventTable.getSelectedRow()!=-1 && answerTable.getSelectedRow()!=-1) {
+					Integer questNumber = (Integer) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
+					Integer eventNumber = (Integer) eventTable.getValueAt(eventTable.getSelectedRow(), 0);
+					Integer answerNum = (Integer) answerTable.getValueAt(eventTable.getSelectedRow(), 0);
 					setVisible(false);
 					ConfirmGUI confirmation = new ConfirmGUI();
 					confirmation.setVisible(true);
 					confirmation.previousFrame(thisFrame);
-					confirmation.setValues(eventNumber, questNumber,3 /*anserNum*/, Integer.parseInt(betInp.getText()));
+					confirmation.setValues(eventNumber, questNumber, answerNum, Integer.parseInt(betInp.getText()));
 				}
 			}
 		});
@@ -265,10 +276,62 @@ public class BrowseQuestionsGUI extends JFrame {
 		betInp.setBounds(589, 315, 89, 20);
 		getContentPane().add(betInp);
 		
-		JLabel lblEnterAmount = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.lblNewLabel.text"));
+		JScrollPane answerScrollPane = new JScrollPane();
+		answerScrollPane.setBounds(new Rectangle(138, 274, 406, 116));
+		answerScrollPane.setBounds(138, 441, 406, 116);
+		getContentPane().add(answerScrollPane);
+		
+		answerTable = new JTable();
+		answerTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"#Answer", "Answer"
+			}
+		));
+		answerTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+		answerTable.getColumnModel().getColumn(0).setMinWidth(6);
+		answerTable.getColumnModel().getColumn(1).setPreferredWidth(277);
+		answerScrollPane.setViewportView(answerTable);
+		
+		JLabel answerLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.answerLbl.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		answerLbl.setBounds(138, 416, 46, 14);
+		getContentPane().add(answerLbl);
+		
+		JLabel lblEnterAmount = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.lblEnterAmount.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		lblEnterAmount.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblEnterAmount.setBounds(555, 272, 167, 30);
+		lblEnterAmount.setBounds(577, 295, 116, 14);
 		getContentPane().add(lblEnterAmount);
+		
+		questionTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int i = questionTable.getSelectedRow();
+				domain.Question question = (domain.Question)questionTableModel.getValueAt(i,2); // obtain question object
+				ArrayList<domain.Answer> answers = question.getAnswerList();
+
+				answerTableModel.setDataVector(null, answerColumnNames);
+				
+
+				if (answers.isEmpty())
+					answerLbl.setText(ResourceBundle.getBundle("Etiquetas").
+							getString("NoAnswers") + ": " + question.getQuestion());
+				else 
+					answerLbl.setText(ResourceBundle.getBundle("Etiquetas").
+							getString("SelectedQuestion") + " " + question.getQuestion());
+
+				for (domain.Answer a : answers) {
+					Vector<Object> row = new Vector<Object>();
+					row.add(a.getAnswerId());
+					row.add(a.getContent());
+					answerTableModel.addRow(row);	
+				}
+				answerTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+				answerTable.getColumnModel().getColumn(1).setPreferredWidth(268);
+				
+			}
+		});
+
 	}
 
 	private void jButton2_actionPerformed(ActionEvent e) {
