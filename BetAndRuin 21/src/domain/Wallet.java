@@ -1,12 +1,16 @@
 package domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * Class that represents a virtual wallet
  * 
  * @author gapito
  */
+@Entity
 public class Wallet {
-
+	@Id
 	int money;
 
 	/**

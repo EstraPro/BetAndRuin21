@@ -33,6 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.DropMode;
+import javax.swing.JComboBox;
 
 public class BrowseQuestionsGUI extends JFrame {
 
@@ -60,13 +61,14 @@ public class BrowseQuestionsGUI extends JFrame {
 	private JScrollPane questionScrollPane = new JScrollPane();
 
 	private Vector<Date> datesWithEventsInCurrentMonth = new Vector<Date>();
+	
+	private ArrayList<domain.Answer> answers;
 
 	private JTable eventTable= new JTable();
 	private JTable questionTable = new JTable();
 
 	private DefaultTableModel eventTableModel;
 	private DefaultTableModel questionTableModel;
-	private DefaultTableModel answerTableModel;
 
 	private String[] eventColumnNames = new String[] {
 			ResourceBundle.getBundle("Etiquetas").getString("EventN"), 
@@ -77,13 +79,9 @@ public class BrowseQuestionsGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("QuestionN"), 
 			ResourceBundle.getBundle("Etiquetas").getString("Question")
 	};
-	private String[] answerColumnNames = new String[] {
-			ResourceBundle.getBundle("Etiquetas").getString("AnswerN"), 
-			ResourceBundle.getBundle("Etiquetas").getString("Answer")
-	};
+
 	
 	private JTextField betInp;
-	private JTable answerTable;
 
 
 	public void setBusinessLogic(BlFacade bl) {
@@ -200,7 +198,11 @@ public class BrowseQuestionsGUI extends JFrame {
 		});
 
 		this.getContentPane().add(calendar, null);
-
+		
+		JLabel answerLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.answerLbl.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		answerLbl.setBounds(138, 416, 406, 14);
+		getContentPane().add(answerLbl);
+		
 		eventScrollPane.setBounds(new Rectangle(292, 50, 346, 150));
 		questionScrollPane.setBounds(new Rectangle(138, 274, 406, 116));
 
@@ -209,18 +211,19 @@ public class BrowseQuestionsGUI extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int i = eventTable.getSelectedRow();
 				domain.Event ev = (domain.Event)eventTableModel.getValueAt(i,2); // obtain ev object
-				Vector<Question> queries = ev.getQuestions();
+				
+				Vector<Question> questions = ev.getQuestions();
 
 				questionTableModel.setDataVector(null, questionColumnNames);
 
-				if (queries.isEmpty())
+				if (questions.isEmpty())
 					questionLbl.setText(ResourceBundle.getBundle("Etiquetas").
 							getString("NoQuestions") + ": " + ev.getDescription());
 				else 
 					questionLbl.setText(ResourceBundle.getBundle("Etiquetas").
 							getString("SelectedEvent") + " " + ev.getDescription());
 
-				for (domain.Question q : queries) {
+				for (domain.Question q : questions) {
 					Vector<Object> row = new Vector<Object>();
 					row.add(q.getQuestionNumber());
 					row.add(q.getQuestion());
@@ -228,6 +231,9 @@ public class BrowseQuestionsGUI extends JFrame {
 				}
 				questionTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 				questionTable.getColumnModel().getColumn(1).setPreferredWidth(268);
+				
+				//To change the default 
+				answerLbl.setText("No question selected");
 			}
 		});
 
@@ -248,16 +254,25 @@ public class BrowseQuestionsGUI extends JFrame {
 
 		this.getContentPane().add(eventScrollPane, null);
 		this.getContentPane().add(questionScrollPane, null);
-
+		
+		JComboBox AnswerscomboBox = new JComboBox();
+		AnswerscomboBox.setBounds(138, 441, 406, 22);
+		getContentPane().add(AnswerscomboBox);
 		
 		JFrame thisFrame = this;
 		JButton btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		btnBet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(questionTable.getSelectedRow()!=-1 && eventTable.getSelectedRow()!=-1 && answerTable.getSelectedRow()!=-1) {
+				if(questionTable.getSelectedRow()!=-1 && eventTable.getSelectedRow()!=-1 && AnswerscomboBox.getSelectedIndex()!=-1) {
+					Integer answerNum=0;
+					for(domain.Answer lag: answers) {
+						if(AnswerscomboBox.getSelectedItem().equals(lag.getContent())) {
+							answerNum=lag.getAnswerId();
+						}
+					}
+					
 					Integer questNumber = (Integer) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
 					Integer eventNumber = (Integer) eventTable.getValueAt(eventTable.getSelectedRow(), 0);
-					Integer answerNum = (Integer) answerTable.getValueAt(eventTable.getSelectedRow(), 0);
 					setVisible(false);
 					ConfirmGUI confirmation = new ConfirmGUI();
 					confirmation.setVisible(true);
@@ -276,58 +291,43 @@ public class BrowseQuestionsGUI extends JFrame {
 		betInp.setBounds(589, 315, 89, 20);
 		getContentPane().add(betInp);
 		
-		JScrollPane answerScrollPane = new JScrollPane();
-		answerScrollPane.setBounds(new Rectangle(138, 274, 406, 116));
-		answerScrollPane.setBounds(138, 441, 406, 116);
-		getContentPane().add(answerScrollPane);
 		
-		answerTable = new JTable();
-		answerTable.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"#Answer", "Answer"
-			}
-		));
-		answerTable.getColumnModel().getColumn(0).setPreferredWidth(25);
-		answerTable.getColumnModel().getColumn(0).setMinWidth(6);
-		answerTable.getColumnModel().getColumn(1).setPreferredWidth(277);
-		answerScrollPane.setViewportView(answerTable);
-		
-		JLabel answerLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.answerLbl.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		answerLbl.setBounds(138, 416, 46, 14);
-		getContentPane().add(answerLbl);
 		
 		JLabel lblEnterAmount = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.lblEnterAmount.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		lblEnterAmount.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblEnterAmount.setBounds(577, 295, 116, 14);
 		getContentPane().add(lblEnterAmount);
 		
+		
+		
 		questionTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int i = questionTable.getSelectedRow();
-				domain.Question question = (domain.Question)questionTableModel.getValueAt(i,2); // obtain question object
-				ArrayList<domain.Answer> answers = question.getAnswerList();
-
-				answerTableModel.setDataVector(null, answerColumnNames);
+				int i = eventTable.getSelectedRow();
+				domain.Event ev = (domain.Event)eventTableModel.getValueAt(i,2); // obtain ev object
 				
-
+				Vector<Question> questions = ev.getQuestions();
+				
+				int i1 = questionTable.getSelectedRow();
+				domain.Question question = new Question();
+				for(Question lag: questions) {
+					if(lag.getQuestionNumber().equals((Integer)questionTableModel.getValueAt(i1,0))) {
+						question = lag;// obtain question object
+					}
+				}
+				 
+				AnswerscomboBox.removeAllItems();
+				answers = question.getAnswerList();
+				
 				if (answers.isEmpty())
-					answerLbl.setText(ResourceBundle.getBundle("Etiquetas").
-							getString("NoAnswers") + ": " + question.getQuestion());
+					answerLbl.setText("No Answers for: " + question.getQuestion());
 				else 
-					answerLbl.setText(ResourceBundle.getBundle("Etiquetas").
-							getString("SelectedQuestion") + " " + question.getQuestion());
+					answerLbl.setText("Bet on: "+ question.getQuestion());
 
 				for (domain.Answer a : answers) {
-					Vector<Object> row = new Vector<Object>();
-					row.add(a.getAnswerId());
-					row.add(a.getContent());
-					answerTableModel.addRow(row);	
+					AnswerscomboBox.addItem((String)a.getContent());
 				}
-				answerTable.getColumnModel().getColumn(0).setPreferredWidth(25);
-				answerTable.getColumnModel().getColumn(1).setPreferredWidth(268);
+				
 				
 			}
 		});

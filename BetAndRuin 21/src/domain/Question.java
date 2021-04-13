@@ -26,7 +26,7 @@ public class Question implements Serializable {
 	private float betMinimum;
 	private String result;
 	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	private ArrayList<Answer> answerList;
+	private ArrayList<Answer> answerList = new ArrayList<Answer>();
 
 	@XmlIDREF
 	private Event event;
@@ -47,6 +47,7 @@ public class Question implements Serializable {
 		super();
 		this.question = query;
 		this.betMinimum=betMinimum;
+		this.event = event;
 	}
 
 	/**
@@ -163,8 +164,11 @@ public class Question implements Serializable {
 		return null;
 	}
 	
-	public void addSpecificAnswer(Answer answer) {
-		answerList.add(answer);
+	public Answer addSpecificAnswer(Integer answerId, String content) {
+		Answer q=new Answer(answerId, content, this);
+		answerList.add(q);
+		return q;
+		
 	}
 	@Override
 	public String toString(){

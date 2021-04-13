@@ -93,30 +93,100 @@ public class DataAccess {
 			Question q4;
 			Question q5;
 			Question q6;
+			
+			Answer a1;
+			Answer a2;
+			Answer a3;
+			Answer a4;
+			Answer a5;
+			Answer a6;
+			Answer a7;
+			Answer a8;
+			Answer a9;
+			Answer a10;
+			Answer a11;
+			Answer a12;
 
 			if (Locale.getDefault().equals(new Locale("es"))) {
+				
 				q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
 				q2 = ev1.addQuestion("¿Quién meterá el primer gol?", 2);
 				q3 = ev11.addQuestion("¿Quién ganará el partido?", 1);
 				q4 = ev11.addQuestion("¿Cuántos goles se marcarán?", 2);
 				q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
 				q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
+				
+				a1 = q1.addSpecificAnswer(1, "Athletic ganara");
+				a2 = q1.addSpecificAnswer(2, "Atlético ganara");
+				a3 = q2.addSpecificAnswer(3, "Athletic metera el primer gol");
+				a4 = q2.addSpecificAnswer(4, "Atlético metera el primer gol");
+				a5 = q3.addSpecificAnswer(5, "Athletic ganara");
+				a6 = q3.addSpecificAnswer(6, "Atlético ganara");
+				a7 = q4.addSpecificAnswer(7, "Mas de dos");
+				a8 = q4.addSpecificAnswer(8, "Menos de dos");
+				a9 = q5.addSpecificAnswer(9, "Málaga ganara");
+				a10 = q5.addSpecificAnswer(10, "Valencia ganara");
+				a11 = q6.addSpecificAnswer(11, "Si");
+				a12 = q6.addSpecificAnswer(12, "No");
+				
 			} else if (Locale.getDefault().equals(new Locale("en"))) {
+				
 				q1 = ev1.addQuestion("Who will win the match?", 1);
 				q2 = ev1.addQuestion("Which team will score first?", 2);
 				q3 = ev11.addQuestion("Who will win the match?", 1);
-				q4 = ev11.addQuestion("Which team will score first?", 2);
+				q4 = ev11.addQuestion("How many goals will be scored?", 2);
 				q5 = ev17.addQuestion("Who will win the match?", 1);
-				q6 = ev17.addQuestion("Which team will score first?", 2);
+				q6 = ev17.addQuestion("Will they score in the first half of the match?", 2);
+				
+				a1 = q1.addSpecificAnswer(1, "Athletic will win");
+				a2 = q1.addSpecificAnswer(2, "Atlético will win");
+				a3 = q2.addSpecificAnswer(3, "Athletic will score first");
+				a4 = q2.addSpecificAnswer(4, "Atlético will score first");
+				a5 = q3.addSpecificAnswer(5, "Athletic will win");
+				a6 = q3.addSpecificAnswer(6, "Atlético will win");
+				a7 = q4.addSpecificAnswer(7, "More than two");
+				a8 = q4.addSpecificAnswer(8, "Less than two");
+				a9 = q5.addSpecificAnswer(9, "Málaga will win");
+				a10 = q5.addSpecificAnswer(10, "Valencia will win");
+				a11 = q6.addSpecificAnswer(11, "Yes");
+				a12 = q6.addSpecificAnswer(12, "No");
+				
 			} else {
+				
 				q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1);
 				q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2);
 				q3 = ev11.addQuestion("Zeinek irabaziko du partidua?", 1);
 				q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2);
 				q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
 				q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
+				
+				a1 = q1.addSpecificAnswer(1, "Athletic-ek irabaziko du");
+				a2 = q1.addSpecificAnswer(2, "Atlético-k irabaziko du");
+				a3 = q2.addSpecificAnswer(3, "Athletic-ek sartuko du lehen gola");
+				a4 = q2.addSpecificAnswer(4, "Atlético-k sartuko du lehen gola");
+				a5 = q3.addSpecificAnswer(5, "Athletic-ek irabaziko du");
+				a6 = q3.addSpecificAnswer(6, "Atlético irabaziko du");
+				a7 = q4.addSpecificAnswer(7, "Bi baino gehiago");
+				a8 = q4.addSpecificAnswer(8, "Bi baino gutxiago");
+				a9 = q5.addSpecificAnswer(9, "Málaga-k irabaziko du");
+				a10 = q5.addSpecificAnswer(10, "Valencia-k irabaziko du");
+				a11 = q6.addSpecificAnswer(11, "Bai");
+				a12 = q6.addSpecificAnswer(12, "Ez");
 			}
-
+			
+			db.persist(a1);
+			db.persist(a2);
+			db.persist(a3);
+			db.persist(a4);
+			db.persist(a5);
+			db.persist(a6);
+			db.persist(a7);
+			db.persist(a8);
+			db.persist(a9);
+			db.persist(a10);
+			db.persist(a11);
+			db.persist(a12);
+			
 			db.persist(q1);
 			db.persist(q2);
 			db.persist(q3);

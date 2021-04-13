@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlIDREF;
 
 
 @Entity
@@ -10,6 +11,8 @@ public class Answer {
 	@Id
 	private Integer answerId;
 	private String content;
+	
+	@XmlIDREF
 	private Question question;
 	
 	/**
@@ -18,11 +21,10 @@ public class Answer {
 	 * @param content
 	 */
 	
-	public Answer(Integer answerId, String content, Question question) {
+	public Answer(Integer answerId, String content) {
 		super();
 		this.answerId = answerId;
 		this.content = content;
-		this.question= question;
 	}
 	
 	/**
@@ -31,7 +33,7 @@ public class Answer {
 	 * @param content
 	 * @param question
 	 */
-	public Answer(int answerId, String content, Question question) {
+	public Answer(Integer answerId, String content, Question question) {
 		super();
 		this.answerId = answerId;
 		this.content = content;
