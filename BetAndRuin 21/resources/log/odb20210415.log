@@ -913,3 +913,29 @@ Type domain.Answer is not enhanced.
 [2021-04-15 16:23:00 #9 type] 
 Type domain.Question is not enhanced.
 
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-04-15 16:50:13 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 16008@LASTO-P
+
+[2021-04-15 16:50:13 #2 store] 
+Configuration path: ?
+
+[2021-04-15 16:50:13 #3 type] 
+Type domain.User is not enhanced.
+
+[2021-04-15 16:50:13 #4 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-04-15 16:50:13 #5 type] 
+Type domain.Bet is not enhanced.
+
+[2021-04-15 16:50:13 #6 type] 
+Type domain.Event is not enhanced.
+
+[2021-04-15 16:50:13 #7 type] 
+Type domain.Answer is not enhanced.
+
+[2021-04-15 16:50:13 #8 type] 
+Type domain.Question is not enhanced.
+
