@@ -108,7 +108,7 @@ public class LoginGUI extends JFrame {
 					prevFrame.getBtnLogin().setVisible(false);
 					prevFrame.getBtnRegister().setVisible(false);
 					prevFrame.getBifunctionalBtn().setVisible(true);
-					prevFrame.getBifunctionalBtn().setText("Cancel Bets");
+					prevFrame.getBifunctionalBtn().setText("View Profile");
 					businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
 				}
 

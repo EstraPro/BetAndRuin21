@@ -345,7 +345,7 @@ public class DataAccess {
 	 * @param userp
 	 * @param passwordp
 	 */
-	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email) {
+	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email, String bankAccount) {
 		db.getTransaction().begin();
 
 		TypedQuery<Integer> queryMaxId = db.createQuery(
@@ -355,7 +355,7 @@ public class DataAccess {
 		
 		int id = ids.get(0);
 		
-		User user = new User(id + 1, userp, passwordp, birthDate, name, surname, email);
+		User user = new User(id + 1, userp, passwordp, birthDate, name, surname, email, bankAccount);
 		db.persist(user);
 		db.getTransaction().commit();
 		System.out.println(userp + " Registered!");
@@ -389,7 +389,6 @@ public class DataAccess {
 	 */
 	public User getUserById(int userid) {
 		
-		System.out.println("kaixooo " + db.isOpen());
 		db.getTransaction().begin();
 		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1",
 				User.class);
@@ -464,7 +463,7 @@ public class DataAccess {
 	 * Return id of logged user
 	 * @return
 	 */
-	public int getLoggedUserId() {
+	public Integer getLoggedUserId() {
 		
 		db.getTransaction().begin();
 

@@ -73,8 +73,8 @@ public class Bet {
 
 	@Override
 	public String toString() {
-		return "Bet [question=" + question + ", answer=" + answer + ", event=" + event + ", amount=" + amount
-				+ ", date=" + date + "]";
+		return "Question: " + question.getQuestion() + "\n" +"Answer: " + answer.getContent() + "\n" + "Event: " + event.getDescription() + ", Amount of Betting: " + amount
+				+ ", Date: " + date.toString();
 	}
 	
 	

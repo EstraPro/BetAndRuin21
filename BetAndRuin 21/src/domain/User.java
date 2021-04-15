@@ -24,6 +24,7 @@ public class User {
 	private String username;
 	private String password;
 	private boolean loggedIn = false;
+	private String BankAccount;
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private ArrayList<Bet> madeBets;
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -45,6 +46,14 @@ public class User {
 		wallet = new Wallet(id);
 	}
 
+	public Wallet getWallet() {
+		return wallet;
+	}
+
+	public void setWallet(Wallet wallet) {
+		this.wallet = wallet;
+	}
+
 	/**
 	 * Constructor for user
 	 * 
@@ -56,7 +65,7 @@ public class User {
 	 * @param surname
 	 * @param email
 	 */
-	public User(int id, String username, String password, Date birthDate, String name, String surname, String email) {
+	public User(int id, String username, String password, Date birthDate, String name, String surname, String email, String BankAccount) {
 		this.birthDate = birthDate;
 		Name = name;
 		Surname = surname;
@@ -66,6 +75,7 @@ public class User {
 		this.password = password;
 		this.madeBets = new ArrayList<Bet>();
 		wallet = new Wallet(id);
+		this.BankAccount = BankAccount;
 	}
 
 	public ArrayList<Bet> getAllBets() {
@@ -137,7 +147,7 @@ public class User {
 	public Date getBirthDate() {
 		return birthDate;
 	}
-
+	
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
@@ -174,4 +184,12 @@ public class User {
 		this.madeBets = madeBets;
 	}
 
+	public String getBankAccount() {
+		return BankAccount;
+	}
+
+	public void setBankAccount(String bankAccount) {
+		BankAccount = bankAccount;
+	}
+	
 }

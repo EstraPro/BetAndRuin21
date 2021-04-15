@@ -143,7 +143,8 @@ public class MainGUI extends JFrame {
 			}
 		});
 	}
-
+	
+	JFrame thisFrame = this;
 	private void initializeCancelBetsBtn() {
 		BifunctionalBtn = new JButton();
 		BifunctionalBtn.setVisible(false);
@@ -151,7 +152,10 @@ public class MainGUI extends JFrame {
 		BifunctionalBtn.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-
+					setVisible(false);
+					ViewProfileGUI nextGUI = new ViewProfileGUI();
+					nextGUI.previousFrame(thisFrame);
+					nextGUI.setVisible(true);	
 			}
 		});
 	}

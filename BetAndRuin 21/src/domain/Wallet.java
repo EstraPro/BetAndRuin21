@@ -39,4 +39,22 @@ public class Wallet {
 	public void insertMoney(int amountToInsert) {
 		money += amountToInsert;
 	}
+
+	public Integer getWalletId() {
+		return walletId;
+	}
+
+	public void setWalletId(Integer walletId) {
+		this.walletId = walletId;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+	
+	
 }

@@ -35,6 +35,7 @@ public class RegisterGUI extends JFrame {
 	private JTextField EmailField;
 	private JTextField NameField;
 	private JTextField SurnameField;
+	private JTextField bankAccountField;
 
 	public void setBusinessLogic(UserManager checker) {
 		businessLogic = checker;
@@ -66,7 +67,7 @@ public class RegisterGUI extends JFrame {
 		this.setBusinessLogic(bl);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 536, 520);
+		setBounds(100, 100, 540, 591);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -74,35 +75,35 @@ public class RegisterGUI extends JFrame {
 
 		txtUsername = new JTextField();
 		txtUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtUsername.setBounds(188, 263, 235, 28);
+		txtUsername.setBounds(188, 310, 235, 28);
 		contentPane.add(txtUsername);
 		txtUsername.setColumns(10);
 
 		txtPassword = new JPasswordField();
 		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtPassword.setBounds(188, 312, 235, 28);
+		txtPassword.setBounds(188, 359, 235, 28);
 		contentPane.add(txtPassword);
 		txtPassword.setColumns(10);
 
 		txtRetypePass = new JPasswordField();
 		txtRetypePass.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtRetypePass.setColumns(10);
-		txtRetypePass.setBounds(188, 359, 235, 28);
+		txtRetypePass.setBounds(188, 406, 235, 28);
 		contentPane.add(txtRetypePass);
 
 		JLabel UsernameLabel = new JLabel("Username: ");
 		UsernameLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		UsernameLabel.setBounds(52, 262, 105, 28);
+		UsernameLabel.setBounds(52, 309, 105, 28);
 		contentPane.add(UsernameLabel);
 
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPassword.setBounds(59, 311, 79, 28);
+		lblPassword.setBounds(59, 358, 79, 28);
 		contentPane.add(lblPassword);
 
 		JLabel lblRetypePassword = new JLabel("Retype password:");
 		lblRetypePassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblRetypePassword.setBounds(10, 358, 183, 28);
+		lblRetypePassword.setBounds(10, 405, 183, 28);
 		contentPane.add(lblRetypePassword);
 
 		JLabel RegisterLabel = new JLabel("Register");
@@ -112,12 +113,12 @@ public class RegisterGUI extends JFrame {
 
 		JTextArea dispalyTxt = new JTextArea();
 		dispalyTxt.setFont(new Font("Monospaced", Font.PLAIN, 15));
-		dispalyTxt.setBounds(137, 432, 286, 28);
+		dispalyTxt.setBounds(113, 457, 286, 50);
 		contentPane.add(dispalyTxt);
 
 		JButton DoneButton = new JButton("Done!");
 		DoneButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		DoneButton.setBounds(235, 398, 119, 23);
+		DoneButton.setBounds(198, 518, 119, 23);
 		contentPane.add(DoneButton);
 		
 		JLabel lblFirstName = new JLabel("Name:");
@@ -162,13 +163,25 @@ public class RegisterGUI extends JFrame {
 		SurnameField.setBounds(356, 94, 154, 28);
 		contentPane.add(SurnameField);
 		
+		JLabel lblBankAccount = new JLabel("Bank Account:");
+		lblBankAccount.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblBankAccount.setBounds(32, 259, 118, 28);
+		contentPane.add(lblBankAccount);
+		
+		bankAccountField = new JTextField();
+		bankAccountField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		bankAccountField.setColumns(10);
+		bankAccountField.setBounds(188, 260, 235, 28);
+		contentPane.add(bankAccountField);
+		
 		DoneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispalyTxt.setText(null);
 
 				if (businessLogic.passwdMatches(String.valueOf(txtPassword.getPassword()),
 						String.valueOf(txtRetypePass.getPassword()))) {
-					businessLogic.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()),dateChooser.getDate(), NameField.getText(), SurnameField.getText(), EmailField.getText());
+					businessLogic.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()),dateChooser.getDate(), NameField.getText(), 
+							SurnameField.getText(), EmailField.getText(), bankAccountField.getText());
 					dispalyTxt.setText("Registered!");
 				
 					setVisible(false);

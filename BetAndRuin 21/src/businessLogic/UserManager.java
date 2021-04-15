@@ -70,9 +70,9 @@ public class UserManager {
 	 * @param userp
 	 * @param passwordp
 	 */
-	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email) {
+	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email, String bankAccount) {
 		
-		db.storeUser(userp, passwordp,birthDate, name, surname, email);
+		db.storeUser(userp, passwordp,birthDate, name, surname, email, bankAccount);
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class UserManager {
 		return db.getEvent(eventNum);
 	}
 	
-	public User getUserById(){
+	public User getUserLogged(){
 		
 		return db.getUserById(getLoggedUserId());
 		
