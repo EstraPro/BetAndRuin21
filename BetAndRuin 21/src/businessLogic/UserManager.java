@@ -142,9 +142,25 @@ public class UserManager {
 	}
 	
 	public User getUserLogged(){
+		db.open(false);
+		User ret = db.getUserById(getLoggedUserId());
+		db.close();
+		return ret;
 		
-		return db.getUserById(getLoggedUserId());
-		
+	}
+	public boolean isInt(String str) {
+		try {
+			Integer.parseInt(str);
+			return true;
+		}catch(NumberFormatException e1) {
+			return false;
+		}
+	}
+
+	public void insertMoneyLoggedUser(int amount) {
+		db.open(false);
+		db.insertMoneyLoggedUser(amount);
+		db.close();
 	}
 	
 }

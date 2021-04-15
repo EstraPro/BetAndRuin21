@@ -1,11 +1,15 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import businessLogic.UserManager;
+
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -19,6 +23,8 @@ public class InsertMoneyGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField InsertAmountField;
+	
+	private UserManager businessLogic = new UserManager();
 	
 	private JFrame prevFrame;
 
@@ -60,14 +66,15 @@ public class InsertMoneyGUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JTextArea AnswertextArea = new JTextArea();
-		AnswertextArea.setBounds(94, 154, 243, 70);
+		AnswertextArea.setBounds(94, 154, 243, 61);
 		contentPane.add(AnswertextArea);
 		
 		JButton btnClose = new JButton("Close");
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				prevFrame.setVisible(true);
-				setVisible(false);
+				dispose();
+				
 			}
 		});
 		btnClose.setBounds(52, 235, 89, 23);
@@ -76,7 +83,13 @@ public class InsertMoneyGUI extends JFrame {
 		JButton btnInsert = new JButton("Insert");
 		btnInsert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AnswertextArea.setText("<html> Done! <br> </html>"+ InsertAmountField.getText() +"€ added to your system account.");
+				try {
+					businessLogic.insertMoneyLoggedUser(Integer.parseInt(InsertAmountField.getText()));
+					AnswertextArea.setText("Done! \n"+ InsertAmountField.getText() +"€ added to your system account.");
+				}catch(NumberFormatException e1) {
+					AnswertextArea.setText("Please enter a number, not :" + InsertAmountField.getText());
+				}
+				
 			}
 		});
 		btnInsert.setBounds(292, 235, 89, 23);
@@ -90,7 +103,7 @@ public class InsertMoneyGUI extends JFrame {
 		JLabel lblTitle = new JLabel("Currency");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblTitle.setBounds(57, 21, 324, 35);
+		lblTitle.setBounds(52, 21, 324, 35);
 		contentPane.add(lblTitle);
 		
 		JLabel lblExplanation = new JLabel("<html>Enter the desired amount of money to <br> the system:</html>");

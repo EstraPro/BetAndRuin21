@@ -30,6 +30,8 @@ public class ViewProfileGUI extends JFrame {
 	private UserManager businessLogic = new UserManager();
 
 	private JFrame prevFrame;
+	
+	private boolean bool = false;
 
 	/**
 	 * Gets the previous frame
@@ -40,6 +42,12 @@ public class ViewProfileGUI extends JFrame {
 
 		prevFrame = frame;
 	}
+	
+	public void setValueBool() {
+		bool=true;
+	}
+	
+	
 
 	/**
 	 * Launch the application.
@@ -67,6 +75,8 @@ public class ViewProfileGUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		
 
 		JScrollPane showBetscrollPane = new JScrollPane();
 		showBetscrollPane.setBounds(10, 168, 606, 128);
@@ -101,6 +111,14 @@ public class ViewProfileGUI extends JFrame {
 		UserInfopanel2.add(lblBirthDate);
 		lblBirthDate.setText("Birth Date: " + businessLogic.getUserLogged().getBirthDate().toString());
 		
+		JLabel lblMoneyShow = new JLabel("Money");
+		lblMoneyShow.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 18));
+		lblMoneyShow.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMoneyShow.setBounds(529, 52, 107, 35);
+		contentPane.add(lblMoneyShow);
+		lblMoneyShow.setText(businessLogic.getUserLogged().getWallet().getMoney() + "€");
+		
+		//////////////////////////////////////////////////////////////////////Insert Money Button 
 		JFrame thisFrame= this;
 		JButton InsertMoneyButton = new JButton("Insert Money");
 		InsertMoneyButton.addActionListener(new ActionListener() {
@@ -109,7 +127,6 @@ public class ViewProfileGUI extends JFrame {
 				InsertGUI.previousFrame(thisFrame);
 				setVisible(false);
 				InsertGUI.setVisible(true);
-				
 			}
 		});
 		InsertMoneyButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -121,14 +138,9 @@ public class ViewProfileGUI extends JFrame {
 		currentMoneytextLbl.setBounds(448, 11, 178, 35);
 		contentPane.add(currentMoneytextLbl);
 
-		JLabel lblMoneyShow = new JLabel("Money");
-		lblMoneyShow.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 18));
-		lblMoneyShow.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMoneyShow.setBounds(509, 48, 107, 35);
-		contentPane.add(lblMoneyShow);
-		lblMoneyShow.setText(businessLogic.getUserLogged().getWallet().getMoney() + "€");
+		
 
-		JButton btnBack = new JButton("Back");
+		JButton btnBack = new JButton("Close");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -161,5 +173,18 @@ public class ViewProfileGUI extends JFrame {
 		lblUsername.setBounds(10, 36, 230, 25);
 		NameSurnamepanel.add(lblUsername);
 		lblUsername.setText("Username: " + businessLogic.getUserLogged().getUsername());
+		
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int currency = businessLogic.getUserLogged().getWallet().getMoney();
+				lblMoneyShow.setText(currency+ "€");
+			}
+		});
+		btnRefresh.setBounds(450, 58, 79, 31);
+		contentPane.add(btnRefresh);
+
 	}
+
 }

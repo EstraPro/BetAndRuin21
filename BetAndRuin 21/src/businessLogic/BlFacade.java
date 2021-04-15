@@ -8,6 +8,7 @@ import javax.jws.WebService;
 
 import domain.Event;
 import domain.Question;
+import domain.User;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
 
@@ -46,4 +47,14 @@ public interface BlFacade  {
 	 * @return collection of dates
 	 */
 	@WebMethod public Vector<Date> getEventsMonth(Date date);
+	
+	
+	@WebMethod public User getUserLogged();
+	
+	@WebMethod public Integer getLoggedUserId();
+	
+	@WebMethod public Question getQuestion(int eventNum, int questionNum);
+	
+	@WebMethod public boolean isInt(String str);
+	
 }

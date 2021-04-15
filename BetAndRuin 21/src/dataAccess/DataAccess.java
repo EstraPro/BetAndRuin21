@@ -93,7 +93,7 @@ public class DataAccess {
 			Question q4;
 			Question q5;
 			Question q6;
-			
+
 			Answer a1;
 			Answer a2;
 			Answer a3;
@@ -108,14 +108,14 @@ public class DataAccess {
 			Answer a12;
 
 			if (Locale.getDefault().equals(new Locale("es"))) {
-				
+
 				q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
 				q2 = ev1.addQuestion("¿Quién meterá el primer gol?", 2);
 				q3 = ev11.addQuestion("¿Quién ganará el partido?", 1);
 				q4 = ev11.addQuestion("¿Cuántos goles se marcarán?", 2);
 				q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
 				q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
-				
+
 				a1 = q1.addSpecificAnswer(1, "Athletic ganara");
 				a2 = q1.addSpecificAnswer(2, "Atlético ganara");
 				a3 = q2.addSpecificAnswer(3, "Athletic metera el primer gol");
@@ -128,16 +128,16 @@ public class DataAccess {
 				a10 = q5.addSpecificAnswer(10, "Valencia ganara");
 				a11 = q6.addSpecificAnswer(11, "Si");
 				a12 = q6.addSpecificAnswer(12, "No");
-				
+
 			} else if (Locale.getDefault().equals(new Locale("en"))) {
-				
+
 				q1 = ev1.addQuestion("Who will win the match?", 1);
 				q2 = ev1.addQuestion("Which team will score first?", 2);
 				q3 = ev11.addQuestion("Who will win the match?", 1);
 				q4 = ev11.addQuestion("How many goals will be scored?", 2);
 				q5 = ev17.addQuestion("Who will win the match?", 1);
 				q6 = ev17.addQuestion("Will they score in the first half of the match?", 2);
-				
+
 				a1 = q1.addSpecificAnswer(1, "Athletic will win");
 				a2 = q1.addSpecificAnswer(2, "Atlético will win");
 				a3 = q2.addSpecificAnswer(3, "Athletic will score first");
@@ -150,16 +150,16 @@ public class DataAccess {
 				a10 = q5.addSpecificAnswer(10, "Valencia will win");
 				a11 = q6.addSpecificAnswer(11, "Yes");
 				a12 = q6.addSpecificAnswer(12, "No");
-				
+
 			} else {
-				
+
 				q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1);
 				q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2);
 				q3 = ev11.addQuestion("Zeinek irabaziko du partidua?", 1);
 				q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2);
 				q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
 				q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
-				
+
 				a1 = q1.addSpecificAnswer(1, "Athletic-ek irabaziko du");
 				a2 = q1.addSpecificAnswer(2, "Atlético-k irabaziko du");
 				a3 = q2.addSpecificAnswer(3, "Athletic-ek sartuko du lehen gola");
@@ -173,7 +173,7 @@ public class DataAccess {
 				a11 = q6.addSpecificAnswer(11, "Bai");
 				a12 = q6.addSpecificAnswer(12, "Ez");
 			}
-			
+
 			db.persist(a1);
 			db.persist(a2);
 			db.persist(a3);
@@ -186,7 +186,7 @@ public class DataAccess {
 			db.persist(a10);
 			db.persist(a11);
 			db.persist(a12);
-			
+
 			db.persist(q1);
 			db.persist(q2);
 			db.persist(q3);
@@ -214,10 +214,10 @@ public class DataAccess {
 			db.persist(ev18);
 			db.persist(ev19);
 			db.persist(ev20);
-			
+
 			User admin = new User(0, "admin", "admin");
 			db.persist(admin);
-			
+
 			db.getTransaction().commit();
 			System.out.println("The database has been initialized");
 		} catch (Exception e) {
@@ -345,91 +345,95 @@ public class DataAccess {
 	 * @param userp
 	 * @param passwordp
 	 */
-	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email, String bankAccount) {
+	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
+			String bankAccount) {
 		db.getTransaction().begin();
 
-		TypedQuery<Integer> queryMaxId = db.createQuery(
-				"SELECT MAX(id) FROM User", Integer.class);
-		
+		TypedQuery<Integer> queryMaxId = db.createQuery("SELECT MAX(id) FROM User", Integer.class);
+
 		List<Integer> ids = queryMaxId.getResultList();
-		
+
 		int id = ids.get(0);
-		
+
 		User user = new User(id + 1, userp, passwordp, birthDate, name, surname, email, bankAccount);
 		db.persist(user);
 		db.getTransaction().commit();
 		System.out.println(userp + " Registered!");
 		this.close();
 	}
-	
+
 	/**
 	 * Updates the given bets of the user, by adding the recent one
+	 * 
 	 * @param userid
 	 * @param questionId
 	 * @param amount
 	 */
 	public void storeBet(int userid, Question question, Answer answer, Event event, Date date, int amount) {
-		
+
 		User user = this.getUserById(userid);
-		
+
 		db.getTransaction().begin();
-		
+
 		user.storeBet(question, answer, event, date, amount);
-		
+
 		db.getTransaction().commit();
-		
+
 		System.out.println(user.getUsername() + " has been updated");
 		this.close();
 	}
-	
+
 	/**
 	 * Gets the needed user stored in the database
+	 * 
 	 * @param userid
 	 * @return
 	 */
 	public User getUserById(int userid) {
-		
+
 		db.getTransaction().begin();
-		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1",
-				User.class);
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
 		query.setParameter(1, userid);
 		List<User> user = query.getResultList();
-		
+
 		db.getTransaction().commit();
-		
-		//this.close();
-		
+
+		// this.close();
+
 		return user.get(0);
 	}
-	
+
 	/**
 	 * Check user credentials
+	 * 
 	 * @param usname
 	 * @param passwd
 	 * @return
 	 */
 	public boolean checkUser(String usname, String passwd) {
-		
+
 		TypedQuery<User> userPassQuery = db.createQuery(
-				"SELECT id FROM User WHERE username.equals(\"" + usname + "\") AND password.equals(\"" + passwd + "\")", User.class);
-		
+				"SELECT id FROM User WHERE username.equals(\"" + usname + "\") AND password.equals(\"" + passwd + "\")",
+				User.class);
+
 		List<User> users = userPassQuery.getResultList();
-		
+
 		return users.size() != 0;
 	}
-	
+
 	/**
 	 * Marks loggedIn attribute as true
 	 */
 	public void markLogin(String user, String passwd) {
-		
+
 		db.getTransaction().begin();
 
 		TypedQuery<User> queryUser = db.createQuery(
-				"SELECT FROM User WHERE username.equals(\"" + user +"\") AND password.equals(\"" + passwd + "\")", User.class);
-		
+				"SELECT FROM User WHERE username.equals(\"" + user + "\") AND password.equals(\"" + passwd + "\")",
+				User.class);
+
 		List<User> users = queryUser.getResultList();
-		
+
 		User usr = users.get(0);
 		usr.setLoggedIn(true);
 		db.persist(usr);
@@ -437,73 +441,85 @@ public class DataAccess {
 		System.out.println(usr.getUsername() + " Logged!");
 		this.close();
 	}
-	
+
 	/**
 	 * Resets all Users login status
 	 */
 	public void resetLogins() {
-		
+
 		db.getTransaction().begin();
 
-		TypedQuery<User> queryAllUsers = db.createQuery(
-				"SELECT FROM User", User.class);
-		
+		TypedQuery<User> queryAllUsers = db.createQuery("SELECT FROM User", User.class);
+
 		List<User> users = queryAllUsers.getResultList();
-		
+
 		for (User usr : users) {
-			
+
 			usr.setLoggedIn(false);
 			db.persist(usr);
 		}
 		db.getTransaction().commit();
 		this.close();
 	}
-	
+
 	/**
 	 * Return id of logged user
+	 * 
 	 * @return
 	 */
 	public Integer getLoggedUserId() {
-		
+
 		db.getTransaction().begin();
 
-		TypedQuery<Integer> queryLoggedUsers = db.createQuery(
-				"SELECT id FROM User WHERE loggedIn=true", Integer.class);
-		
+		TypedQuery<Integer> queryLoggedUsers = db.createQuery("SELECT id FROM User WHERE loggedIn=true", Integer.class);
+
 		List<Integer> ids = queryLoggedUsers.getResultList();
 
 		db.getTransaction().commit();
-		//this.close();
-		
+		// this.close();
+
 		return ids.get(0);
 	}
-	
+
 	public Event getEvent(Integer eventNum) {
-		
+
 		db.getTransaction().begin();
-		
-		TypedQuery<Event> queryEvent = db.createQuery("SELECT e FROM Event e WHERE e.eventNumber = ?1",
-				Event.class);
+
+		TypedQuery<Event> queryEvent = db.createQuery("SELECT e FROM Event e WHERE e.eventNumber = ?1", Event.class);
 		queryEvent.setParameter(1, eventNum);
-		
+
 		Event event = queryEvent.getResultList().get(0);
-		
+
 		db.getTransaction().commit();
-		 
+
 		return event;
-		
+
 	}
 
 	public Question getQuestion(Integer eventNum, Integer questionNum) {
-		
+
 		Question question = this.getEvent(eventNum).getSpecificQuestion(questionNum);
 
 		return question;
 	}
-	
+
 	public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum) {
-		
+
 		return this.getQuestion(eventNum, questionNum).getSpecificAnswer(answerNum);
+	}
+
+	public void insertMoneyLoggedUser(int amount) {
+
+		Integer id = getLoggedUserId();
+		db.getTransaction().begin();
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
+		query.setParameter(1, id);
+		List<User> users = query.getResultList();
+
+		users.get(0).getWallet().insertMoney(amount);
+
+		db.getTransaction().commit();
+
 	}
 
 }

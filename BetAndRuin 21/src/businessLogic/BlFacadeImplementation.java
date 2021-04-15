@@ -12,6 +12,7 @@ import configuration.ConfigXML;
 import dataAccess.DataAccess;
 import domain.Event;
 import domain.Question;
+import domain.User;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
 
@@ -117,5 +118,48 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.open(false);
 		dbManager.initializeDB();
 		dbManager.close();
+	}
+	
+	@WebMethod
+	public User getUserLogged(){
+		dbManager.open(false);
+		User ret = dbManager.getUserById(getLoggedUserId());
+		dbManager.close();
+		return ret;
+		
+	}
+	
+	/**
+	 * Return id of logged user
+	 * @return
+	 */
+	@WebMethod
+	public Integer getLoggedUserId() {
+		
+		return dbManager.getLoggedUserId();
+	}
+	
+	
+	/**
+	 * 
+	 * @param eventNum
+	 * @param questionNum
+	 * @return
+	 */
+	public Question getQuestion(int eventNum, int questionNum) {
+		dbManager.open(false);
+		Question ret = dbManager.getQuestion(eventNum, questionNum);
+		dbManager.close();
+		return ret;
+	}
+	
+	@WebMethod 
+	public boolean isInt(String str) {
+		try {
+			Integer.parseInt(str);
+			return true;
+		}catch(NumberFormatException e1) {
+			return false;
+		}
 	}
 }

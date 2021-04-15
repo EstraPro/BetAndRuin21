@@ -38,20 +38,16 @@ import javax.swing.JComboBox;
 public class BrowseQuestionsGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private JFrame prevFrame;
 
 	private BlFacade businessLogic;
 
-	private final JLabel eventDateLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").
-			getString("EventDate"));
-	private final JLabel questionLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").
-			getString("Questions")); 
-	private final JLabel eventLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").
-			getString("Events")); 
+	private final JLabel eventDateLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
+	private final JLabel questionLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Questions"));
+	private final JLabel eventLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Events"));
 
-	private JButton closeBtn = new JButton(ResourceBundle.getBundle("Etiquetas").
-			getString("Close"));
+	private JButton closeBtn = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 
 	// Code for JCalendar
 	private JCalendar calendar = new JCalendar();
@@ -61,28 +57,24 @@ public class BrowseQuestionsGUI extends JFrame {
 	private JScrollPane questionScrollPane = new JScrollPane();
 
 	private Vector<Date> datesWithEventsInCurrentMonth = new Vector<Date>();
-	
+
 	private ArrayList<domain.Answer> answers;
 
-	private JTable eventTable= new JTable();
+	private JTable eventTable = new JTable();
 	private JTable questionTable = new JTable();
 
 	private DefaultTableModel eventTableModel;
 	private DefaultTableModel questionTableModel;
 
-	private String[] eventColumnNames = new String[] {
-			ResourceBundle.getBundle("Etiquetas").getString("EventN"), 
-			ResourceBundle.getBundle("Etiquetas").getString("Event"), 
+	private String[] eventColumnNames = new String[] { ResourceBundle.getBundle("Etiquetas").getString("EventN"),
+			ResourceBundle.getBundle("Etiquetas").getString("Event"),
 
 	};
-	private String[] questionColumnNames = new String[] {
-			ResourceBundle.getBundle("Etiquetas").getString("QuestionN"), 
-			ResourceBundle.getBundle("Etiquetas").getString("Question")
-	};
+	private String[] questionColumnNames = new String[] { ResourceBundle.getBundle("Etiquetas").getString("QuestionN"),
+			ResourceBundle.getBundle("Etiquetas").getString("Question") };
 
-	
 	private JTextField betInp;
-
+	private final JTextArea MessageTextArea = new JTextArea();
 
 	public void setBusinessLogic(BlFacade bl) {
 		businessLogic = bl;
@@ -92,12 +84,10 @@ public class BrowseQuestionsGUI extends JFrame {
 		businessLogic = bl;
 		try {
 			jbInit();
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 
 	private void jbInit() throws Exception {
 
@@ -118,7 +108,7 @@ public class BrowseQuestionsGUI extends JFrame {
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				jButton2_actionPerformed(e);
 			}
 		});
@@ -138,8 +128,7 @@ public class BrowseQuestionsGUI extends JFrame {
 
 				if (propertyChangeEvent.getPropertyName().equals("locale")) {
 					calendar.setLocale((Locale) propertyChangeEvent.getNewValue());
-				}
-				else if (propertyChangeEvent.getPropertyName().equals("calendar")) {
+				} else if (propertyChangeEvent.getPropertyName().equals("calendar")) {
 					previousCalendar = (Calendar) propertyChangeEvent.getOldValue();
 					currentCalendar = (Calendar) propertyChangeEvent.getNewValue();
 					DateFormat dateformat1 = DateFormat.getDateInstance(1, calendar.getLocale());
@@ -150,19 +139,18 @@ public class BrowseQuestionsGUI extends JFrame {
 
 					if (currentMonth != previousMonth) {
 						if (currentMonth == previousMonth + 2) {
-							// Si en JCalendar está 30 de enero y se avanza al mes siguiente, 
+							// Si en JCalendar está 30 de enero y se avanza al mes siguiente,
 							// devolvería 2 de marzo (se toma como equivalente a 30 de febrero)
 							// Con este código se dejará como 1 de febrero en el JCalendar
 							currentCalendar.set(Calendar.MONTH, previousMonth + 1);
 							currentCalendar.set(Calendar.DAY_OF_MONTH, 1);
-						}						
+						}
 
 						calendar.setCalendar(currentCalendar);
-						datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.
-								getDate());
+						datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
 					}
 
-					CreateQuestionGUI.paintDaysWithEvents(calendar,datesWithEventsInCurrentMonth);
+					CreateQuestionGUI.paintDaysWithEvents(calendar, datesWithEventsInCurrentMonth);
 
 					try {
 						eventTableModel.setDataVector(null, eventColumnNames);
@@ -170,39 +158,39 @@ public class BrowseQuestionsGUI extends JFrame {
 
 						Vector<domain.Event> events = businessLogic.getEvents(firstDay);
 
-						if (events.isEmpty() ) eventLbl.setText(ResourceBundle.getBundle("Etiquetas").
-								getString("NoEvents") + ": " + dateformat1.format(currentCalendar.
-										getTime()));
-						else eventLbl.setText(ResourceBundle.getBundle("Etiquetas").
-								getString("Events") + ": " + dateformat1.format(currentCalendar.
-										getTime()));
-						for (domain.Event ev : events){
+						if (events.isEmpty())
+							eventLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents") + ": "
+									+ dateformat1.format(currentCalendar.getTime()));
+						else
+							eventLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Events") + ": "
+									+ dateformat1.format(currentCalendar.getTime()));
+						for (domain.Event ev : events) {
 							Vector<Object> row = new Vector<Object>();
 							System.out.println("Events " + ev);
 							row.add(ev.getEventNumber());
 							row.add(ev.getDescription());
-							row.add(ev); 	// ev object added in order to obtain it with 
+							row.add(ev); // ev object added in order to obtain it with
 							// tableModelEvents.getValueAt(i,2)
-							eventTableModel.addRow(row);		
+							eventTableModel.addRow(row);
 						}
 						eventTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 						eventTable.getColumnModel().getColumn(1).setPreferredWidth(268);
-						eventTable.getColumnModel().removeColumn(eventTable.getColumnModel().
-								getColumn(2)); // not shown in JTable
-					}
-					catch (Exception e1) {
+						eventTable.getColumnModel().removeColumn(eventTable.getColumnModel().getColumn(2)); // not shown
+																											// in JTable
+					} catch (Exception e1) {
 						questionLbl.setText(e1.getMessage());
 					}
 				}
-			} 
+			}
 		});
 
 		this.getContentPane().add(calendar, null);
-		
-		JLabel answerLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.answerLbl.text")); //$NON-NLS-1$ //$NON-NLS-2$
+
+		JLabel answerLbl = new JLabel(
+				ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.answerLbl.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		answerLbl.setBounds(138, 416, 406, 14);
 		getContentPane().add(answerLbl);
-		
+
 		eventScrollPane.setBounds(new Rectangle(292, 50, 346, 150));
 		questionScrollPane.setBounds(new Rectangle(138, 274, 406, 116));
 
@@ -210,29 +198,29 @@ public class BrowseQuestionsGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int i = eventTable.getSelectedRow();
-				domain.Event ev = (domain.Event)eventTableModel.getValueAt(i,2); // obtain ev object
-				
+				domain.Event ev = (domain.Event) eventTableModel.getValueAt(i, 2); // obtain ev object
+
 				Vector<Question> questions = ev.getQuestions();
 
 				questionTableModel.setDataVector(null, questionColumnNames);
 
 				if (questions.isEmpty())
-					questionLbl.setText(ResourceBundle.getBundle("Etiquetas").
-							getString("NoQuestions") + ": " + ev.getDescription());
-				else 
-					questionLbl.setText(ResourceBundle.getBundle("Etiquetas").
-							getString("SelectedEvent") + " " + ev.getDescription());
+					questionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("NoQuestions") + ": "
+							+ ev.getDescription());
+				else
+					questionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectedEvent") + " "
+							+ ev.getDescription());
 
 				for (domain.Question q : questions) {
 					Vector<Object> row = new Vector<Object>();
 					row.add(q.getQuestionNumber());
 					row.add(q.getQuestion());
-					questionTableModel.addRow(row);	
+					questionTableModel.addRow(row);
 				}
 				questionTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 				questionTable.getColumnModel().getColumn(1).setPreferredWidth(268);
-				
-				//To change the default 
+
+				// To change the default
 				answerLbl.setText("No question selected");
 			}
 		});
@@ -243,8 +231,7 @@ public class BrowseQuestionsGUI extends JFrame {
 		eventTable.setModel(eventTableModel);
 		eventTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 		eventTable.getColumnModel().getColumn(1).setPreferredWidth(268);
-		
-		
+
 		questionScrollPane.setViewportView(questionTable);
 		questionTableModel = new DefaultTableModel(null, questionColumnNames);
 
@@ -254,98 +241,120 @@ public class BrowseQuestionsGUI extends JFrame {
 
 		this.getContentPane().add(eventScrollPane, null);
 		this.getContentPane().add(questionScrollPane, null);
-		
+
 		JComboBox AnswerscomboBox = new JComboBox();
 		AnswerscomboBox.setBounds(138, 441, 406, 22);
 		getContentPane().add(AnswerscomboBox);
-		
+
 		JFrame thisFrame = this;
-		JButton btnBet = new JButton(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		JButton btnBet = new JButton(
+				ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		btnBet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(questionTable.getSelectedRow()!=-1 && eventTable.getSelectedRow()!=-1 && AnswerscomboBox.getSelectedIndex()!=-1) {
-					Integer answerNum=0;
-					for(domain.Answer lag: answers) {
-						if(AnswerscomboBox.getSelectedItem().equals(lag.getContent())) {
-							answerNum=lag.getAnswerId();
+				MessageTextArea.setText("                                             ");
+				if (questionTable.getSelectedRow() != -1 && eventTable.getSelectedRow() != -1
+						&& AnswerscomboBox.getSelectedIndex() != -1) {
+					System.out.println("Step1");
+					Integer answerNum = 0;
+					for (domain.Answer lag : answers) {
+						if (AnswerscomboBox.getSelectedItem().equals(lag.getContent())) {
+							answerNum = lag.getAnswerId();
 						}
 					}
 					
 					Integer questNumber = (Integer) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
 					Integer eventNumber = (Integer) eventTable.getValueAt(eventTable.getSelectedRow(), 0);
-					setVisible(false);
-					ConfirmGUI confirmation = new ConfirmGUI();
-					confirmation.setVisible(true);
-					confirmation.previousFrame(thisFrame);
-					confirmation.setValues(eventNumber, questNumber, answerNum, Integer.parseInt(betInp.getText()));
+					if (businessLogic.isInt(betInp.getText())) {
+						if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged().getWallet().getMoney()
+								&& Integer.parseInt(betInp.getText()) >= businessLogic
+										.getQuestion(eventNumber, questNumber).getBetMinimum()) {
+							setVisible(false);
+							ConfirmGUI confirmation = new ConfirmGUI();
+							confirmation.setVisible(true);
+							confirmation.previousFrame(thisFrame);
+							confirmation.setValues(eventNumber, questNumber, Integer.parseInt(betInp.getText()),
+									answerNum);
+							betInp.setText("                    ");
+						} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged().getWallet()
+								.getMoney()) {
+							MessageTextArea.setText("You don't have enough money on you wallet!");
+						} else if (Integer.parseInt(betInp.getText()) < businessLogic
+								.getQuestion(eventNumber, questNumber).getBetMinimum()) {
+							MessageTextArea.setText("Please, enter a value higher than the minimum bet!");
+						}
+					}else {
+						MessageTextArea.setText("Please enter a numeric value, not: "+ betInp.getText());
+					}
+
 				}
 			}
 		});
 		btnBet.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnBet.setBounds(589, 347, 89, 43);
 		getContentPane().add(btnBet);
-		
+
 		betInp = new JTextField();
 		betInp.setColumns(10);
 		betInp.setText("");
 		betInp.setBounds(589, 315, 89, 20);
 		getContentPane().add(betInp);
-		
-		
-		
-		JLabel lblEnterAmount = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.lblEnterAmount.text")); //$NON-NLS-1$ //$NON-NLS-2$
+
+		JLabel lblEnterAmount = new JLabel(
+				ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.lblEnterAmount.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		lblEnterAmount.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblEnterAmount.setBounds(577, 295, 116, 14);
 		getContentPane().add(lblEnterAmount);
-		
-		
-		
+		MessageTextArea.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.MessageTextArea.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		MessageTextArea.setBounds(138, 478, 406, 92);
+
+		getContentPane().add(MessageTextArea);
+
 		questionTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int i = eventTable.getSelectedRow();
-				domain.Event ev = (domain.Event)eventTableModel.getValueAt(i,2); // obtain ev object
-				
+				domain.Event ev = (domain.Event) eventTableModel.getValueAt(i, 2); // obtain ev object
+
 				Vector<Question> questions = ev.getQuestions();
-				
+
 				int i1 = questionTable.getSelectedRow();
 				domain.Question question = new Question();
-				for(Question lag: questions) {
-					if(lag.getQuestionNumber().equals((Integer)questionTableModel.getValueAt(i1,0))) {
+				for (Question lag : questions) {
+					if (lag.getQuestionNumber().equals((Integer) questionTableModel.getValueAt(i1, 0))) {
 						question = lag;// obtain question object
 					}
 				}
-				 
+
 				AnswerscomboBox.removeAllItems();
 				answers = question.getAnswerList();
-				
+
 				if (answers.isEmpty())
 					answerLbl.setText("No Answers for: " + question.getQuestion());
-				else 
-					answerLbl.setText("Bet on: "+ question.getQuestion());
+				else
+					answerLbl.setText("Bet on: " + question.getQuestion());
 
 				for (domain.Answer a : answers) {
-					AnswerscomboBox.addItem((String)a.getContent());
+					AnswerscomboBox.addItem((String) a.getContent());
 				}
-				
-				
+
 			}
 		});
 
 	}
 
 	private void jButton2_actionPerformed(ActionEvent e) {
-		
+
 		this.dispose();
 		prevFrame.setVisible(true);
 	}
-	
+
 	/**
 	 * Gets the previous frame
+	 * 
 	 * @param frame
 	 */
 	public void previousFrame(JFrame frame) {
-		
+
 		prevFrame = frame;
 	}
 }
