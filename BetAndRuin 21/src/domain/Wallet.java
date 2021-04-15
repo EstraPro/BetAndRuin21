@@ -11,12 +11,14 @@ import javax.persistence.Id;
 @Entity
 public class Wallet {
 	@Id
-	int money;
+	private Integer walletId;
+	private int money;
 
 	/**
 	 * Constructor of wallet
 	 */
-	public Wallet() {
+	public Wallet(Integer Id) {
+		this.walletId = Id;
 		money = 10;
 	}
 

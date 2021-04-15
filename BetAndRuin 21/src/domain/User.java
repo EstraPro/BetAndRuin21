@@ -42,7 +42,7 @@ public class User {
 		username = usr;
 		password = passwd;
 		madeBets = new ArrayList<Bet>();
-		wallet = new Wallet();
+		wallet = new Wallet(id);
 	}
 
 	/**
@@ -65,6 +65,7 @@ public class User {
 		this.username = username;
 		this.password = password;
 		this.madeBets = new ArrayList<Bet>();
+		wallet = new Wallet(id);
 	}
 
 	public ArrayList<Bet> getAllBets() {

@@ -483,7 +483,7 @@ public class DataAccess {
 		
 		db.getTransaction().begin();
 		
-		TypedQuery<Event> queryEvent = db.createQuery("SELECT e FROM Event WHERE e.eventNumber = 1?",
+		TypedQuery<Event> queryEvent = db.createQuery("SELECT e FROM Event e WHERE e.eventNumber = ?1",
 				Event.class);
 		queryEvent.setParameter(1, eventNum);
 		
@@ -504,6 +504,6 @@ public class DataAccess {
 	
 	public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum) {
 		
-		return this.getQuestion(questionNum, answerNum).getSpecificAnswer(answerNum);
+		return this.getQuestion(eventNum, questionNum).getSpecificAnswer(answerNum);
 	}
 }
