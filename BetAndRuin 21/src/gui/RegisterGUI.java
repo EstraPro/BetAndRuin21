@@ -112,12 +112,12 @@ public class RegisterGUI extends JFrame {
 
 		JTextArea dispalyTxt = new JTextArea();
 		dispalyTxt.setFont(new Font("Monospaced", Font.PLAIN, 15));
-		dispalyTxt.setBounds(62, 488, 244, 41);
+		dispalyTxt.setBounds(137, 432, 286, 28);
 		contentPane.add(dispalyTxt);
 
 		JButton DoneButton = new JButton("Done!");
 		DoneButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		DoneButton.setBounds(200, 443, 119, 23);
+		DoneButton.setBounds(235, 398, 119, 23);
 		contentPane.add(DoneButton);
 		
 		JLabel lblFirstName = new JLabel("Name:");

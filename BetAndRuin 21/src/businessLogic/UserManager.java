@@ -1,6 +1,7 @@
 package businessLogic;
 
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.HashMap;
 
@@ -8,6 +9,7 @@ import dataAccess.DataAccess;
 import domain.Answer;
 import domain.Event;
 import domain.Question;
+import domain.User;
 
 /**
  * Class that checks credentials
@@ -93,7 +95,7 @@ public class UserManager {
 	 * Return id of logged user
 	 * @return
 	 */
-	public int getLoggedUserId() {
+	public Integer getLoggedUserId() {
 		
 		return db.getLoggedUserId();
 	}
@@ -109,16 +111,40 @@ public class UserManager {
 		db.storeBet(userid, question, answer, event, date, amount);
 	}
 	
+	/**
+	 * 
+	 * @param eventNum
+	 * @param questionNum
+	 * @return
+	 */
 	public Question getQuestion(int eventNum, int questionNum) {
 		return db.getQuestion(eventNum, questionNum);
 	}
 	
+	/**
+	 * 
+	 * @param eventNum
+	 * @param questionNum
+	 * @param answerNum
+	 * @return
+	 */
 	public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum) {
 		return db.getAnswer(eventNum, questionNum, answerNum);
 	}
 	
+	/**
+	 * 
+	 * @param eventNum
+	 * @return
+	 */
 	public Event getEvent(Integer eventNum) {
 		return db.getEvent(eventNum);
+	}
+	
+	public User getUserById(){
+		
+		return db.getUserById(getLoggedUserId());
+		
 	}
 	
 }
