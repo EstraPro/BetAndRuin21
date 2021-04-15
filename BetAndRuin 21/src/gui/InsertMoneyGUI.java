@@ -12,11 +12,25 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class InsertMoneyGUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField InsertAmountField;
+	
+	private JFrame prevFrame;
+
+	/**
+	 * Gets the previous frame
+	 * 
+	 * @param frame
+	 */
+	public void previousFrame(JFrame frame) {
+
+		prevFrame = frame;
+	}
 
 	/**
 	 * Launch the application.
@@ -50,10 +64,21 @@ public class InsertMoneyGUI extends JFrame {
 		contentPane.add(AnswertextArea);
 		
 		JButton btnClose = new JButton("Close");
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				prevFrame.setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnClose.setBounds(52, 235, 89, 23);
 		contentPane.add(btnClose);
 		
 		JButton btnInsert = new JButton("Insert");
+		btnInsert.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AnswertextArea.setText("<html> Done! <br> </html>"+ InsertAmountField.getText() +"€ added to your system account.");
+			}
+		});
 		btnInsert.setBounds(292, 235, 89, 23);
 		contentPane.add(btnInsert);
 		
@@ -68,7 +93,7 @@ public class InsertMoneyGUI extends JFrame {
 		lblTitle.setBounds(57, 21, 324, 35);
 		contentPane.add(lblTitle);
 		
-		JLabel lblExplanation = new JLabel("<html>Enter the desired amount of money  to <br> the system:</html>");
+		JLabel lblExplanation = new JLabel("<html>Enter the desired amount of money to <br> the system:</html>");
 		lblExplanation.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblExplanation.setBounds(94, 88, 280, 41);
 		contentPane.add(lblExplanation);

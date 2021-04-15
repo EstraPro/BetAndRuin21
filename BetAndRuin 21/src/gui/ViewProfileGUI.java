@@ -100,8 +100,18 @@ public class ViewProfileGUI extends JFrame {
 		lblBirthDate.setBounds(235, 11, 223, 26);
 		UserInfopanel2.add(lblBirthDate);
 		lblBirthDate.setText("Birth Date: " + businessLogic.getUserLogged().getBirthDate().toString());
-
+		
+		JFrame thisFrame= this;
 		JButton InsertMoneyButton = new JButton("Insert Money");
+		InsertMoneyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InsertMoneyGUI InsertGUI = new InsertMoneyGUI();
+				InsertGUI.previousFrame(thisFrame);
+				setVisible(false);
+				InsertGUI.setVisible(true);
+				
+			}
+		});
 		InsertMoneyButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		InsertMoneyButton.setBounds(453, 105, 163, 52);
 		contentPane.add(InsertMoneyButton);
