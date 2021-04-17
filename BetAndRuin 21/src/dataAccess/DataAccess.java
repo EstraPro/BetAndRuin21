@@ -1,6 +1,9 @@
 package dataAccess;
 
+
+import java.util.Arrays;
 import java.util.Calendar;
+
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +16,7 @@ import java.util.Vector;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import configuration.ConfigXML;
@@ -215,10 +219,10 @@ public class DataAccess {
 			db.persist(ev18);
 			db.persist(ev19);
 			db.persist(ev20);
-			
-			
+
 			User admin = new User(0, "admin", "admin");
-			User pepita = new User(1, "pepi","1234",new Date(), "Pepita", "Kaltzaslargas", "motozikleta@gmail.com" , "ES 2345 4937 4345 8678");
+			User pepita = new User(1, "pepi", "1234", new Date(), "Pepita", "Kaltzaslargas", "motozikleta@gmail.com",
+					"ES 2345 4937 4345 8678");
 			db.persist(admin);
 			db.persist(pepita);
 
@@ -523,6 +527,33 @@ public class DataAccess {
 		users.get(0).getWallet().insertMoney(amount);
 
 		db.getTransaction().commit();
+
+	}
+
+	public void removeBet(Integer remBetId, User user) {
+		open(false);
+
+		db.getTransaction().begin();
+
+		user.removeBet(remBetId);
+
+		//Query updateBetquery = db.createQuery(
+		//		"UPDATE User u SET madeBets = :bets" + " WHERE u.id.equals(\"" + user.getId() + "\")");
+
+		//updateBetquery.setParameter("bets", Arrays.asList(user.getAllBets()));
+		
+		//int updateBets = updateBetquery.executeUpdate();
+		
+		/*Query updateBetquery = db.createQuery(
+				"DELETE FROM User u WHERE u.id.equals(\"" + user.getId() + "\")");
+		
+		int updateBets = updateBetquery.executeUpdate();
+		
+		db.persist(user);*/
+
+		db.getTransaction().commit();
+
+		close();
 
 	}
 

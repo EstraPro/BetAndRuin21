@@ -134,13 +134,7 @@ public class ViewProfileGUI extends JFrame {
 				}
 			);
 		
-		tableListBet = new JTable(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"#Bet", "Event", "Question", "Answer", "Amount(\u20AC)", "Date"
-			}
-		));
+		tableListBet = new JTable(tableModel);
 		
 		Object[] ezaugarriList = new Object[6];
 		for(Bet lag: businessLogic.getUserLogged().getAllBets()) {
@@ -190,6 +184,15 @@ public class ViewProfileGUI extends JFrame {
 		contentPane.add(btnBack);
 
 		JButton DeleteBetbtn = new JButton("Delete Bet");
+		DeleteBetbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(tableListBet.getSelectedRow()!=-1) {
+					Integer remBetId = (Integer) tableModel.getValueAt(tableListBet.getSelectedRow(),0);
+					businessLogic.removeBet(remBetId);
+					tableModel.removeRow(tableListBet.getSelectedRow());
+				}
+			}
+		});
 		DeleteBetbtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		DeleteBetbtn.setBounds(552, 386, 120, 31);
 		contentPane.add(DeleteBetbtn);

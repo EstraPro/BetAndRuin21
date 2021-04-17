@@ -162,5 +162,10 @@ public class UserManager {
 		db.insertMoneyLoggedUser(amount);
 		db.close();
 	}
+
+	public void removeBet(Integer remBetId) {
+		db.removeBet(remBetId, getUserLogged());
+
+	}
 	
 }

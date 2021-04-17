@@ -30,7 +30,7 @@ public class Bet {
 	 * @param event
 	 * @param amount
 	 */
-	public Bet(Integer id, Question question, Answer answer, Event event, Date date, int amount, User user) {
+	public Bet(int id, Question question, Answer answer, Event event, Date date, int amount, User user) {
 		super();
 		this.id=id;
 		this.question = question;

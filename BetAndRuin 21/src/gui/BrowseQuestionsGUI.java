@@ -254,7 +254,6 @@ public class BrowseQuestionsGUI extends JFrame {
 				MessageTextArea.setText("                                             ");
 				if (questionTable.getSelectedRow() != -1 && eventTable.getSelectedRow() != -1
 						&& AnswerscomboBox.getSelectedIndex() != -1) {
-					System.out.println("Step1");
 					Integer answerNum = 0;
 					for (domain.Answer lag : answers) {
 						if (AnswerscomboBox.getSelectedItem().equals(lag.getContent())) {

@@ -16,18 +16,19 @@ import javax.persistence.OneToOne;
 @Entity
 public class User {
 
-	@Id
+	@Id	
+	private Integer id;
 	private Date birthDate;
 	private String Name;
 	private String Surname;
 	private String Email;
-	private int id;
+	private int BetId = 0;
 	private String username;
 	private String password;
 	private boolean loggedIn = false;
 	private String BankAccount;
 	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	private ArrayList<Bet> madeBets = new ArrayList<Bet>();
+	private List<Bet> madeBets = new ArrayList<Bet>();
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private Wallet wallet;
 
@@ -38,7 +39,7 @@ public class User {
 	 * @param usr
 	 * @param passwd
 	 **/
-	public User(int id, String usr, String passwd) {
+	public User(Integer id, String usr, String passwd) {
 
 		this.id = id;
 		username = usr;
@@ -65,7 +66,7 @@ public class User {
 	 * @param surname
 	 * @param email
 	 */
-	public User(int id, String username, String password, Date birthDate, String name, String surname, String email, String BankAccount) {
+	public User(Integer id, String username, String password, Date birthDate, String name, String surname, String email, String BankAccount) {
 		this.birthDate = birthDate;
 		Name = name;
 		Surname = surname;
@@ -105,16 +106,17 @@ public class User {
 	 */
 	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
 		
-		Bet bet = new Bet(madeBets.size()+1, question, answer, event, date, amount, this);
+		Bet bet = new Bet(BetId, question, answer, event, date, amount, this);
 		madeBets.add(bet);
 		wallet.removeMoney(amount);
+		BetId++;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -190,5 +192,12 @@ public class User {
 	public void setBankAccount(String bankAccount) {
 		BankAccount = bankAccount;
 	}
+
+	public void removeBet(Integer remBetId) {
+		madeBets.remove((int)remBetId);
+		System.out.println(madeBets.size());
+		
+	}
+	
 	
 }
