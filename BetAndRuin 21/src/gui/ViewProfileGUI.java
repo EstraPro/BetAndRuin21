@@ -21,7 +21,11 @@ import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class ViewProfileGUI extends JFrame {
 
@@ -30,8 +34,9 @@ public class ViewProfileGUI extends JFrame {
 	private UserManager businessLogic = new UserManager();
 
 	private JFrame prevFrame;
-	
+
 	private boolean bool = false;
+	private JTable tableListBet;
 
 	/**
 	 * Gets the previous frame
@@ -42,12 +47,10 @@ public class ViewProfileGUI extends JFrame {
 
 		prevFrame = frame;
 	}
-	
+
 	public void setValueBool() {
-		bool=true;
+		bool = true;
 	}
-	
-	
 
 	/**
 	 * Launch the application.
@@ -70,29 +73,21 @@ public class ViewProfileGUI extends JFrame {
 	 */
 	public ViewProfileGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 642, 404);
+		setBounds(100, 100, 760, 467);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		
 
 		JScrollPane showBetscrollPane = new JScrollPane();
-		showBetscrollPane.setBounds(10, 168, 606, 128);
+		showBetscrollPane.setBounds(10, 247, 725, 128);
 		contentPane.add(showBetscrollPane);
-		////////////////////////////////////////////////////////// BetsList
-		DefaultListModel demoList = new DefaultListModel();
-
-		for (domain.Bet lag : businessLogic.getUserLogged().getAllBets())
-			demoList.addElement(lag.toString());
-
-		JList Betlist = new JList(demoList);
-		showBetscrollPane.setViewportView(Betlist);
+		
+		
 
 		///////////////////////////////////////////////////// Labels of User Info
 		JPanel UserInfopanel2 = new JPanel();
-		UserInfopanel2.setBounds(10, 80, 374, 77);
+		UserInfopanel2.setBounds(10, 80, 226, 134);
 		contentPane.add(UserInfopanel2);
 		UserInfopanel2.setLayout(null);
 
@@ -107,19 +102,64 @@ public class ViewProfileGUI extends JFrame {
 		lblBankAccount.setText("Bank Account: " + businessLogic.getUserLogged().getBankAccount());
 
 		JLabel lblBirthDate = new JLabel("Birth Date:");
-		lblBirthDate.setBounds(235, 11, 223, 26);
+		lblBirthDate.setBounds(10, 77, 223, 26);
 		UserInfopanel2.add(lblBirthDate);
-		lblBirthDate.setText("Birth Date: " + businessLogic.getUserLogged().getBirthDate().toString());
+		//To get the Date in the format we want
+		String pattern = "MM / dd / yyyy";
+
+		// Create an instance of SimpleDateFormat used for formatting 
+		// the string representation of date according to the chosen pattern
+		DateFormat df = new SimpleDateFormat(pattern);
 		
+		// Using DateFormat format method we can create a string 
+		// representation of a date with the defined format.
+		String birthDayAsString = df.format(businessLogic.getUserLogged().getBirthDate());
+		//finally set it to
+		lblBirthDate.setText("Birth Date: " + birthDayAsString);
+
 		JLabel lblMoneyShow = new JLabel("Money");
 		lblMoneyShow.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 18));
 		lblMoneyShow.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMoneyShow.setBounds(529, 52, 107, 35);
+		lblMoneyShow.setBounds(628, 52, 107, 35);
 		contentPane.add(lblMoneyShow);
 		lblMoneyShow.setText(businessLogic.getUserLogged().getWallet().getMoney() + "€");
 		
-		//////////////////////////////////////////////////////////////////////Insert Money Button 
-		JFrame thisFrame= this;
+		////////////////////////////////////////////////////////////////////////ListBet
+		
+		DefaultTableModel tableModel = new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"#Bet", "Event", "Question", "Answer", "Amount(\u20AC)", "Date"
+				}
+			);
+		
+		tableListBet = new JTable(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"#Bet", "Event", "Question", "Answer", "Amount(\u20AC)", "Date"
+			}
+		));
+		
+		Object[] ezaugarriList = new Object[6];
+		for(Bet lag: businessLogic.getUserLogged().getAllBets()) {
+			ezaugarriList[0] = lag.getId();
+			ezaugarriList[1] = lag.getEvent().getDescription();
+			ezaugarriList[2] = lag.getQuestion().getQuestion();
+			ezaugarriList[3] = lag.getAnswer().getContent();
+			ezaugarriList[4] = lag.getAmount();
+			ezaugarriList[5] = df.format(lag.getDate());
+			tableModel.insertRow(tableModel.getRowCount(), ezaugarriList);
+		}
+		
+		
+		showBetscrollPane.setViewportView(tableListBet);
+
+		////////////////////////////////////////////////////////////////////// Insert
+		////////////////////////////////////////////////////////////////////// Money
+		////////////////////////////////////////////////////////////////////// Button
+		JFrame thisFrame = this;
 		JButton InsertMoneyButton = new JButton("Insert Money");
 		InsertMoneyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,16 +169,14 @@ public class ViewProfileGUI extends JFrame {
 				InsertGUI.setVisible(true);
 			}
 		});
-		InsertMoneyButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		InsertMoneyButton.setBounds(453, 105, 163, 52);
+		InsertMoneyButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		InsertMoneyButton.setBounds(552, 105, 163, 52);
 		contentPane.add(InsertMoneyButton);
 
 		JLabel currentMoneytextLbl = new JLabel("Current Money:");
 		currentMoneytextLbl.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		currentMoneytextLbl.setBounds(448, 11, 178, 35);
+		currentMoneytextLbl.setBounds(547, 11, 178, 35);
 		contentPane.add(currentMoneytextLbl);
-
-		
 
 		JButton btnBack = new JButton("Close");
 		btnBack.addActionListener(new ActionListener() {
@@ -147,17 +185,17 @@ public class ViewProfileGUI extends JFrame {
 				prevFrame.setVisible(true);
 			}
 		});
-		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnBack.setBounds(90, 330, 89, 23);
+		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnBack.setBounds(85, 386, 107, 31);
 		contentPane.add(btnBack);
 
 		JButton DeleteBetbtn = new JButton("Delete Bet");
-		DeleteBetbtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		DeleteBetbtn.setBounds(353, 331, 107, 23);
+		DeleteBetbtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		DeleteBetbtn.setBounds(552, 386, 120, 31);
 		contentPane.add(DeleteBetbtn);
 
 		JPanel NameSurnamepanel = new JPanel();
-		NameSurnamepanel.setBounds(10, 11, 341, 62);
+		NameSurnamepanel.setBounds(10, 11, 226, 62);
 		contentPane.add(NameSurnamepanel);
 		NameSurnamepanel.setLayout(null);
 
@@ -173,18 +211,22 @@ public class ViewProfileGUI extends JFrame {
 		lblUsername.setBounds(10, 36, 230, 25);
 		NameSurnamepanel.add(lblUsername);
 		lblUsername.setText("Username: " + businessLogic.getUserLogged().getUsername());
-		
+
 		JButton btnRefresh = new JButton("Refresh");
 		btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int currency = businessLogic.getUserLogged().getWallet().getMoney();
-				lblMoneyShow.setText(currency+ "€");
+				lblMoneyShow.setText(currency + "€");
 			}
 		});
-		btnRefresh.setBounds(450, 58, 79, 31);
+		btnRefresh.setBounds(549, 58, 79, 31);
 		contentPane.add(btnRefresh);
+		
+		JLabel lblBetsList = new JLabel("Made Bets:");
+		lblBetsList.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblBetsList.setBounds(10, 222, 79, 14);
+		contentPane.add(lblBetsList);
 
 	}
-
 }

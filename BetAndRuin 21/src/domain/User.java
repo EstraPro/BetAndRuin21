@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,8 +26,8 @@ public class User {
 	private String password;
 	private boolean loggedIn = false;
 	private String BankAccount;
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	private ArrayList<Bet> madeBets;
+	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	private ArrayList<Bet> madeBets = new ArrayList<Bet>();
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private Wallet wallet;
 
@@ -42,7 +43,6 @@ public class User {
 		this.id = id;
 		username = usr;
 		password = passwd;
-		madeBets = new ArrayList<Bet>();
 		wallet = new Wallet(id);
 	}
 
@@ -73,13 +73,12 @@ public class User {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.madeBets = new ArrayList<Bet>();
 		wallet = new Wallet(id);
 		this.BankAccount = BankAccount;
 	}
 
 	public ArrayList<Bet> getAllBets() {
-		return madeBets;
+		return (ArrayList<Bet>)madeBets;
 	}
 
 	/*
@@ -105,8 +104,8 @@ public class User {
 	 * @param amount
 	 */
 	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
-
-		Bet bet = new Bet(question, answer, event, date, amount);
+		
+		Bet bet = new Bet(madeBets.size()+1, question, answer, event, date, amount, this);
 		madeBets.add(bet);
 		wallet.removeMoney(amount);
 	}
@@ -177,7 +176,7 @@ public class User {
 	}
 
 	public ArrayList<Bet> getMadeBets() {
-		return madeBets;
+		return (ArrayList<Bet>)madeBets;
 	}
 
 	public void setMadeBets(ArrayList<Bet> madeBets) {

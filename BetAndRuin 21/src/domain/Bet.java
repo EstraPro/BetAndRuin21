@@ -3,16 +3,24 @@ package domain;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @Entity
 public class Bet {
-	
+	@XmlID
+	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@Id
+	private Integer id;
 	private Question question;
 	private Answer answer;
 	private Event event;
 	private int amount;
 	private Date date;
+	
+	@XmlIDREF
+	private User user;
 	
 	/**
 	 * Constructor for Bet
@@ -22,17 +30,27 @@ public class Bet {
 	 * @param event
 	 * @param amount
 	 */
-	public Bet(Question question, Answer answer, Event event, Date date, int amount) {
+	public Bet(Integer id, Question question, Answer answer, Event event, Date date, int amount, User user) {
 		super();
+		this.id=id;
 		this.question = question;
 		this.answer = answer;
 		this.event = event;
 		this.amount = amount;
 		this.date = date;
+		this.user= user;
 	}
 
 	public Question getQuestion() {
 		return question;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public void setQuestion(Question question) {

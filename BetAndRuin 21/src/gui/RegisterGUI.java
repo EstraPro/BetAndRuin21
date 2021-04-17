@@ -29,7 +29,7 @@ public class RegisterGUI extends JFrame {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	private JPasswordField txtRetypePass;
-	MainGUI prevFrame;
+	private MainGUI prevFrame;
 
 	private UserManager businessLogic;
 	private JTextField EmailField;
@@ -118,7 +118,7 @@ public class RegisterGUI extends JFrame {
 
 		JButton DoneButton = new JButton("Done!");
 		DoneButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		DoneButton.setBounds(198, 518, 119, 23);
+		DoneButton.setBounds(353, 518, 119, 23);
 		contentPane.add(DoneButton);
 		
 		JLabel lblFirstName = new JLabel("Name:");
@@ -173,6 +173,17 @@ public class RegisterGUI extends JFrame {
 		bankAccountField.setColumns(10);
 		bankAccountField.setBounds(188, 260, 235, 28);
 		contentPane.add(bankAccountField);
+		
+		JButton CloseButton = new JButton("Close");
+		CloseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					dispose();
+					prevFrame.setVisible(true);
+			}
+		});
+		CloseButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		CloseButton.setBounds(52, 518, 119, 23);
+		contentPane.add(CloseButton);
 		
 		DoneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -18,6 +18,7 @@ import javax.persistence.TypedQuery;
 import configuration.ConfigXML;
 import configuration.UtilDate;
 import domain.Answer;
+import domain.Bet;
 import domain.Event;
 import domain.Question;
 import domain.User;
@@ -214,9 +215,12 @@ public class DataAccess {
 			db.persist(ev18);
 			db.persist(ev19);
 			db.persist(ev20);
-
+			
+			
 			User admin = new User(0, "admin", "admin");
+			User pepita = new User(1, "pepi","1234",new Date(), "Pepita", "Kaltzaslargas", "motozikleta@gmail.com" , "ES 2345 4937 4345 8678");
 			db.persist(admin);
+			db.persist(pepita);
 
 			db.getTransaction().commit();
 			System.out.println("The database has been initialized");
