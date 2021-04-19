@@ -538,6 +538,8 @@ public class DataAccess {
 		db.getTransaction().begin();
 
 		user.removeBet(remBetId);
+		
+		//1
 
 		//Query updateBetquery = db.createQuery(
 		//		"UPDATE User u SET madeBets = :bets" + " WHERE u.id.equals(\"" + user.getId() + "\")");
@@ -545,6 +547,8 @@ public class DataAccess {
 		//updateBetquery.setParameter("bets", Arrays.asList(user.getAllBets()));
 		
 		//int updateBets = updateBetquery.executeUpdate();
+		
+		//2
 		
 		/*Query updateBetquery = db.createQuery(
 				"DELETE FROM User u WHERE u.id.equals(\"" + user.getId() + "\")");
@@ -557,6 +561,26 @@ public class DataAccess {
 
 		close();
 
+	}
+
+	public boolean isAnyUserLogged() {
+		boolean lag = false;
+		db.getTransaction().begin();
+
+		TypedQuery<User> queryAllUsers = db.createQuery("SELECT FROM User", User.class);
+
+		List<User> users = queryAllUsers.getResultList();
+		
+		db.getTransaction().commit();
+		
+		for (User usr : users) {
+			if(usr.isLoggedIn()) {
+				lag=true;
+			}
+			
+		}
+		
+		return lag;
 	}
 
 }

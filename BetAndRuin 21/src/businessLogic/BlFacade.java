@@ -56,5 +56,7 @@ public interface BlFacade  {
 	@WebMethod public Question getQuestion(int eventNum, int questionNum);
 	
 	@WebMethod public boolean isInt(String str);
+
+	@WebMethod public boolean isAnyUserLogged();
 	
 }

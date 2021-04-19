@@ -13,6 +13,7 @@ import domain.Bet;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -26,6 +27,9 @@ import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class ViewProfileGUI extends JFrame {
 
@@ -87,7 +91,7 @@ public class ViewProfileGUI extends JFrame {
 
 		///////////////////////////////////////////////////// Labels of User Info
 		JPanel UserInfopanel2 = new JPanel();
-		UserInfopanel2.setBounds(10, 80, 226, 134);
+		UserInfopanel2.setBounds(10, 107, 267, 107);
 		contentPane.add(UserInfopanel2);
 		UserInfopanel2.setLayout(null);
 
@@ -120,7 +124,7 @@ public class ViewProfileGUI extends JFrame {
 		JLabel lblMoneyShow = new JLabel("Money");
 		lblMoneyShow.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 18));
 		lblMoneyShow.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMoneyShow.setBounds(628, 52, 107, 35);
+		lblMoneyShow.setBounds(628, 8, 107, 35);
 		contentPane.add(lblMoneyShow);
 		lblMoneyShow.setText(businessLogic.getUserLogged().getWallet().getMoney() + "€");
 		
@@ -147,7 +151,14 @@ public class ViewProfileGUI extends JFrame {
 			tableModel.insertRow(tableModel.getRowCount(), ezaugarriList);
 		}
 		
-		
+		tableListBet.getColumnModel().getColumn(0).setPreferredWidth(25);
+		tableListBet.getColumnModel().getColumn(1).setPreferredWidth(50);
+		tableListBet.getColumnModel().getColumn(2).setPreferredWidth(150);
+		tableListBet.getColumnModel().getColumn(3).setPreferredWidth(100);
+		tableListBet.getColumnModel().getColumn(4).setPreferredWidth(50);
+		tableListBet.getColumnModel().getColumn(5).setPreferredWidth(50);
+
+		tableListBet.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		showBetscrollPane.setViewportView(tableListBet);
 
 		////////////////////////////////////////////////////////////////////// Insert
@@ -198,7 +209,7 @@ public class ViewProfileGUI extends JFrame {
 		contentPane.add(DeleteBetbtn);
 
 		JPanel NameSurnamepanel = new JPanel();
-		NameSurnamepanel.setBounds(10, 11, 226, 62);
+		NameSurnamepanel.setBounds(10, 38, 226, 62);
 		contentPane.add(NameSurnamepanel);
 		NameSurnamepanel.setLayout(null);
 
@@ -228,10 +239,27 @@ public class ViewProfileGUI extends JFrame {
 		
 		JLabel lblBetsList = new JLabel("Made Bets:");
 		lblBetsList.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblBetsList.setBounds(10, 222, 79, 14);
+		lblBetsList.setBounds(10, 225, 79, 14);
 		contentPane.add(lblBetsList);
 		
+		JPanel photoPanel = new JPanel();
+		photoPanel.setBounds(287, 46, 195, 168);
+		contentPane.add(photoPanel);
+		photoPanel.setLayout(null);
+		
+		JLabel LogoLabel = new JLabel(" ");
+		LogoLabel.setBounds(0, 0, 160, 168);
+		photoPanel.add(LogoLabel);
+		
+		LogoLabel.setIcon(new ImageIcon("./Image/myke.jpg"));
+		
 		JButton btnLogout = new JButton("Logout");
+		btnLogout.setBounds(10, 8, 89, 23);
+		contentPane.add(btnLogout);
+		
+		JLabel lblProfilePhotoTxt = new JLabel("Profile Photo: ");
+		lblProfilePhotoTxt.setBounds(287, 29, 195, 14);
+		contentPane.add(lblProfilePhotoTxt);
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -242,12 +270,6 @@ public class ViewProfileGUI extends JFrame {
 				businessLogic.resetLogins();
 			}
 		});
-		btnLogout.setBounds(261, 18, 89, 23);
-		contentPane.add(btnLogout);
-		
-		JPanel photoPanel = new JPanel();
-		photoPanel.setBounds(261, 46, 195, 168);
-		contentPane.add(photoPanel);
 
 	}
 }

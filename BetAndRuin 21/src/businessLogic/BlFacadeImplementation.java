@@ -162,4 +162,13 @@ public class BlFacadeImplementation implements BlFacade {
 			return false;
 		}
 	}
+	
+	@WebMethod 
+	public boolean isAnyUserLogged() {
+		
+		dbManager.open(false);
+		boolean lag = dbManager.isAnyUserLogged();
+		dbManager.close();
+		return lag;
+	};
 }

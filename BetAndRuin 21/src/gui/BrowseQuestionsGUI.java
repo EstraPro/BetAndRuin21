@@ -252,6 +252,8 @@ public class BrowseQuestionsGUI extends JFrame {
 		btnBet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MessageTextArea.setText("                                             ");
+				
+				if(businessLogic.isAnyUserLogged()) {
 				if (questionTable.getSelectedRow() != -1 && eventTable.getSelectedRow() != -1
 						&& AnswerscomboBox.getSelectedIndex() != -1) {
 					Integer answerNum = 0;
@@ -263,6 +265,7 @@ public class BrowseQuestionsGUI extends JFrame {
 					
 					Integer questNumber = (Integer) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
 					Integer eventNumber = (Integer) eventTable.getValueAt(eventTable.getSelectedRow(), 0);
+						
 					if (businessLogic.isInt(betInp.getText())) {
 						if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged().getWallet().getMoney()
 								&& Integer.parseInt(betInp.getText()) >= businessLogic
@@ -284,8 +287,9 @@ public class BrowseQuestionsGUI extends JFrame {
 					}else {
 						MessageTextArea.setText("Please enter a numeric value, not: "+ betInp.getText());
 					}
+					}
 
-				}
+				}else MessageTextArea.setText("You are not able to bet without identification. \n Please register or login.");
 			}
 		});
 		btnBet.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -303,6 +307,7 @@ public class BrowseQuestionsGUI extends JFrame {
 		lblEnterAmount.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblEnterAmount.setBounds(577, 295, 116, 14);
 		getContentPane().add(lblEnterAmount);
+		MessageTextArea.setFont(new Font("Georgia Pro Semibold", Font.PLAIN, 13));
 		MessageTextArea.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.MessageTextArea.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		MessageTextArea.setBounds(138, 478, 406, 92);
 
