@@ -33,7 +33,7 @@ public class ViewProfileGUI extends JFrame {
 
 	private UserManager businessLogic = new UserManager();
 
-	private JFrame prevFrame;
+	private MainGUI prevFrame;
 
 	private boolean bool = false;
 	private JTable tableListBet;
@@ -43,7 +43,7 @@ public class ViewProfileGUI extends JFrame {
 	 * 
 	 * @param frame
 	 */
-	public void previousFrame(JFrame frame) {
+	public void previousFrame(MainGUI frame) {
 
 		prevFrame = frame;
 	}
@@ -230,6 +230,24 @@ public class ViewProfileGUI extends JFrame {
 		lblBetsList.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblBetsList.setBounds(10, 222, 79, 14);
 		contentPane.add(lblBetsList);
+		
+		JButton btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				prevFrame.setVisible(true);
+				prevFrame.getBtnLogin().setVisible(true);
+				prevFrame.getBtnRegister().setVisible(true);
+				prevFrame.getBifunctionalBtn().setVisible(false);
+				businessLogic.resetLogins();
+			}
+		});
+		btnLogout.setBounds(261, 18, 89, 23);
+		contentPane.add(btnLogout);
+		
+		JPanel photoPanel = new JPanel();
+		photoPanel.setBounds(261, 46, 195, 168);
+		contentPane.add(photoPanel);
 
 	}
 }

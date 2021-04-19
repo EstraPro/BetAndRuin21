@@ -454,6 +454,8 @@ public class DataAccess {
 	 * Resets all Users login status
 	 */
 	public void resetLogins() {
+	
+		this.open(false);
 
 		db.getTransaction().begin();
 

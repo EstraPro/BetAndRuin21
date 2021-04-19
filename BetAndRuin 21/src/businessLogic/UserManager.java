@@ -84,12 +84,14 @@ public class UserManager {
 	}
 	
 	/**
-	 * Resets all Users login status
+	 * Resets all Users login status when initialized
 	 */
 	public void resetLogins() {
 		
 		db.resetLogins();
+
 	}
+	
 	
 	/**
 	 * Return id of logged user

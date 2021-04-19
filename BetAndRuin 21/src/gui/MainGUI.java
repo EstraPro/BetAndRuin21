@@ -144,7 +144,7 @@ public class MainGUI extends JFrame {
 		});
 	}
 	
-	JFrame thisFrame = this;
+	MainGUI thisFrame = this;
 	private void initializeCancelBetsBtn() {
 		BifunctionalBtn = new JButton();
 		BifunctionalBtn.setVisible(false);
