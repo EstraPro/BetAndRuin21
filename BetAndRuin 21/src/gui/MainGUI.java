@@ -148,7 +148,7 @@ public class MainGUI extends JFrame {
 	private void initializeCancelBetsBtn() {
 		BifunctionalBtn = new JButton();
 		BifunctionalBtn.setVisible(false);
-		BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("MainGUI_User.BifunctionalBtn.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("ViewProfile")); 
 		BifunctionalBtn.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -223,7 +223,12 @@ public class MainGUI extends JFrame {
 	private void redraw() {
 		selectOptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectUseCase"));
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
-		BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("MainGUI_User.BifunctionalBtn.text"));
+		BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("ViewProfile"));
+		
+		if(businessLogic.isAnyUserLogged())
+			if(businessLogic.getLoggedUserId().equals(0))
+				BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));;
+				
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
 	}
 
