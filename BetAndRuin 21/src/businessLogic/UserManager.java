@@ -144,9 +144,9 @@ public class UserManager {
 	}
 	
 	public User getUserLogged(){
-		db.open(false);
+		//db.open(false);
 		User ret = db.getUserById(getLoggedUserId());
-		db.close();
+		//db.close();
 		return ret;
 		
 	}
@@ -160,13 +160,13 @@ public class UserManager {
 	}
 
 	public void insertMoneyLoggedUser(int amount) {
-		db.open(false);
+		//db.open(false);
 		db.insertMoneyLoggedUser(amount);
-		db.close();
+		//db.close();
 	}
 
 	public void removeBet(Integer remBetId) {
-		db.removeBet(remBetId, getUserLogged());
+		db.removeBet(remBetId);
 
 	}
 	

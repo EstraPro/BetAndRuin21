@@ -122,9 +122,9 @@ public class BlFacadeImplementation implements BlFacade {
 	
 	@WebMethod
 	public User getUserLogged(){
-		dbManager.open(false);
+		//dbManager.open(false);
 		User ret = dbManager.getUserById(getLoggedUserId());
-		dbManager.close();
+		//dbManager.close();
 		return ret;
 		
 	}
@@ -147,9 +147,9 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @return
 	 */
 	public Question getQuestion(int eventNum, int questionNum) {
-		dbManager.open(false);
+		//dbManager.open(false);
 		Question ret = dbManager.getQuestion(eventNum, questionNum);
-		dbManager.close();
+		//dbManager.close();
 		return ret;
 	}
 	

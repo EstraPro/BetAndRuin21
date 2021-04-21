@@ -378,16 +378,21 @@ public class DataAccess {
 	 * @param amount
 	 */
 	public void storeBet(int userid, Question question, Answer answer, Event event, Date date, int amount) {
-
-		User user = this.getUserById(userid);
-
+		
+		Integer id = getLoggedUserId();
+		
+		this.open(false);
+		
 		db.getTransaction().begin();
+		
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
+		query.setParameter(1, id);
+		List<User> users = query.getResultList();
 
-		user.storeBet(question, answer, event, date, amount);
-
+		users.get(0).storeBet(question, answer, event, date, amount);
+		
 		db.getTransaction().commit();
-
-		System.out.println(user.getUsername() + " has been updated");
+		
 		this.close();
 	}
 
@@ -399,6 +404,8 @@ public class DataAccess {
 	 */
 	public User getUserById(int userid) {
 
+		this.open(false);
+		
 		db.getTransaction().begin();
 		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
 		query.setParameter(1, userid);
@@ -406,7 +413,7 @@ public class DataAccess {
 
 		db.getTransaction().commit();
 
-		// this.close();
+		this.close();
 
 		return user.get(0);
 	}
@@ -479,6 +486,8 @@ public class DataAccess {
 	 */
 	public Integer getLoggedUserId() {
 
+		this.open(false);
+		
 		db.getTransaction().begin();
 
 		TypedQuery<Integer> queryLoggedUsers = db.createQuery("SELECT id FROM User WHERE loggedIn=true", Integer.class);
@@ -486,13 +495,15 @@ public class DataAccess {
 		List<Integer> ids = queryLoggedUsers.getResultList();
 
 		db.getTransaction().commit();
-		// this.close();
+		 this.close();
 
 		return ids.get(0);
 	}
 
 	public Event getEvent(Integer eventNum) {
 
+		this.open(false);
+		
 		db.getTransaction().begin();
 
 		TypedQuery<Event> queryEvent = db.createQuery("SELECT e FROM Event e WHERE e.eventNumber = ?1", Event.class);
@@ -501,6 +512,8 @@ public class DataAccess {
 		Event event = queryEvent.getResultList().get(0);
 
 		db.getTransaction().commit();
+		
+		this.close();
 
 		return event;
 
@@ -521,6 +534,9 @@ public class DataAccess {
 	public void insertMoneyLoggedUser(int amount) {
 
 		Integer id = getLoggedUserId();
+		
+		this.open(false);
+		
 		db.getTransaction().begin();
 		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
 		query.setParameter(1, id);
@@ -529,15 +545,33 @@ public class DataAccess {
 		users.get(0).getWallet().insertMoney(amount);
 
 		db.getTransaction().commit();
-
+		
+		this.close();
 	}
 
-	public void removeBet(Integer remBetId, User user) {
-		open(false);
-
+	public void removeBet(Integer remBetId) {
+		
+		Integer id = getLoggedUserId();
+		
+		this.open(false);
+		
 		db.getTransaction().begin();
+		
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
+		query.setParameter(1, id);
+		List<User> users = query.getResultList();
 
-		user.removeBet(remBetId);
+		users.get(0).removeBet(remBetId);
+		
+		db.getTransaction().commit();
+		
+		this.close();
+		
+		//open(false);
+
+		//db.getTransaction().begin();
+
+		//user.removeBet(remBetId);
 		
 		//1
 
@@ -557,9 +591,9 @@ public class DataAccess {
 		
 		db.persist(user);*/
 
-		db.getTransaction().commit();
+		//db.getTransaction().commit();
 
-		close();
+		//close();
 
 	}
 
