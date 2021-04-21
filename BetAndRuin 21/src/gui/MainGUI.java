@@ -154,7 +154,9 @@ public class MainGUI extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 					setVisible(false);
 					if(businessLogic.getLoggedUserId().equals(0)) {
-						
+						CreateQuestionGUI nextGUI = new CreateQuestionGUI(businessLogic, null);
+						nextGUI.previousFrame(thisFrame);
+						nextGUI.setVisible(true);	
 						
 					}else {
 						ViewProfileGUI nextGUI = new ViewProfileGUI();

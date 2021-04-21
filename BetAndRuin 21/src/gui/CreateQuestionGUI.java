@@ -32,7 +32,7 @@ import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
 
 public class CreateQuestionGUI extends JFrame {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private BlFacade businessLogic;
@@ -40,14 +40,10 @@ public class CreateQuestionGUI extends JFrame {
 	private JComboBox<Event> eventComboBox = new JComboBox<Event>();
 	DefaultComboBoxModel<Event> eventModel = new DefaultComboBoxModel<Event>();
 
-	private JLabel listOfEventsLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").
-			getString("ListEvents"));
-	private JLabel queryLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").
-			getString("Question"));
-	private JLabel minBetLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").
-			getString("MinimumBetPrice"));
-	private JLabel eventDateLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").
-			getString("EventDate"));
+	private JLabel listOfEventsLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ListEvents"));
+	private JLabel queryLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Question"));
+	private JLabel minBetLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice"));
+	private JLabel eventDateLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
 
 	private JTextField queryText = new JTextField();
 	private JTextField priceText = new JTextField();
@@ -64,8 +60,21 @@ public class CreateQuestionGUI extends JFrame {
 
 	private Vector<Date> datesWithEventsInCurrentMonth = new Vector<Date>();
 
+	private MainGUI prevFrame;
+
+	/**
+	 * Gets the previous frame
+	 * 
+	 * @param frame
+	 */
+	public void previousFrame(MainGUI frame) {
+
+		prevFrame = frame;
+
+	}
+
 	public void setBusinessLogic(BlFacade bl) {
-		businessLogic = bl;		
+		businessLogic = bl;
 	}
 
 	public CreateQuestionGUI(BlFacade bl, Vector<domain.Event> v) {
@@ -134,12 +143,11 @@ public class CreateQuestionGUI extends JFrame {
 		this.getContentPane().add(calendar, null);
 
 		datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
-		paintDaysWithEvents(calendar,datesWithEventsInCurrentMonth);
+		paintDaysWithEvents(calendar, datesWithEventsInCurrentMonth);
 
 		eventDateLbl.setBounds(new Rectangle(40, 15, 140, 25));
 		eventDateLbl.setBounds(40, 16, 140, 25);
 		getContentPane().add(eventDateLbl);
-
 
 		// Code for JCalendar
 		this.calendar.addPropertyChangeListener(new PropertyChangeListener() {
@@ -150,15 +158,15 @@ public class CreateQuestionGUI extends JFrame {
 				} else if (propertychangeevent.getPropertyName().equals("calendar")) {
 					currentCalendar = (Calendar) propertychangeevent.getOldValue();
 					previousCalendar = (Calendar) propertychangeevent.getNewValue();
-					System.out.println("calendarAnt: "+currentCalendar.getTime());
-					System.out.println("calendarAct: "+previousCalendar.getTime());
+					System.out.println("calendarAnt: " + currentCalendar.getTime());
+					System.out.println("calendarAct: " + previousCalendar.getTime());
 					DateFormat dateformat1 = DateFormat.getDateInstance(1, calendar.getLocale());
 
 					int monthAnt = currentCalendar.get(Calendar.MONTH);
 					int monthAct = previousCalendar.get(Calendar.MONTH);
-					if (monthAct!=monthAnt) {
-						if (monthAct==monthAnt+2) { 
-							// Si en JCalendar estÃ¡ 30 de enero y se avanza al mes siguiente, 
+					if (monthAct != monthAnt) {
+						if (monthAct == monthAnt + 2) {
+							// Si en JCalendar estÃ¡ 30 de enero y se avanza al mes siguiente,
 							// devolverá 2 de marzo (se toma como equivalente a 30 de febrero)
 							// Con este código se dejará como 1 de febrero en el JCalendar
 							previousCalendar.set(Calendar.MONTH, monthAnt + 1);
@@ -170,7 +178,7 @@ public class CreateQuestionGUI extends JFrame {
 						datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
 					}
 
-					paintDaysWithEvents(calendar,datesWithEventsInCurrentMonth);
+					paintDaysWithEvents(calendar, datesWithEventsInCurrentMonth);
 
 					Date firstDay = UtilDate.trim(previousCalendar.getTime());
 
@@ -178,13 +186,11 @@ public class CreateQuestionGUI extends JFrame {
 						Vector<domain.Event> events = businessLogic.getEvents(firstDay);
 
 						if (events.isEmpty())
-							listOfEventsLbl.setText(ResourceBundle.getBundle("Etiquetas").
-									getString("NoEvents") + ": " + dateformat1.
-									format(previousCalendar.getTime()));
+							listOfEventsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents") + ": "
+									+ dateformat1.format(previousCalendar.getTime()));
 						else
-							listOfEventsLbl.setText(ResourceBundle.getBundle("Etiquetas").
-									getString("Events") + " : " + dateformat1.
-									format(previousCalendar.getTime()));
+							listOfEventsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Events") + " : "
+									+ dateformat1.format(previousCalendar.getTime()));
 						eventComboBox.removeAllItems();
 						System.out.println("Events " + events);
 
@@ -206,9 +212,9 @@ public class CreateQuestionGUI extends JFrame {
 		});
 	}
 
-	public static void paintDaysWithEvents(JCalendar jCalendar, 
-			Vector<Date> datesWithEventsCurrentMonth) {
-		// For each day with events in current month, the background color for that day is changed.
+	public static void paintDaysWithEvents(JCalendar jCalendar, Vector<Date> datesWithEventsCurrentMonth) {
+		// For each day with events in current month, the background color for that day
+		// is changed.
 
 		Calendar calendar = jCalendar.getCalendar();
 
@@ -224,7 +230,7 @@ public class CreateQuestionGUI extends JFrame {
 		else
 			offset += 5;
 
-		for (Date d:datesWithEventsCurrentMonth){
+		for (Date d : datesWithEventsCurrentMonth) {
 			calendar.setTime(d);
 			System.out.println(d);
 
@@ -270,8 +276,8 @@ public class CreateQuestionGUI extends JFrame {
 			} else
 				msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorQuestion"));
 		} catch (EventFinished e1) {
-			msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventHasFinished") + 
-					" : " + event.getDescription());
+			msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventHasFinished") + " : "
+					+ event.getDescription());
 		} catch (QuestionAlreadyExist e1) {
 			msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorQuestionAlreadyExist"));
 		} catch (java.lang.NumberFormatException e1) {
@@ -282,6 +288,7 @@ public class CreateQuestionGUI extends JFrame {
 	}
 
 	private void jButtonClose_actionPerformed(ActionEvent e) {
-		this.setVisible(false);
+		dispose();
+		prevFrame.setVisible(true);
 	}
 }
