@@ -153,9 +153,15 @@ public class MainGUI extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 					setVisible(false);
-					ViewProfileGUI nextGUI = new ViewProfileGUI();
-					nextGUI.previousFrame(thisFrame);
-					nextGUI.setVisible(true);	
+					if(businessLogic.getLoggedUserId().equals(0)) {
+						
+						
+					}else {
+						ViewProfileGUI nextGUI = new ViewProfileGUI();
+						nextGUI.previousFrame(thisFrame);
+						nextGUI.setVisible(true);	
+					}
+					
 			}
 		});
 	}

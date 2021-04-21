@@ -1,0 +1,26 @@
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-04-21 16:10:43 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 13800@LASTO-P
+
+[2021-04-21 16:10:43 #2 store] 
+Configuration path: ?
+
+[2021-04-21 16:10:43 #3 type] 
+Type domain.User is not enhanced.
+
+[2021-04-21 16:10:43 #4 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-04-21 16:10:43 #5 type] 
+Type domain.Bet is not enhanced.
+
+[2021-04-21 16:10:43 #6 type] 
+Type domain.Event is not enhanced.
+
+[2021-04-21 16:10:43 #7 type] 
+Type domain.Answer is not enhanced.
+
+[2021-04-21 16:10:43 #8 type] 
+Type domain.Question is not enhanced.
+
