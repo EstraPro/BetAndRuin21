@@ -164,8 +164,8 @@ public class Question implements Serializable {
 		return null;
 	}
 	
-	public Answer addSpecificAnswer(Integer answerId, String content) {
-		Answer q=new Answer(answerId, content, this);
+	public Answer addSpecificAnswer(String content) {
+		Answer q=new Answer(content, this);
 		answerList.add(q);
 		return q;
 		

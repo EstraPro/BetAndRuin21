@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -61,6 +62,10 @@ public class CreateQuestionGUI extends JFrame {
 	private Vector<Date> datesWithEventsInCurrentMonth = new Vector<Date>();
 
 	private MainGUI prevFrame;
+	private JTextField answersText;
+	private JTextField answers1Text;
+	private JTextField answers2Text;
+	private final JTextField answers3Text = new JTextField();
 
 	/**
 	 * Gets the previous frame
@@ -89,7 +94,7 @@ public class CreateQuestionGUI extends JFrame {
 	private void jbInit(Vector<domain.Event> v) throws Exception {
 
 		this.getContentPane().setLayout(null);
-		this.setSize(new Dimension(604, 370));
+		this.setSize(new Dimension(605, 517));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 
 		eventComboBox.setModel(eventModel);
@@ -97,13 +102,13 @@ public class CreateQuestionGUI extends JFrame {
 		listOfEventsLbl.setBounds(new Rectangle(290, 18, 277, 20));
 		queryLbl.setBounds(new Rectangle(25, 211, 75, 20));
 		queryText.setBounds(new Rectangle(100, 211, 429, 20));
-		minBetLbl.setBounds(new Rectangle(25, 243, 75, 20));
-		priceText.setBounds(new Rectangle(100, 243, 60, 20));
+		minBetLbl.setBounds(new Rectangle(25, 242, 75, 20));
+		priceText.setBounds(new Rectangle(100, 242, 60, 20));
 
 		calendar.setBounds(new Rectangle(40, 50, 225, 150));
 		eventScrollPane.setBounds(new Rectangle(25, 44, 346, 116));
 
-		createBtn.setBounds(new Rectangle(100, 275, 130, 30));
+		createBtn.setBounds(new Rectangle(78, 437, 149, 30));
 		createBtn.setEnabled(false);
 
 		createBtn.addActionListener(new ActionListener() {
@@ -112,7 +117,7 @@ public class CreateQuestionGUI extends JFrame {
 				jButtonCreate_actionPerformed(e);
 			}
 		});
-		closeBtn.setBounds(new Rectangle(275, 275, 130, 30));
+		closeBtn.setBounds(new Rectangle(399, 437, 130, 30));
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -148,6 +153,33 @@ public class CreateQuestionGUI extends JFrame {
 		eventDateLbl.setBounds(new Rectangle(40, 15, 140, 25));
 		eventDateLbl.setBounds(40, 16, 140, 25);
 		getContentPane().add(eventDateLbl);
+		
+		JLabel lblAnswers = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.lblNewLabel.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		lblAnswers.setBounds(25, 289, 75, 14);
+		getContentPane().add(lblAnswers);
+		
+		answersText = new JTextField();
+		answersText.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.textField.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		answersText.setBounds(100, 286, 429, 20);
+		getContentPane().add(answersText);
+		answersText.setColumns(10);
+		
+		answers1Text = new JTextField();
+		answers1Text.setText(" ");
+		answers1Text.setColumns(10);
+		answers1Text.setBounds(100, 317, 429, 20);
+		getContentPane().add(answers1Text);
+		
+		answers2Text = new JTextField();
+		answers2Text.setText(" ");
+		answers2Text.setColumns(10);
+		answers2Text.setBounds(100, 348, 429, 20);
+		getContentPane().add(answers2Text);
+		answers3Text.setText(" ");
+		answers3Text.setColumns(10);
+		answers3Text.setBounds(100, 380, 429, 20);
+		
+		getContentPane().add(answers3Text);
 
 		// Code for JCalendar
 		this.calendar.addPropertyChangeListener(new PropertyChangeListener() {
@@ -261,7 +293,30 @@ public class CreateQuestionGUI extends JFrame {
 
 			// Displays an exception if the query field is empty
 			String inputQuestion = queryText.getText();
-
+			
+			//Inserts the Answers in the input depending on how many answers the admin enters.
+			ArrayList<String> inputAnswerTotal = new ArrayList<String>();
+			
+			String inputAnswer = answersText.getText();
+			String inputAnswer1 = answers1Text.getText();
+			String inputAnswer2 = answers2Text.getText();
+			String inputAnswer3 = answers3Text.getText();
+			
+			
+			if(inputAnswer.length() > 1) {
+				inputAnswerTotal.add(inputAnswer);
+			}
+			if(inputAnswer1.length() > 1) {
+				inputAnswerTotal.add(inputAnswer1);
+			}
+			if(inputAnswer2.length() > 1) {
+				inputAnswerTotal.add(inputAnswer2);
+			}
+			if(inputAnswer3.length() > 1) {
+				inputAnswerTotal.add(inputAnswer3);
+			}
+			
+			
 			if (inputQuestion.length() > 0) {
 
 				// It could be to trigger an exception if the introduced string is not a number
@@ -270,7 +325,13 @@ public class CreateQuestionGUI extends JFrame {
 				if (inputPrice <= 0)
 					errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
 				else {
-					businessLogic.createQuestion(event, inputQuestion, inputPrice);
+					if(inputAnswerTotal.size() >= 2) {
+						
+						businessLogic.createQuestion(event, inputQuestion, inputPrice, inputAnswerTotal);
+					}else {
+						msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswer"));
+					}
+					
 					msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("QuestionCreated"));
 				}
 			} else

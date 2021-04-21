@@ -1,14 +1,17 @@
 package domain;
 
-import java.util.ArrayList;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 @Entity
 public class Answer {
 	
 	@Id
+	@XmlJavaTypeAdapter(IntegerAdapter.class)
+	@GeneratedValue
 	private Integer answerId;
 	private String content;
 	
@@ -36,6 +39,13 @@ public class Answer {
 	public Answer(Integer answerId, String content, Question question) {
 		super();
 		this.answerId = answerId;
+		this.content = content;
+		this.question = question;
+	}
+
+	
+	public Answer(String content, Question question) {
+		super();
 		this.content = content;
 		this.question = question;
 	}

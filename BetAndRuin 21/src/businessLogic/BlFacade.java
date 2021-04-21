@@ -1,5 +1,6 @@
 package businessLogic;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
@@ -29,7 +30,7 @@ public interface BlFacade  {
  	 * @throws QuestionAlreadyExist if the same question already exists for the event
 	 */
 	@WebMethod
-	Question createQuestion(Event event, String question, float betMinimum) 
+	Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList) 
 			throws EventFinished, QuestionAlreadyExist;
 		
 	/**
