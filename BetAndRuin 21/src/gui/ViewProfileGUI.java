@@ -199,7 +199,7 @@ public class ViewProfileGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(tableListBet.getSelectedRow()!=-1) {
 					Integer remBetId = (Integer) tableModel.getValueAt(tableListBet.getSelectedRow(),0);
-					businessLogic.removeBet(remBetId);
+					businessLogic.removeBet(remBetId, (int) tableModel.getValueAt(tableListBet.getSelectedRow(), 4));
 					tableModel.removeRow(tableListBet.getSelectedRow());
 				}
 			}

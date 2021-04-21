@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class User {
 
-	@Id	
+	@Id
 	private Integer id;
 	private Date birthDate;
 	private String Name;
@@ -27,7 +27,7 @@ public class User {
 	private String password;
 	private boolean loggedIn = false;
 	private String BankAccount;
-	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<Bet> madeBets = new ArrayList<Bet>();
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private Wallet wallet;
@@ -66,7 +66,8 @@ public class User {
 	 * @param surname
 	 * @param email
 	 */
-	public User(Integer id, String username, String password, Date birthDate, String name, String surname, String email, String BankAccount) {
+	public User(Integer id, String username, String password, Date birthDate, String name, String surname, String email,
+			String BankAccount) {
 		this.birthDate = birthDate;
 		Name = name;
 		Surname = surname;
@@ -79,7 +80,7 @@ public class User {
 	}
 
 	public ArrayList<Bet> getAllBets() {
-		return (ArrayList<Bet>)madeBets;
+		return (ArrayList<Bet>) madeBets;
 	}
 
 	/*
@@ -105,7 +106,7 @@ public class User {
 	 * @param amount
 	 */
 	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
-		
+
 		Bet bet = new Bet(BetId, question, answer, event, date, amount, this);
 		madeBets.add(bet);
 		wallet.removeMoney(amount);
@@ -148,7 +149,7 @@ public class User {
 	public Date getBirthDate() {
 		return birthDate;
 	}
-	
+
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
@@ -178,7 +179,7 @@ public class User {
 	}
 
 	public ArrayList<Bet> getMadeBets() {
-		return (ArrayList<Bet>)madeBets;
+		return (ArrayList<Bet>) madeBets;
 	}
 
 	public void setMadeBets(ArrayList<Bet> madeBets) {
@@ -193,11 +194,17 @@ public class User {
 		BankAccount = bankAccount;
 	}
 
+	/**
+	 * Method to remove a bet made by an user with id remBetId
+	 * 
+	 * @param remBetId
+	 */
 	public void removeBet(Integer remBetId) {
-		madeBets.remove((int)remBetId);
-		System.out.println(madeBets.size());
-		
+
+		for (int i = 0; i < madeBets.size(); i++) {
+			if (madeBets.get(i).getId() == remBetId)
+				madeBets.remove(i);
+		}
+		System.out.println("Bets: " + madeBets.size());
 	}
-	
-	
 }

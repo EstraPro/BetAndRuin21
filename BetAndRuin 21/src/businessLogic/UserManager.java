@@ -18,14 +18,15 @@ import domain.User;
 public class UserManager {
 
 	DataAccess db;
-	
+
 	public UserManager() {
-		
+
 		db = new DataAccess();
 	}
-	
+
 	/**
 	 * Checks credentials for user
+	 * 
 	 * @param usname
 	 * @param passwd
 	 * @return true if they match, false if not
@@ -37,11 +38,13 @@ public class UserManager {
 
 	/**
 	 * Checks credentials for administrator
+	 * 
 	 * @param usname
 	 * @param passwd
 	 * @return true if they match, false if not
 	 */
 	public boolean checkCredentialsAdmin(String usname, String passwd) {
+
 		if (usname.equals("admin") && passwd.equals("admin")) {
 			return true;
 		} else {
@@ -51,6 +54,7 @@ public class UserManager {
 
 	/**
 	 * Checks if both passwords in registration match
+	 * 
 	 * @param pass1
 	 * @param pass2
 	 * @return true if they match, false if not
@@ -63,67 +67,71 @@ public class UserManager {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Stores a newly registered user to the database
 	 * 
 	 * @param userp
 	 * @param passwordp
 	 */
-	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email, String bankAccount) {
-		
-		db.storeUser(userp, passwordp,birthDate, name, surname, email, bankAccount);
+	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
+			String bankAccount) {
+
+		db.storeUser(userp, passwordp, birthDate, name, surname, email, bankAccount);
 	}
-	
+
 	/**
 	 * Marks loggedIn attribute as true
 	 */
 	public void markLogin(String user, String passwd) {
-		
+
 		db.markLogin(user, passwd);
 	}
-	
+
 	/**
 	 * Resets all Users login status when initialized
 	 */
 	public void resetLogins() {
-		
-		db.resetLogins();
 
+		db.resetLogins();
 	}
-	
-	
+
 	/**
 	 * Return id of logged user
+	 * 
 	 * @return
 	 */
 	public Integer getLoggedUserId() {
-		
+
 		return db.getLoggedUserId();
 	}
-	
+
 	/**
 	 * Updates the given bets of the user, by adding the recent one
+	 * 
 	 * @param userid
 	 * @param questionId
 	 * @param amount
 	 */
 	public void storeBet(int userid, Question question, Answer answer, Event event, Date date, int amount) {
-		
+
 		db.storeBet(userid, question, answer, event, date, amount);
 	}
-	
+
 	/**
+	 * Question getter
 	 * 
 	 * @param eventNum
 	 * @param questionNum
 	 * @return
 	 */
 	public Question getQuestion(int eventNum, int questionNum) {
+
 		return db.getQuestion(eventNum, questionNum);
 	}
-	
+
 	/**
+	 * Answer getter
 	 * 
 	 * @param eventNum
 	 * @param questionNum
@@ -131,43 +139,67 @@ public class UserManager {
 	 * @return
 	 */
 	public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum) {
+
 		return db.getAnswer(eventNum, questionNum, answerNum);
 	}
-	
+
 	/**
+	 * Event getter
 	 * 
 	 * @param eventNum
 	 * @return
 	 */
 	public Event getEvent(Integer eventNum) {
+
 		return db.getEvent(eventNum);
 	}
-	
-	public User getUserLogged(){
-		//db.open(false);
+
+	/**
+	 * Method that returns the logged user
+	 * 
+	 * @return ret
+	 */
+	public User getUserLogged() {
+
 		User ret = db.getUserById(getLoggedUserId());
-		//db.close();
 		return ret;
-		
 	}
+
+	/**
+	 * Simple method that checks id a given String is an Integer
+	 * 
+	 * @param str
+	 * @return
+	 */
 	public boolean isInt(String str) {
+
 		try {
 			Integer.parseInt(str);
 			return true;
-		}catch(NumberFormatException e1) {
+		} catch (NumberFormatException e1) {
 			return false;
 		}
 	}
 
+	/**
+	 * Method that updates the wallet of the user, incrementing the money by the
+	 * given amount
+	 * 
+	 * @param amount
+	 */
 	public void insertMoneyLoggedUser(int amount) {
-		//db.open(false);
+
 		db.insertMoneyLoggedUser(amount);
-		//db.close();
 	}
 
-	public void removeBet(Integer remBetId) {
-		db.removeBet(remBetId);
+	/**
+	 * Method that removes a bet given its ID
+	 * 
+	 * @param remBetId
+	 * @param amount
+	 */
+	public void removeBet(Integer remBetId, int amount) {
 
+		db.removeBet(remBetId, amount);
 	}
-	
 }

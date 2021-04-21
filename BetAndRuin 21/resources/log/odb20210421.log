@@ -82,3 +82,145 @@ Type domain.Answer is not enhanced.
 [2021-04-21 16:42:12 #9 type] 
 Type domain.Question is not enhanced.
 
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-04-21 17:19:11 #1 store] 
+Database '/home/estrapro/git/BetAndRuin_repos/BetAndRuin 21/bets.temp' has been recovered (tr. 80-82)
+
+[2021-04-21 17:19:11 #2 store] 
+Database '/home/estrapro/git/BetAndRuin_repos/BetAndRuin 21/bets.temp' is opened by 41210@estrapro-pc
+
+[2021-04-21 17:19:11 #3 store] 
+Configuration path: ?
+
+[2021-04-21 17:19:11 #4 type] 
+Type domain.User is not enhanced.
+
+[2021-04-21 17:19:11 #5 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-04-21 17:19:11 #6 type] 
+Type domain.Bet is not enhanced.
+
+[2021-04-21 17:19:11 #7 type] 
+Type domain.Event is not enhanced.
+
+[2021-04-21 17:19:11 #8 type] 
+Type domain.Answer is not enhanced.
+
+[2021-04-21 17:19:11 #9 type] 
+Type domain.Question is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-04-21 17:25:54 #1 store] 
+Database '/home/estrapro/git/BetAndRuin_repos/BetAndRuin 21/bets.temp' is opened by 41495@estrapro-pc
+
+[2021-04-21 17:25:54 #2 store] 
+Configuration path: ?
+
+[2021-04-21 17:25:54 #3 type] 
+Type domain.User is not enhanced.
+
+[2021-04-21 17:25:54 #4 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-04-21 17:25:54 #5 type] 
+Type domain.Bet is not enhanced.
+
+[2021-04-21 17:25:55 #6 type] 
+Type domain.Event is not enhanced.
+
+[2021-04-21 17:25:55 #7 type] 
+Type domain.Answer is not enhanced.
+
+[2021-04-21 17:25:55 #8 type] 
+Type domain.Question is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-04-21 17:31:45 #1 store] 
+Database '/home/estrapro/git/BetAndRuin_repos/BetAndRuin 21/bets.temp' has been recovered (tr. 85-86)
+
+[2021-04-21 17:31:45 #2 store] 
+Database '/home/estrapro/git/BetAndRuin_repos/BetAndRuin 21/bets.temp' is opened by 41687@estrapro-pc
+
+[2021-04-21 17:31:45 #3 store] 
+Configuration path: ?
+
+[2021-04-21 17:31:45 #4 type] 
+Type domain.User is not enhanced.
+
+[2021-04-21 17:31:45 #5 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-04-21 17:31:45 #6 type] 
+Type domain.Bet is not enhanced.
+
+[2021-04-21 17:31:45 #7 type] 
+Type domain.Event is not enhanced.
+
+[2021-04-21 17:31:45 #8 type] 
+Type domain.Answer is not enhanced.
+
+[2021-04-21 17:31:45 #9 type] 
+Type domain.Question is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-04-21 17:32:39 #1 store] 
+Database '/home/estrapro/git/BetAndRuin_repos/BetAndRuin 21/bets.temp' has been recovered (tr. 87-88)
+
+[2021-04-21 17:32:39 #2 store] 
+Database '/home/estrapro/git/BetAndRuin_repos/BetAndRuin 21/bets.temp' is opened by 41750@estrapro-pc
+
+[2021-04-21 17:32:39 #3 store] 
+Configuration path: ?
+
+[2021-04-21 17:32:39 #4 type] 
+Type domain.User is not enhanced.
+
+[2021-04-21 17:32:39 #5 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-04-21 17:32:39 #6 type] 
+Type domain.Bet is not enhanced.
+
+[2021-04-21 17:32:39 #7 type] 
+Type domain.Event is not enhanced.
+
+[2021-04-21 17:32:39 #8 type] 
+Type domain.Answer is not enhanced.
+
+[2021-04-21 17:32:39 #9 type] 
+Type domain.Question is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-04-21 17:34:37 #1 store] 
+Database '/home/estrapro/git/BetAndRuin_repos/BetAndRuin 21/bets.temp' has been recovered (tr. 89-90)
+
+[2021-04-21 17:34:37 #2 store] 
+Database '/home/estrapro/git/BetAndRuin_repos/BetAndRuin 21/bets.temp' is opened by 42009@estrapro-pc
+
+[2021-04-21 17:34:37 #3 store] 
+Configuration path: ?
+
+[2021-04-21 17:34:37 #4 type] 
+Type domain.User is not enhanced.
+
+[2021-04-21 17:34:37 #5 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-04-21 17:34:37 #6 type] 
+Type domain.Bet is not enhanced.
+
+[2021-04-21 17:34:37 #7 type] 
+Type domain.Event is not enhanced.
+
+[2021-04-21 17:34:37 #8 type] 
+Type domain.Answer is not enhanced.
+
+[2021-04-21 17:34:37 #9 type] 
+Type domain.Question is not enhanced.
+

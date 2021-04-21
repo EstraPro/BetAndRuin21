@@ -1,9 +1,7 @@
 package dataAccess;
 
-
 import java.util.Arrays;
 import java.util.Calendar;
-
 
 import java.util.Date;
 import java.util.HashMap;
@@ -309,6 +307,11 @@ public class DataAccess {
 		return res;
 	}
 
+	/**
+	 * Method that opens the DB
+	 * 
+	 * @param initializeMode
+	 */
 	public void open(boolean initializeMode) {
 
 		System.out.println("Opening DataAccess instance => isDatabaseLocal: " + config.isDataAccessLocal()
@@ -336,12 +339,22 @@ public class DataAccess {
 		}
 	}
 
+	/**
+	 * To check if a question exists
+	 * 
+	 * @param event
+	 * @param question
+	 * @return
+	 */
 	public boolean existQuestion(Event event, String question) {
 		System.out.println(">> DataAccess: existQuestion => event = " + event + " question = " + question);
 		Event ev = db.find(Event.class, event.getEventNumber());
 		return ev.doesQuestionExist(question);
 	}
 
+	/**
+	 * Method that closes the DB
+	 */
 	public void close() {
 		db.close();
 		System.out.println("DataBase is closed");
@@ -378,21 +391,21 @@ public class DataAccess {
 	 * @param amount
 	 */
 	public void storeBet(int userid, Question question, Answer answer, Event event, Date date, int amount) {
-		
+
 		Integer id = getLoggedUserId();
-		
+
 		this.open(false);
-		
+
 		db.getTransaction().begin();
-		
+
 		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
 		query.setParameter(1, id);
 		List<User> users = query.getResultList();
 
 		users.get(0).storeBet(question, answer, event, date, amount);
-		
+
 		db.getTransaction().commit();
-		
+
 		this.close();
 	}
 
@@ -405,7 +418,7 @@ public class DataAccess {
 	public User getUserById(int userid) {
 
 		this.open(false);
-		
+
 		db.getTransaction().begin();
 		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
 		query.setParameter(1, userid);
@@ -461,7 +474,7 @@ public class DataAccess {
 	 * Resets all Users login status
 	 */
 	public void resetLogins() {
-	
+
 		this.open(false);
 
 		db.getTransaction().begin();
@@ -487,7 +500,7 @@ public class DataAccess {
 	public Integer getLoggedUserId() {
 
 		this.open(false);
-		
+
 		db.getTransaction().begin();
 
 		TypedQuery<Integer> queryLoggedUsers = db.createQuery("SELECT id FROM User WHERE loggedIn=true", Integer.class);
@@ -495,15 +508,21 @@ public class DataAccess {
 		List<Integer> ids = queryLoggedUsers.getResultList();
 
 		db.getTransaction().commit();
-		 this.close();
+		this.close();
 
 		return ids.get(0);
 	}
 
+	/**
+	 * Event getter
+	 * 
+	 * @param eventNum
+	 * @return
+	 */
 	public Event getEvent(Integer eventNum) {
 
 		this.open(false);
-		
+
 		db.getTransaction().begin();
 
 		TypedQuery<Event> queryEvent = db.createQuery("SELECT e FROM Event e WHERE e.eventNumber = ?1", Event.class);
@@ -512,13 +531,20 @@ public class DataAccess {
 		Event event = queryEvent.getResultList().get(0);
 
 		db.getTransaction().commit();
-		
+
 		this.close();
 
 		return event;
 
 	}
 
+	/**
+	 * Question getter
+	 * 
+	 * @param eventNum
+	 * @param questionNum
+	 * @return
+	 */
 	public Question getQuestion(Integer eventNum, Integer questionNum) {
 
 		Question question = this.getEvent(eventNum).getSpecificQuestion(questionNum);
@@ -526,17 +552,30 @@ public class DataAccess {
 		return question;
 	}
 
+	/**
+	 * Answer getter
+	 * 
+	 * @param eventNum
+	 * @param questionNum
+	 * @param answerNum
+	 * @return
+	 */
 	public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum) {
 
 		return this.getQuestion(eventNum, questionNum).getSpecificAnswer(answerNum);
 	}
 
+	/**
+	 * Method that inserts given amount of money to logged user
+	 * 
+	 * @param amount
+	 */
 	public void insertMoneyLoggedUser(int amount) {
 
 		Integer id = getLoggedUserId();
-		
+
 		this.open(false);
-		
+
 		db.getTransaction().begin();
 		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
 		query.setParameter(1, id);
@@ -545,76 +584,57 @@ public class DataAccess {
 		users.get(0).getWallet().insertMoney(amount);
 
 		db.getTransaction().commit();
-		
+
 		this.close();
 	}
 
-	public void removeBet(Integer remBetId) {
-		
+	/**
+	 * Method that removes a bet given its id, and updates the money in wallet
+	 * 
+	 * @param remBetId
+	 * @param amount
+	 */
+	public void removeBet(Integer remBetId, int amount) {
+
 		Integer id = getLoggedUserId();
-		
+
 		this.open(false);
-		
+
 		db.getTransaction().begin();
-		
+
 		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
 		query.setParameter(1, id);
 		List<User> users = query.getResultList();
 
 		users.get(0).removeBet(remBetId);
-		
+		users.get(0).getWallet().insertMoney((int) (amount / 2));
+
 		db.getTransaction().commit();
-		
+
 		this.close();
-		
-		//open(false);
-
-		//db.getTransaction().begin();
-
-		//user.removeBet(remBetId);
-		
-		//1
-
-		//Query updateBetquery = db.createQuery(
-		//		"UPDATE User u SET madeBets = :bets" + " WHERE u.id.equals(\"" + user.getId() + "\")");
-
-		//updateBetquery.setParameter("bets", Arrays.asList(user.getAllBets()));
-		
-		//int updateBets = updateBetquery.executeUpdate();
-		
-		//2
-		
-		/*Query updateBetquery = db.createQuery(
-				"DELETE FROM User u WHERE u.id.equals(\"" + user.getId() + "\")");
-		
-		int updateBets = updateBetquery.executeUpdate();
-		
-		db.persist(user);*/
-
-		//db.getTransaction().commit();
-
-		//close();
-
 	}
 
+	/**
+	 * Checks is any user is logged in
+	 * 
+	 * @return
+	 */
 	public boolean isAnyUserLogged() {
-		boolean lag = false;
+
+		boolean b = false;
+
 		db.getTransaction().begin();
 
 		TypedQuery<User> queryAllUsers = db.createQuery("SELECT FROM User", User.class);
-
 		List<User> users = queryAllUsers.getResultList();
-		
-		db.getTransaction().commit();
-		
-		for (User usr : users) {
-			if(usr.isLoggedIn()) {
-				lag=true;
-			}
-			
-		}
-		
-		return lag;
-	}
 
+		db.getTransaction().commit();
+
+		for (User usr : users) {
+			if (usr.isLoggedIn())
+				b = true;
+		}
+
+		return b;
+	}
 }
