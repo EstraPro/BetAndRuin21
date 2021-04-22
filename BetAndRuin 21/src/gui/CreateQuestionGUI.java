@@ -66,7 +66,7 @@ public class CreateQuestionGUI extends JFrame {
 	private JTextField answers1Text;
 	private JTextField answers2Text;
 	private final JTextField answers3Text = new JTextField();
-	private final JButton btnLogout = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
+	private final JButton btnLogout = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Logout")); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * Gets the previous frame
