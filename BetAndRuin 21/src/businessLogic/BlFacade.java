@@ -59,5 +59,7 @@ public interface BlFacade  {
 	@WebMethod public boolean isInt(String str);
 
 	@WebMethod public boolean isAnyUserLogged();
+
+	@WebMethod public void resetLogins();
 	
 }

@@ -172,4 +172,9 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 		return lag;
 	};
+	
+	@WebMethod 
+	public void resetLogins() {
+		dbManager.resetLogins();
+	}
 }

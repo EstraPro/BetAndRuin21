@@ -66,6 +66,7 @@ public class CreateQuestionGUI extends JFrame {
 	private JTextField answers1Text;
 	private JTextField answers2Text;
 	private final JTextField answers3Text = new JTextField();
+	private final JButton btnLogout = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * Gets the previous frame
@@ -94,21 +95,21 @@ public class CreateQuestionGUI extends JFrame {
 	private void jbInit(Vector<domain.Event> v) throws Exception {
 
 		this.getContentPane().setLayout(null);
-		this.setSize(new Dimension(605, 517));
+		this.setSize(new Dimension(616, 595));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 
 		eventComboBox.setModel(eventModel);
-		eventComboBox.setBounds(new Rectangle(275, 47, 250, 20));
-		listOfEventsLbl.setBounds(new Rectangle(290, 18, 277, 20));
-		queryLbl.setBounds(new Rectangle(25, 211, 75, 20));
-		queryText.setBounds(new Rectangle(100, 211, 429, 20));
-		minBetLbl.setBounds(new Rectangle(25, 242, 75, 20));
-		priceText.setBounds(new Rectangle(100, 242, 60, 20));
+		eventComboBox.setBounds(new Rectangle(282, 106, 250, 20));
+		listOfEventsLbl.setBounds(new Rectangle(297, 77, 277, 20));
+		queryLbl.setBounds(new Rectangle(32, 270, 75, 20));
+		queryText.setBounds(new Rectangle(107, 270, 429, 20));
+		minBetLbl.setBounds(new Rectangle(32, 301, 75, 20));
+		priceText.setBounds(new Rectangle(107, 301, 60, 20));
 
-		calendar.setBounds(new Rectangle(40, 50, 225, 150));
+		calendar.setBounds(new Rectangle(47, 109, 225, 150));
 		eventScrollPane.setBounds(new Rectangle(25, 44, 346, 116));
 
-		createBtn.setBounds(new Rectangle(78, 437, 149, 30));
+		createBtn.setBounds(new Rectangle(86, 482, 149, 30));
 		createBtn.setEnabled(false);
 
 		createBtn.addActionListener(new ActionListener() {
@@ -117,7 +118,7 @@ public class CreateQuestionGUI extends JFrame {
 				jButtonCreate_actionPerformed(e);
 			}
 		});
-		closeBtn.setBounds(new Rectangle(399, 437, 130, 30));
+		closeBtn.setBounds(new Rectangle(407, 482, 130, 30));
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -125,11 +126,11 @@ public class CreateQuestionGUI extends JFrame {
 			}
 		});
 
-		msgLbl.setBounds(new Rectangle(275, 182, 305, 20));
+		msgLbl.setBounds(new Rectangle(285, 273, 305, 20));
 		msgLbl.setForeground(Color.red);
 		// jLabelMsg.setSize(new Dimension(305, 20));
 
-		errorLbl.setBounds(new Rectangle(175, 240, 305, 20));
+		errorLbl.setBounds(new Rectangle(182, 299, 305, 20));
 		errorLbl.setForeground(Color.red);
 
 		this.getContentPane().add(msgLbl, null);
@@ -151,35 +152,48 @@ public class CreateQuestionGUI extends JFrame {
 		paintDaysWithEvents(calendar, datesWithEventsInCurrentMonth);
 
 		eventDateLbl.setBounds(new Rectangle(40, 15, 140, 25));
-		eventDateLbl.setBounds(40, 16, 140, 25);
+		eventDateLbl.setBounds(47, 75, 140, 25);
 		getContentPane().add(eventDateLbl);
 		
 		JLabel lblAnswers = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.lblNewLabel.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		lblAnswers.setBounds(25, 289, 75, 14);
+		lblAnswers.setBounds(32, 348, 75, 14);
 		getContentPane().add(lblAnswers);
 		
 		answersText = new JTextField();
 		answersText.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.textField.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		answersText.setBounds(100, 286, 429, 20);
+		answersText.setBounds(107, 345, 429, 20);
 		getContentPane().add(answersText);
 		answersText.setColumns(10);
 		
 		answers1Text = new JTextField();
 		answers1Text.setText(" ");
 		answers1Text.setColumns(10);
-		answers1Text.setBounds(100, 317, 429, 20);
+		answers1Text.setBounds(107, 376, 429, 20);
 		getContentPane().add(answers1Text);
 		
 		answers2Text = new JTextField();
 		answers2Text.setText(" ");
 		answers2Text.setColumns(10);
-		answers2Text.setBounds(100, 348, 429, 20);
+		answers2Text.setBounds(107, 407, 429, 20);
 		getContentPane().add(answers2Text);
 		answers3Text.setText(" ");
 		answers3Text.setColumns(10);
-		answers3Text.setBounds(100, 380, 429, 20);
+		answers3Text.setBounds(107, 439, 429, 20);
 		
 		getContentPane().add(answers3Text);
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				prevFrame.setVisible(true);
+				prevFrame.getBtnLogin().setVisible(true);
+				prevFrame.getBtnRegister().setVisible(true);
+				prevFrame.getBifunctionalBtn().setVisible(false);
+				businessLogic.resetLogins();
+			}
+		});
+		btnLogout.setBounds(47, 25, 89, 23);
+		
+		getContentPane().add(btnLogout);
 
 		// Code for JCalendar
 		this.calendar.addPropertyChangeListener(new PropertyChangeListener() {
