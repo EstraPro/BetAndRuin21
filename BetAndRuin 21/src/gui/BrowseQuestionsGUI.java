@@ -71,7 +71,7 @@ public class BrowseQuestionsGUI extends JFrame {
 
 	};
 	private String[] questionColumnNames = new String[] { ResourceBundle.getBundle("Etiquetas").getString("QuestionN"),
-			ResourceBundle.getBundle("Etiquetas").getString("Question") };
+			ResourceBundle.getBundle("Etiquetas").getString("Question"), ResourceBundle.getBundle("Etiquetas").getString("MinimumBet") };
 
 	private JTextField betInp;
 	private final JTextArea MessageTextArea = new JTextArea();
@@ -215,10 +215,12 @@ public class BrowseQuestionsGUI extends JFrame {
 					Vector<Object> row = new Vector<Object>();
 					row.add(q.getQuestionNumber());
 					row.add(q.getQuestion());
+					row.add(q.getBetMinimum());
 					questionTableModel.addRow(row);
 				}
 				questionTable.getColumnModel().getColumn(0).setPreferredWidth(25);
-				questionTable.getColumnModel().getColumn(1).setPreferredWidth(268);
+				questionTable.getColumnModel().getColumn(1).setPreferredWidth(243);
+				questionTable.getColumnModel().getColumn(2).setPreferredWidth(25);
 
 				// To change the default
 				answerLbl.setText("No question selected");
@@ -237,7 +239,8 @@ public class BrowseQuestionsGUI extends JFrame {
 
 		questionTable.setModel(questionTableModel);
 		questionTable.getColumnModel().getColumn(0).setPreferredWidth(25);
-		questionTable.getColumnModel().getColumn(1).setPreferredWidth(268);
+		questionTable.getColumnModel().getColumn(1).setPreferredWidth(243);
+		questionTable.getColumnModel().getColumn(2).setPreferredWidth(25);
 
 		this.getContentPane().add(eventScrollPane, null);
 		this.getContentPane().add(questionScrollPane, null);
@@ -276,7 +279,7 @@ public class BrowseQuestionsGUI extends JFrame {
 							confirmation.previousFrame(thisFrame);
 							confirmation.setValues(eventNumber, questNumber, Integer.parseInt(betInp.getText()),
 									answerNum);
-							betInp.setText("                    ");
+							betInp.setText("");
 						} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged().getWallet()
 								.getMoney()) {
 							MessageTextArea.setText("You don't have enough money on you wallet!");

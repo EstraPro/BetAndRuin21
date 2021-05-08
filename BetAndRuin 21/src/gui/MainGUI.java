@@ -48,7 +48,7 @@ public class MainGUI extends JFrame {
 
 	public MainGUI() {
 		super();
-		setResizable(false);
+		setResizable(true);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -63,7 +63,7 @@ public class MainGUI extends JFrame {
 			}
 		});
 
-		this.setBounds(100, 100, 249, 205);
+		this.setBounds(100, 100, 281, 231);
 
 		this.initializeMainPane();
 		this.setContentPane(mainPane);
@@ -71,7 +71,7 @@ public class MainGUI extends JFrame {
 		um.resetLogins();
 
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
-		this.pack();
+		//this.pack();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -120,7 +120,7 @@ public class MainGUI extends JFrame {
 						LoginWindow.previousFrame(thisFrame);
 					}
 				});
-				btnLogin.setBounds(132, 1, 115, 33);
+				btnLogin.setBounds(143, 1, 122, 33);
 				panel.add(btnLogin);
 			}
 		}
