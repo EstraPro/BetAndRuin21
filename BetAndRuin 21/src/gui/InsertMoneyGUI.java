@@ -18,6 +18,8 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class InsertMoneyGUI extends JFrame {
 
@@ -96,6 +98,22 @@ public class InsertMoneyGUI extends JFrame {
 		contentPane.add(btnInsert);
 		
 		InsertAmountField = new JTextField();
+		InsertAmountField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+					try {
+						businessLogic.insertMoneyLoggedUser(Integer.parseInt(InsertAmountField.getText()));
+						AnswertextArea.setText("Done! \n"+ InsertAmountField.getText() +"€ added to your system account.");
+					}catch(NumberFormatException e1) {
+						AnswertextArea.setText("Please enter a number, not :" + InsertAmountField.getText());
+					}
+					
+				}
+			}
+		});
 		InsertAmountField.setBounds(181, 108, 40, 23);
 		contentPane.add(InsertAmountField);
 		InsertAmountField.setColumns(10);

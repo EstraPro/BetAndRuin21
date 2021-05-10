@@ -21,6 +21,8 @@ import java.awt.Color;
 import javax.swing.JTextArea;
 import java.awt.SystemColor;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class LoginGUI extends JFrame {
 
@@ -73,12 +75,49 @@ public class LoginGUI extends JFrame {
 
 		UsnametextField = new JTextField();
 		UsnametextField.setColumns(10);
-
-		passwordField = new JPasswordField();
-		passwordField.setBackground(new Color(255, 255, 255));
-
+		
 		JTextArea outputMessageArea = new JTextArea();
 		outputMessageArea.setBackground(SystemColor.control);
+
+		passwordField = new JPasswordField();
+		passwordField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {	//Enter key pressed
+					
+					// userra baldin bada use case bat ireki
+					if (businessLogic.checkCredentialsAdmin(UsnametextField.getText(),
+							String.valueOf(passwordField.getPassword()))) {
+						setVisible(false);
+						prevFrame.setVisible(true);
+						prevFrame.getBtnLogin().setVisible(false);
+						prevFrame.getBtnRegister().setVisible(false);
+						prevFrame.getBifunctionalBtn().setVisible(true);
+						prevFrame.getBifunctionalBtn().setText("Create Questions");
+						businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
+					}
+
+					// administratzailea baldin bada bertze use case bat ireki
+					else if (businessLogic.checkCredentialsUser(UsnametextField.getText(),
+							String.valueOf(passwordField.getPassword()))) {
+						setVisible(false);
+						prevFrame.setVisible(true);
+						prevFrame.getBtnLogin().setVisible(false);
+						prevFrame.getBtnRegister().setVisible(false);
+						prevFrame.getBifunctionalBtn().setVisible(true);
+						prevFrame.getBifunctionalBtn().setText("View Profile");
+						businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
+					}
+
+					else {
+						outputMessageArea.insert("                                                    ", 0);
+						outputMessageArea.insert("Insert correct credentials!!", 0);
+					}
+					
+				}
+			}
+		});
+		passwordField.setBackground(new Color(255, 255, 255));
 
 		JButton btnNewButton = new JButton("LOGIN");
 		btnNewButton.setForeground(Color.BLACK);

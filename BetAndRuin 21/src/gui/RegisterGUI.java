@@ -20,6 +20,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class RegisterGUI extends JFrame {
 
@@ -84,8 +86,41 @@ public class RegisterGUI extends JFrame {
 		txtPassword.setBounds(188, 359, 235, 28);
 		contentPane.add(txtPassword);
 		txtPassword.setColumns(10);
+		
+		JTextArea dispalyTxt = new JTextArea();
+		dispalyTxt.setFont(new Font("Monospaced", Font.PLAIN, 15));
+		dispalyTxt.setBounds(113, 457, 286, 50);
+		contentPane.add(dispalyTxt);
+		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(188, 156, 235, 28);
+		contentPane.add(dateChooser);
 
 		txtRetypePass = new JPasswordField();
+		txtRetypePass.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+					dispalyTxt.setText(null);
+
+					if (businessLogic.passwdMatches(String.valueOf(txtPassword.getPassword()),
+							String.valueOf(txtRetypePass.getPassword()))) {
+						businessLogic.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()),dateChooser.getDate(), NameField.getText(), 
+								SurnameField.getText(), EmailField.getText(), bankAccountField.getText());
+						dispalyTxt.setText("Registered!");
+					
+						setVisible(false);
+						prevFrame.setVisible(true);
+						
+					} else {
+						dispalyTxt.setText("Password MissMatch($·$)");
+					}
+					
+				}
+			}
+		});
 		txtRetypePass.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtRetypePass.setColumns(10);
 		txtRetypePass.setBounds(188, 406, 235, 28);
@@ -111,11 +146,6 @@ public class RegisterGUI extends JFrame {
 		RegisterLabel.setBounds(200, 11, 154, 50);
 		contentPane.add(RegisterLabel);
 
-		JTextArea dispalyTxt = new JTextArea();
-		dispalyTxt.setFont(new Font("Monospaced", Font.PLAIN, 15));
-		dispalyTxt.setBounds(113, 457, 286, 50);
-		contentPane.add(dispalyTxt);
-
 		JButton DoneButton = new JButton("Done!");
 		DoneButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		DoneButton.setBounds(353, 518, 119, 23);
@@ -140,10 +170,6 @@ public class RegisterGUI extends JFrame {
 		lblDateBirth.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblDateBirth.setBounds(32, 156, 97, 28);
 		contentPane.add(lblDateBirth);
-		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(188, 156, 235, 28);
-		contentPane.add(dateChooser);
 		
 		EmailField = new JTextField();
 		EmailField.setFont(new Font("Tahoma", Font.PLAIN, 15));
