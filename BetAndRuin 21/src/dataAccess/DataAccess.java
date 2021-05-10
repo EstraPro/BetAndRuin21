@@ -646,7 +646,7 @@ public class DataAccess {
 	}
 
 	/**
-	 * Checks is any user is logged in
+	 * Checks if any user is logged in
 	 * 
 	 * @return
 	 */

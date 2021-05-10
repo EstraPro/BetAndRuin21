@@ -260,6 +260,20 @@ public class ViewProfileGUI extends JFrame {
 		JLabel lblProfilePhotoTxt = new JLabel("Profile Photo: ");
 		lblProfilePhotoTxt.setBounds(287, 29, 195, 14);
 		contentPane.add(lblProfilePhotoTxt);
+		
+		JButton btnEditprofile = new JButton("Edit Profile");
+		ViewProfileGUI frame = this;
+		btnEditprofile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				setVisible(false);
+				EditProfileGUI newg = new EditProfileGUI();
+				newg.setVisible(true);
+				newg.previousFrame(frame);
+			}
+		});
+		btnEditprofile.setBounds(111, 8, 111, 23);
+		contentPane.add(btnEditprofile);
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
