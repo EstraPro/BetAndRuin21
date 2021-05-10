@@ -384,7 +384,6 @@ public class DataAccess {
 		db.persist(user);
 		db.getTransaction().commit();
 		System.out.println(userp + " Registered!");
-		this.close();
 	}
 
 	/**
@@ -471,7 +470,6 @@ public class DataAccess {
 		db.persist(usr);
 		db.getTransaction().commit();
 		System.out.println(usr.getUsername() + " Logged!");
-		this.close();
 	}
 
 	/**

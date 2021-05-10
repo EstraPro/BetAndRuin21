@@ -30,10 +30,10 @@ public class ApplicationLauncher {
 			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel");
 			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
 
-			if (config.isBusinessLogicLocal())
+			if (config.isBusinessLogicLocal()) {
 				businessLogic = new BlFacadeImplementation();
-
-			else {
+				
+		}else {
 
 				String serviceName= "http://" + config.getBusinessLogicNode() + ":" + 
 						config.getBusinessLogicPort() + "/ws/" + config.getBusinessLogicName() +

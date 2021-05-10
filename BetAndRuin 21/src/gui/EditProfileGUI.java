@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 
@@ -9,7 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.View;
 
-import businessLogic.UserManager;
+import businessLogic.BlFacade;
+import businessLogic.BlFacadeImplementation;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -25,10 +27,10 @@ public class EditProfileGUI extends JFrame {
 	private JTextField txtPassword;
 	private JTextField txtBankaccount;
 	
-	private UserManager businessLogic;
+	private BlFacade businessLogic;
 	private ViewProfileGUI prevFrame;
 
-	public void setBusinessLogic(UserManager bl) {
+	public void setBusinessLogic(BlFacade bl) {
 		businessLogic = bl;
 	}
 	
@@ -50,8 +52,7 @@ public class EditProfileGUI extends JFrame {
 			public void run() {
 				try {
 					EditProfileGUI frame = new EditProfileGUI();
-					UserManager bl = new UserManager();
-					frame.setBusinessLogic(bl);
+					frame.setBusinessLogic(new BlFacadeImplementation());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,8 +66,8 @@ public class EditProfileGUI extends JFrame {
 	 */
 	public EditProfileGUI() {
 		
-		UserManager bl = new UserManager();
-		this.setBusinessLogic(bl);
+		this.setBusinessLogic(new BlFacadeImplementation());
+
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

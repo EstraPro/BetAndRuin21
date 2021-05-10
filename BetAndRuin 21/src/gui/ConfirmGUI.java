@@ -2,13 +2,15 @@ package gui;
 
 import java.awt.BorderLayout;
 
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import businessLogic.UserManager;
+import businessLogic.BlFacade;
+import businessLogic.BlFacadeImplementation;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,7 +27,11 @@ public class ConfirmGUI extends JFrame {
 
 	private Integer id, eventNum, questionNum, answerNum, amount;
 
-	private UserManager businessLogic = new UserManager();
+	private BlFacade businessLogic;
+	
+	public void setBusinessLogic(BlFacade checker) {
+		businessLogic = checker;
+	}
 
 	/**
 	 * Launch the application.
@@ -36,6 +42,7 @@ public class ConfirmGUI extends JFrame {
 				try {
 					ConfirmGUI frame = new ConfirmGUI();
 					frame.setVisible(true);
+					frame.setBusinessLogic(new BlFacadeImplementation());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,6 +54,8 @@ public class ConfirmGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ConfirmGUI() {
+		this.setBusinessLogic(new BlFacadeImplementation());
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

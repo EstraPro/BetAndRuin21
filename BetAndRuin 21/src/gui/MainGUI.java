@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.GridLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -16,7 +17,7 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 import businessLogic.BlFacade;
-import businessLogic.UserManager;
+import businessLogic.BlFacadeImplementation;
 
 public class MainGUI extends JFrame {
 
@@ -36,7 +37,7 @@ public class MainGUI extends JFrame {
 	private JPanel panel;
 	private JButton btnRegister;
 	private JButton btnLogin;
-	private UserManager um = new UserManager();
+
 
 	public BlFacade getBusinessLogic() {
 		return businessLogic;
@@ -49,7 +50,7 @@ public class MainGUI extends JFrame {
 	public MainGUI() {
 		super();
 		setResizable(true);
-
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -62,13 +63,14 @@ public class MainGUI extends JFrame {
 				System.exit(1);
 			}
 		});
-
+		
+		this.setBussinessLogic(new BlFacadeImplementation());
 		this.setBounds(100, 100, 281, 231);
 
 		this.initializeMainPane();
 		this.setContentPane(mainPane);
 		
-		um.resetLogins();
+		businessLogic.resetLogins();
 
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
 		//this.pack();

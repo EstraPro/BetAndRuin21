@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
+import domain.Answer;
 import domain.Event;
 import domain.Question;
 import domain.User;
@@ -61,5 +62,29 @@ public interface BlFacade  {
 	@WebMethod public boolean isAnyUserLogged();
 
 	@WebMethod public void resetLogins();
+	
+	@WebMethod public boolean passwdMatches(String pass1, String pass2);
+	@WebMethod public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
+			String bankAccount) ;
+	
+	@WebMethod public boolean checkCredentialsAdmin(String usname, String passwd);
+	
+	@WebMethod public boolean checkCredentialsUser(String usname, String passwd);
+	
+	@WebMethod public void markLogin(String user, String passwd);
+
+	@WebMethod public void removeBet(Integer remBetId, int valueAt);
+	
+	@WebMethod public void insertMoneyLoggedUser(int amount);
+	
+	@WebMethod public void updateUserData(String uName, String pass, String bankN);
+	
+	@WebMethod public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum);
+	
+	@WebMethod public Event getEvent(Integer eventNum);
+	
+	@WebMethod public void storeBet(int userid, Question question, Answer answer, Event event, Date date, int amount);
+	
+	
 	
 }

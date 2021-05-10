@@ -1,13 +1,15 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import businessLogic.UserManager;
+import businessLogic.BlFacade;
+import businessLogic.BlFacadeImplementation;
 import domain.Bet;
 
 import javax.swing.BoxLayout;
@@ -35,7 +37,7 @@ public class ViewProfileGUI extends JFrame {
 
 	private JPanel contentPane;
 
-	private UserManager businessLogic = new UserManager();
+	private BlFacade businessLogic;
 
 	private MainGUI prevFrame;
 
@@ -51,6 +53,13 @@ public class ViewProfileGUI extends JFrame {
 
 		prevFrame = frame;
 	}
+	
+	/*
+	 * 
+	 */
+	public void setBusinessLogic(BlFacade checker) {
+		businessLogic = checker;
+	}
 
 	public void setValueBool() {
 		bool = true;
@@ -65,6 +74,7 @@ public class ViewProfileGUI extends JFrame {
 				try {
 					ViewProfileGUI frame = new ViewProfileGUI();
 					frame.setVisible(true);
+					frame.setBusinessLogic(new BlFacadeImplementation());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -76,6 +86,8 @@ public class ViewProfileGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewProfileGUI() {
+		
+		this.setBusinessLogic(new BlFacadeImplementation());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 760, 467);
 		contentPane = new JPanel();
@@ -232,6 +244,11 @@ public class ViewProfileGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int currency = businessLogic.getUserLogged().getWallet().getMoney();
 				lblMoneyShow.setText(currency + "€");
+				String accountNum  = businessLogic.getUserLogged().getBankAccount();
+				lblBankAccount.setText(accountNum);
+				String newUserName = businessLogic.getUserLogged().getUsername();
+				lblUsername.setText(newUserName);
+				
 			}
 		});
 		btnRefresh.setBounds(549, 58, 79, 31);

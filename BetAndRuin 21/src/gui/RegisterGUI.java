@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import businessLogic.UserManager;
+import businessLogic.BlFacade;
+import businessLogic.BlFacadeImplementation;
+
 import dataAccess.DataAccess;
 
 import javax.swing.JTextField;
@@ -33,13 +35,13 @@ public class RegisterGUI extends JFrame {
 	private JPasswordField txtRetypePass;
 	private MainGUI prevFrame;
 
-	private UserManager businessLogic;
+	private BlFacade businessLogic;
 	private JTextField EmailField;
 	private JTextField NameField;
 	private JTextField SurnameField;
 	private JTextField bankAccountField;
 
-	public void setBusinessLogic(UserManager checker) {
+	public void setBusinessLogic(BlFacade checker) {
 		businessLogic = checker;
 	}
 
@@ -51,8 +53,7 @@ public class RegisterGUI extends JFrame {
 			public void run() {
 				try {
 					RegisterGUI frame = new RegisterGUI();
-					UserManager bl = new UserManager();
-					frame.setBusinessLogic(bl);
+					frame.setBusinessLogic(new BlFacadeImplementation());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,8 +66,7 @@ public class RegisterGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public RegisterGUI() {
-		UserManager bl = new UserManager();
-		this.setBusinessLogic(bl);
+		this.setBusinessLogic(new BlFacadeImplementation());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 540, 591);

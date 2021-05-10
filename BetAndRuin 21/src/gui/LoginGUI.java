@@ -2,11 +2,14 @@ package gui;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import businessLogic.UserManager;
+import businessLogic.BlFacade;
+import businessLogic.BlFacadeImplementation;
+
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -31,10 +34,10 @@ public class LoginGUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField UsnametextField;
 	private JPasswordField passwordField;
-	private UserManager businessLogic;
+	private BlFacade businessLogic;
 	private MainGUI prevFrame;
 
-	public void setBusinessLogic(UserManager checker) {
+	public void setBusinessLogic(BlFacade checker) {
 		businessLogic = checker;
 	}
 
@@ -47,8 +50,7 @@ public class LoginGUI extends JFrame {
 				try {
 					LoginGUI frame = new LoginGUI();
 					frame.setVisible(true);
-					UserManager bl = new UserManager();
-					frame.setBusinessLogic(bl);
+					frame.setBusinessLogic(new BlFacadeImplementation());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -61,8 +63,7 @@ public class LoginGUI extends JFrame {
 	 */
 	public LoginGUI() {
 		
-		UserManager bl = new UserManager();
-		this.setBusinessLogic(bl);
+		this.setBusinessLogic(new BlFacadeImplementation());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

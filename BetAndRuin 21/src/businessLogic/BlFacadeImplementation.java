@@ -11,6 +11,7 @@ import javax.jws.WebService;
 
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
+import domain.Answer;
 import domain.Event;
 import domain.Question;
 import domain.User;
@@ -141,19 +142,6 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 	
 	
-	/**
-	 * 
-	 * @param eventNum
-	 * @param questionNum
-	 * @return
-	 */
-	public Question getQuestion(int eventNum, int questionNum) {
-		//dbManager.open(false);
-		Question ret = dbManager.getQuestion(eventNum, questionNum);
-		//dbManager.close();
-		return ret;
-	}
-	
 	@WebMethod 
 	public boolean isInt(String str) {
 		try {
@@ -176,5 +164,161 @@ public class BlFacadeImplementation implements BlFacade {
 	@WebMethod 
 	public void resetLogins() {
 		dbManager.resetLogins();
+	}
+	
+	/**
+	 * Checks credentials for user
+	 * 
+	 * @param usname
+	 * @param passwd
+	 * @return true if they match, false if not
+	 */
+	public boolean checkCredentialsUser(String usname, String passwd) {
+		dbManager.open(false);
+		boolean ret = dbManager.checkUser(usname, passwd);
+		dbManager.close();
+		return ret;
+	}
+
+	/**
+	 * Checks credentials for administrator
+	 * 
+	 * @param usname
+	 * @param passwd
+	 * @return true if they match, false if not
+	 */
+	public boolean checkCredentialsAdmin(String usname, String passwd) {
+
+		if (usname.equals("admin") && passwd.equals("admin")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Checks if both passwords in registration match
+	 * 
+	 * @param pass1
+	 * @param pass2
+	 * @return true if they match, false if not
+	 */
+	public boolean passwdMatches(String pass1, String pass2) {
+
+		if (pass1.equals(pass2) && pass1.length() != 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Stores a newly registered user to the database
+	 * 
+	 * @param userp
+	 * @param passwordp
+	 */
+	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
+			String bankAccount) {
+		dbManager.open(false);
+		dbManager.storeUser(userp, passwordp, birthDate, name, surname, email, bankAccount);
+		dbManager.close();
+		
+	}
+
+	/**
+	 * Marks loggedIn attribute as true
+	 */
+	public void markLogin(String user, String passwd) {
+		dbManager.open(false);
+		dbManager.markLogin(user, passwd);
+		dbManager.close();
+		
+	}
+
+
+	/**
+	 * Updates the given bets of the user, by adding the recent one
+	 * 
+	 * @param userid
+	 * @param questionId
+	 * @param amount
+	 */
+	public void storeBet(int userid, Question question, Answer answer, Event event, Date date, int amount) {
+
+		dbManager.storeBet(userid, question, answer, event, date, amount);
+	}
+
+	/**
+	 * Question getter
+	 * 
+	 * @param eventNum
+	 * @param questionNum
+	 * @return
+	 */
+	public Question getQuestion(int eventNum, int questionNum) {
+
+		return dbManager.getQuestion(eventNum, questionNum);
+	}
+
+	/**
+	 * Answer getter
+	 * 
+	 * @param eventNum
+	 * @param questionNum
+	 * @param answerNum
+	 * @return
+	 */
+	public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum) {
+
+		return dbManager.getAnswer(eventNum, questionNum, answerNum);
+	}
+
+	/**
+	 * Event getter
+	 * 
+	 * @param eventNum
+	 * @return
+	 */
+	public Event getEvent(Integer eventNum) {
+
+		return dbManager.getEvent(eventNum);
+	}
+
+	/**
+	 * Method that updates the wallet of the user, incrementing the money by the
+	 * given amount
+	 * 
+	 * @param amount
+	 */
+	public void insertMoneyLoggedUser(int amount) {
+
+		dbManager.insertMoneyLoggedUser(amount);
+	}
+	
+	
+
+	
+	/**
+	 * Updates user data. If the given attribute is empty, remains still
+	 * 
+	 * @param uName
+	 * @param pass
+	 * @param bankN
+	 */
+	public void updateUserData(String uName, String pass, String bankN) {
+		
+		dbManager.updateUserData(uName, pass, bankN);
+	}
+
+	/**
+	 * Method that removes a bet given its ID
+	 * 
+	 * @param remBetId
+	 * @param amount
+	 */
+	public void removeBet(Integer remBetId, int amount) {
+
+		dbManager.removeBet(remBetId, amount);
 	}
 }
