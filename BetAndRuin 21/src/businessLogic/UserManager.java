@@ -191,6 +191,18 @@ public class UserManager {
 
 		db.insertMoneyLoggedUser(amount);
 	}
+	
+	/**
+	 * Updates user data. If the given attribute is empty, remains still
+	 * 
+	 * @param uName
+	 * @param pass
+	 * @param bankN
+	 */
+	public void updateUserData(String uName, String pass, String bankN) {
+		
+		db.updateUserData(uName, pass, bankN);
+	}
 
 	/**
 	 * Method that removes a bet given its ID

@@ -593,6 +593,33 @@ public class DataAccess {
 	}
 
 	/**
+	 * Updates user data. If the given attribute is empty, no changes are made
+	 * 
+	 * @param uName
+	 * @param pass
+	 * @param bankN
+	 */
+	public void updateUserData(String uName, String pass, String bankN) {
+		
+		Integer id = getLoggedUserId();
+
+		this.open(false);
+
+		db.getTransaction().begin();
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
+		query.setParameter(1, id);
+		List<User> users = query.getResultList();
+
+		if (!uName.isEmpty()) users.get(0).updateUsername(uName);
+		if (!pass.isEmpty()) users.get(0).updatePassword(pass);
+		if (!bankN.isEmpty()) users.get(0).updateBankNumber(bankN);
+
+		db.getTransaction().commit();
+
+		this.close();
+	}
+	
+	/**
 	 * Method that removes a bet given its id, and updates the money in wallet
 	 * 
 	 * @param remBetId

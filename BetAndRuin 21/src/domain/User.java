@@ -46,6 +46,21 @@ public class User {
 		password = passwd;
 		wallet = new Wallet(id);
 	}
+	
+	public void updateUsername(String newName) {
+		
+		this.username = newName;
+	}
+	
+	public void updatePassword(String newPass) {
+		
+		this.password = newPass;
+	}
+	
+	public void updateBankNumber(String newNum) {
+		
+		this.BankAccount = newNum;
+	}
 
 	public Wallet getWallet() {
 		return wallet;
