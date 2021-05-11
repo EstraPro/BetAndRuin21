@@ -94,6 +94,11 @@ public class Bet {
 		return "Question: " + question.getQuestion() + "\n" +"Answer: " + answer.getContent() + "\n" + "Event: " + event.getDescription() + ", Amount of Betting: " + amount
 				+ ", Date: " + date.toString();
 	}
+
+	public double getProfit() {
+		double profit=((this.answer.getRate() * 0.01)+1)*this.amount;
+		return profit;
+	}
 	
 	
 	
