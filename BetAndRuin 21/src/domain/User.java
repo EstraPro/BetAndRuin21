@@ -79,6 +79,10 @@ public class User {
 		this.BankAccount = newNum;
 	}
 
+	/**
+	 * Wallet getter
+	 * @return
+	 */
 	public Wallet getWallet() {
 		return wallet;
 	}
