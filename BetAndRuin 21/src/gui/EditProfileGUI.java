@@ -130,7 +130,7 @@ public class EditProfileGUI extends JFrame {
 				} else {
 					uname = txtUsername.getText();
 				}
-				
+						
 				if(String.valueOf(txtPassword.getText()).equals(null)) {
 					pass = " ";
 				}else {
