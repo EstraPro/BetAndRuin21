@@ -71,6 +71,10 @@ public class User {
 		return wallet;
 	}
 
+	/**
+	 * Wallet setter
+	 * @param wallet
+	 */
 	public void setWallet(Wallet wallet) {
 		this.wallet = wallet;
 	}
