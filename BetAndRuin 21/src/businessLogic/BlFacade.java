@@ -49,7 +49,7 @@ public interface BlFacade  {
 	 * @return collection of dates
 	 */
 	@WebMethod public Vector<Date> getEventsMonth(Date date);
-	
+		
 	
 	@WebMethod public User getUserLogged();
 	
