@@ -52,21 +52,37 @@ public class User {
 		wallet = new Wallet();
 	}
 	
+	/**
+	 * Method to update to new username
+	 * @param newName
+	 */
 	public void updateUsername(String newName) {
 		
 		this.username = newName;
 	}
 	
+	/**
+	 * Method to update password
+	 * @param newPass
+	 */
 	public void updatePassword(String newPass) {
 		
 		this.password = newPass;
 	}
 	
+	/**
+	 * Method to update bank account number
+	 * @param newNum
+	 */
 	public void updateBankNumber(String newNum) {
 		
 		this.BankAccount = newNum;
 	}
 
+	/**
+	 * Wallet getter
+	 * @return
+	 */
 	public Wallet getWallet() {
 		return wallet;
 	}
