@@ -66,6 +66,12 @@ public class CreateQuestionGUI extends JFrame {
 	private JTextField answers1Text;
 	private JTextField answers2Text;
 	private final JTextField answers3Text = new JTextField();
+	
+	private JComboBox<Integer> ratecomboBox1;
+	private JComboBox<Integer> ratecomboBox2;
+	private JComboBox<Integer> ratecomboBox3;
+	private JComboBox<Integer> ratecomboBox4;
+	
 	private final JButton btnLogout = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Logout")); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
@@ -95,7 +101,7 @@ public class CreateQuestionGUI extends JFrame {
 	private void jbInit(Vector<domain.Event> v) throws Exception {
 
 		this.getContentPane().setLayout(null);
-		this.setSize(new Dimension(616, 595));
+		this.setSize(new Dimension(652, 595));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 
 		eventComboBox.setModel(eventModel);
@@ -118,7 +124,7 @@ public class CreateQuestionGUI extends JFrame {
 				jButtonCreate_actionPerformed(e);
 			}
 		});
-		closeBtn.setBounds(new Rectangle(407, 482, 130, 30));
+		closeBtn.setBounds(new Rectangle(433, 482, 130, 30));
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -194,6 +200,34 @@ public class CreateQuestionGUI extends JFrame {
 		btnLogout.setBounds(47, 25, 89, 23);
 		
 		getContentPane().add(btnLogout);
+		
+		JLabel lblRates = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.lblRates.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		lblRates.setBounds(535, 320, 75, 14);
+		getContentPane().add(lblRates);
+		
+		ratecomboBox1 = new JComboBox<Integer>();
+		ratecomboBox1.setBounds(571, 344, 39, 22);
+		
+		ratecomboBox2 = new JComboBox<Integer>();
+		ratecomboBox2.setBounds(571, 375, 39, 22);
+		
+		ratecomboBox3 = new JComboBox<Integer>();
+		ratecomboBox3.setBounds(571, 406, 39, 22);
+		
+		ratecomboBox4 = new JComboBox<Integer>();
+		ratecomboBox4.setBounds(571, 438, 39, 22);
+		
+		for(int i = 1 ; i<101; i++) {
+			ratecomboBox1.addItem((Integer)i);
+			ratecomboBox2.addItem((Integer)i);
+			ratecomboBox3.addItem((Integer)i);
+			ratecomboBox4.addItem((Integer)i);
+		}
+		
+		getContentPane().add(ratecomboBox1);
+		getContentPane().add(ratecomboBox2);
+		getContentPane().add(ratecomboBox3);
+		getContentPane().add(ratecomboBox4);
 
 		// Code for JCalendar
 		this.calendar.addPropertyChangeListener(new PropertyChangeListener() {
@@ -310,6 +344,7 @@ public class CreateQuestionGUI extends JFrame {
 			
 			//Inserts the Answers in the input depending on how many answers the admin enters.
 			ArrayList<String> inputAnswerTotal = new ArrayList<String>();
+			ArrayList<Integer> inputRateTotal = new ArrayList<Integer>();
 			
 			String inputAnswer = answersText.getText();
 			String inputAnswer1 = answers1Text.getText();
@@ -317,16 +352,21 @@ public class CreateQuestionGUI extends JFrame {
 			String inputAnswer3 = answers3Text.getText();
 			
 			
-			if(inputAnswer.length() > 1) {
+			
+			if(inputAnswer.length() > 1 && ratecomboBox1.getSelectedIndex()!=-1 ) {
+				inputRateTotal.add((Integer) ratecomboBox1.getSelectedItem());
 				inputAnswerTotal.add(inputAnswer);
 			}
-			if(inputAnswer1.length() > 1) {
+			if(inputAnswer1.length() > 1 && ratecomboBox2.getSelectedIndex()!=-1 ) {
+				inputRateTotal.add((Integer) ratecomboBox2.getSelectedItem());
 				inputAnswerTotal.add(inputAnswer1);
 			}
-			if(inputAnswer2.length() > 1) {
+			if(inputAnswer2.length() > 1 && ratecomboBox3.getSelectedIndex()!=-1 ) {
+				inputRateTotal.add((Integer) ratecomboBox3.getSelectedItem());
 				inputAnswerTotal.add(inputAnswer2);
 			}
-			if(inputAnswer3.length() > 1) {
+			if(inputAnswer3.length() > 1 && ratecomboBox4.getSelectedIndex()!=-1 ) {
+				inputRateTotal.add((Integer) ratecomboBox4.getSelectedItem());
 				inputAnswerTotal.add(inputAnswer3);
 			}
 			
@@ -339,9 +379,9 @@ public class CreateQuestionGUI extends JFrame {
 				if (inputPrice <= 0)
 					errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
 				else {
-					if(inputAnswerTotal.size() >= 2) {
+					if(inputAnswerTotal.size() >= 1 && inputRateTotal.size() >= 1) {
 						
-						businessLogic.createQuestion(event, inputQuestion, inputPrice, inputAnswerTotal);
+						businessLogic.createQuestion(event, inputQuestion, inputPrice, inputAnswerTotal,inputRateTotal);
 					}else {
 						msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswer"));
 					}

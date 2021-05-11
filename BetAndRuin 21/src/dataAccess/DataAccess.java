@@ -125,18 +125,18 @@ public class DataAccess {
 				q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
 				q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
 
-				a1 = q1.addSpecificAnswer("Athletic ganara");
-				a2 = q1.addSpecificAnswer("Atlético ganara");
-				a3 = q2.addSpecificAnswer("Athletic metera el primer gol");
-				a4 = q2.addSpecificAnswer("Atlético metera el primer gol");
-				a5 = q3.addSpecificAnswer("Athletic ganara");
-				a6 = q3.addSpecificAnswer("Atlético ganara");
-				a7 = q4.addSpecificAnswer("Mas de dos");
-				a8 = q4.addSpecificAnswer("Menos de dos");
-				a9 = q5.addSpecificAnswer("Málaga ganara");
-				a10 = q5.addSpecificAnswer("Valencia ganara");
-				a11 = q6.addSpecificAnswer("Si");
-				a12 = q6.addSpecificAnswer("No");
+				a1 = q1.addSpecificAnswer("Athletic ganara",35);
+				a2 = q1.addSpecificAnswer("Atlético ganara",54);
+				a3 = q2.addSpecificAnswer("Athletic metera el primer gol",25);
+				a4 = q2.addSpecificAnswer("Atlético metera el primer gol",44);
+				a5 = q3.addSpecificAnswer("Athletic ganara",12);
+				a6 = q3.addSpecificAnswer("Atlético ganara",33);
+				a7 = q4.addSpecificAnswer("Mas de dos",32);
+				a8 = q4.addSpecificAnswer("Menos de dos",55);
+				a9 = q5.addSpecificAnswer("Málaga ganara",23);
+				a10 = q5.addSpecificAnswer("Valencia ganara",42);
+				a11 = q6.addSpecificAnswer("Si",31);
+				a12 = q6.addSpecificAnswer("No",9);
 
 			} else if (Locale.getDefault().equals(new Locale("en"))) {
 
@@ -147,18 +147,18 @@ public class DataAccess {
 				q5 = ev17.addQuestion("Who will win the match?", 1);
 				q6 = ev17.addQuestion("Will they score in the first half of the match?", 2);
 
-				a1 = q1.addSpecificAnswer("Athletic will win");
-				a2 = q1.addSpecificAnswer("Atlético will win");
-				a3 = q2.addSpecificAnswer("Athletic will score first");
-				a4 = q2.addSpecificAnswer("Atlético will score first");
-				a5 = q3.addSpecificAnswer("Athletic will win");
-				a6 = q3.addSpecificAnswer("Atlético will win");
-				a7 = q4.addSpecificAnswer("More than two");
-				a8 = q4.addSpecificAnswer("Less than two");
-				a9 = q5.addSpecificAnswer("Málaga will win");
-				a10 = q5.addSpecificAnswer("Valencia will win");
-				a11 = q6.addSpecificAnswer("Yes");
-				a12 = q6.addSpecificAnswer("No");
+				a1 = q1.addSpecificAnswer("Athletic will win",35);
+				a2 = q1.addSpecificAnswer("Atlético will win",54);
+				a3 = q2.addSpecificAnswer("Athletic will score first",25);
+				a4 = q2.addSpecificAnswer("Atlético will score first",44);
+				a5 = q3.addSpecificAnswer("Athletic will win",12);
+				a6 = q3.addSpecificAnswer("Atlético will win",33);
+				a7 = q4.addSpecificAnswer("More than two",32);
+				a8 = q4.addSpecificAnswer("Less than two",55);
+				a9 = q5.addSpecificAnswer("Málaga will win",23);
+				a10 = q5.addSpecificAnswer("Valencia will win",42);
+				a11 = q6.addSpecificAnswer("Yes",31);
+				a12 = q6.addSpecificAnswer("No",9);
 
 			} else {
 
@@ -169,18 +169,18 @@ public class DataAccess {
 				q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
 				q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
 
-				a1 = q1.addSpecificAnswer("Athletic-ek irabaziko du");
-				a2 = q1.addSpecificAnswer("Atlético-k irabaziko du");
-				a3 = q2.addSpecificAnswer("Athletic-ek sartuko du lehen gola");
-				a4 = q2.addSpecificAnswer("Atlético-k sartuko du lehen gola");
-				a5 = q3.addSpecificAnswer("Athletic-ek irabaziko du");
-				a6 = q3.addSpecificAnswer("Atlético irabaziko du");
-				a7 = q4.addSpecificAnswer("Bi baino gehiago");
-				a8 = q4.addSpecificAnswer("Bi baino gutxiago");
-				a9 = q5.addSpecificAnswer("Málaga-k irabaziko du");
-				a10 = q5.addSpecificAnswer("Valencia-k irabaziko du");
-				a11 = q6.addSpecificAnswer("Bai");
-				a12 = q6.addSpecificAnswer("Ez");
+				a1 = q1.addSpecificAnswer("Athletic-ek irabaziko du",35);
+				a2 = q1.addSpecificAnswer("Atlético-k irabaziko du",54);
+				a3 = q2.addSpecificAnswer("Athletic-ek sartuko du lehen gola",25);
+				a4 = q2.addSpecificAnswer("Atlético-k sartuko du lehen gola",44);
+				a5 = q3.addSpecificAnswer("Athletic-ek irabaziko du",12);
+				a6 = q3.addSpecificAnswer("Atlético irabaziko du",33);
+				a7 = q4.addSpecificAnswer("Bi baino gehiago",32);
+				a8 = q4.addSpecificAnswer("Bi baino gutxiago",55);
+				a9 = q5.addSpecificAnswer("Málaga-k irabaziko du",23);
+				a10 = q5.addSpecificAnswer("Valencia-k irabaziko du",42);
+				a11 = q6.addSpecificAnswer("Bai",31);
+				a12 = q6.addSpecificAnswer("Ez",9);
 			}
 			/*
 			 * db.persist(a1); db.persist(a2); db.persist(a3); db.persist(a4);
@@ -235,7 +235,7 @@ public class DataAccess {
 	 * @throws QuestionAlreadyExist if the same question already exists for the
 	 *                              event
 	 */
-	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList)
+	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList, ArrayList<Integer> rateList)
 			throws QuestionAlreadyExist {
 		System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
 				+ " minimum bet = " + betMinimum + "Possible Answers" + answerList.toString());
@@ -248,8 +248,8 @@ public class DataAccess {
 
 		db.getTransaction().begin();
 		Question q = ev.addQuestion(question, betMinimum);
-		for (String lag : answerList) {
-			q.addSpecificAnswer(lag);
+		for (int i =0 ; i<answerList.size(); i++) {
+			q.addSpecificAnswer(answerList.get(i), rateList.get(0));
 		}
 		// db.persist(q);
 		db.persist(ev); // db.persist(q) not required when CascadeType.PERSIST is added

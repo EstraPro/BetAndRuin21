@@ -27,6 +27,7 @@ import com.toedter.calendar.JCalendar;
 
 import businessLogic.BlFacade;
 import configuration.UtilDate;
+import domain.Answer;
 import domain.Question;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -55,23 +56,30 @@ public class BrowseQuestionsGUI extends JFrame {
 	private Calendar currentCalendar;
 	private JScrollPane eventScrollPane = new JScrollPane();
 	private JScrollPane questionScrollPane = new JScrollPane();
-
+	private JScrollPane answerScrollPane = new JScrollPane();
 	private Vector<Date> datesWithEventsInCurrentMonth = new Vector<Date>();
 
-	private ArrayList<domain.Answer> answers;
+
 
 	private JTable eventTable = new JTable();
 	private JTable questionTable = new JTable();
+	private JTable answerTable = new JTable();
 
 	private DefaultTableModel eventTableModel;
 	private DefaultTableModel questionTableModel;
+	private DefaultTableModel answerTableModel;
 
 	private String[] eventColumnNames = new String[] { ResourceBundle.getBundle("Etiquetas").getString("EventN"),
 			ResourceBundle.getBundle("Etiquetas").getString("Event"),
 
 	};
 	private String[] questionColumnNames = new String[] { ResourceBundle.getBundle("Etiquetas").getString("QuestionN"),
-			ResourceBundle.getBundle("Etiquetas").getString("Question"), ResourceBundle.getBundle("Etiquetas").getString("MinimumBet") };
+			ResourceBundle.getBundle("Etiquetas").getString("Question"),
+			ResourceBundle.getBundle("Etiquetas").getString("MinimumBet") };
+
+	private String[] answerColumnNames = new String[] { ResourceBundle.getBundle("Etiquetas").getString("AnswerN"),
+			ResourceBundle.getBundle("Etiquetas").getString("Answer"),
+			ResourceBundle.getBundle("Etiquetas").getString("Rate") };
 
 	private JTextField betInp;
 	private final JTextArea MessageTextArea = new JTextArea();
@@ -92,7 +100,7 @@ public class BrowseQuestionsGUI extends JFrame {
 	private void jbInit() throws Exception {
 
 		this.getContentPane().setLayout(null);
-		this.setSize(new Dimension(774, 706));
+		this.setSize(new Dimension(776, 711));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 
 		eventDateLbl.setBounds(new Rectangle(40, 15, 140, 25));
@@ -102,8 +110,36 @@ public class BrowseQuestionsGUI extends JFrame {
 		this.getContentPane().add(eventDateLbl, null);
 		this.getContentPane().add(questionLbl);
 		this.getContentPane().add(eventLbl);
+		
+		
+		eventScrollPane.setViewportView(eventTable);
+		eventTableModel = new DefaultTableModel(null, eventColumnNames);
 
-		closeBtn.setBounds(new Rectangle(276, 595, 130, 30));
+		eventTable.setModel(eventTableModel);
+		eventTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+		eventTable.getColumnModel().getColumn(1).setPreferredWidth(268);
+
+		questionScrollPane.setViewportView(questionTable);
+		questionTableModel = new DefaultTableModel(null, questionColumnNames);
+
+		questionTable.setModel(questionTableModel);
+		questionTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+		questionTable.getColumnModel().getColumn(1).setPreferredWidth(243);
+		questionTable.getColumnModel().getColumn(2).setPreferredWidth(25);
+
+		answerScrollPane.setViewportView(answerTable);
+		answerTableModel = new DefaultTableModel(null, answerColumnNames);
+
+		answerTable.setModel(answerTableModel);
+		answerTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+		answerTable.getColumnModel().getColumn(1).setPreferredWidth(243);
+		answerTable.getColumnModel().getColumn(2).setPreferredWidth(25);
+
+		this.getContentPane().add(eventScrollPane, null);
+		this.getContentPane().add(questionScrollPane, null);
+		this.getContentPane().add(answerScrollPane, null);
+
+		closeBtn.setBounds(new Rectangle(271, 640, 130, 30));
 
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
@@ -193,6 +229,7 @@ public class BrowseQuestionsGUI extends JFrame {
 
 		eventScrollPane.setBounds(new Rectangle(292, 50, 346, 150));
 		questionScrollPane.setBounds(new Rectangle(138, 274, 406, 116));
+		answerScrollPane.setBounds(new Rectangle(138, 441, 406, 116));
 
 		eventTable.addMouseListener(new MouseAdapter() {
 			@Override
@@ -202,52 +239,38 @@ public class BrowseQuestionsGUI extends JFrame {
 
 				Vector<Question> questions = ev.getQuestions();
 
-				questionTableModel.setDataVector(null, questionColumnNames);
+				try {
+					questionTableModel.setDataVector(null, questionColumnNames);
+					questionTableModel.setColumnCount(4); // another column added to allocate question objects
 
-				if (questions.isEmpty())
-					questionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("NoQuestions") + ": "
-							+ ev.getDescription());
-				else
-					questionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectedEvent") + " "
-							+ ev.getDescription());
+					if (questions.isEmpty())
+						questionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("NoQuestions") + ": "
+								+ ev.getDescription());
+					else
+						questionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectedEvent") + " "
+								+ ev.getDescription());
 
-				for (domain.Question q : questions) {
-					Vector<Object> row = new Vector<Object>();
-					row.add(q.getQuestionNumber());
-					row.add(q.getQuestion());
-					row.add(q.getBetMinimum());
-					questionTableModel.addRow(row);
+					for (domain.Question q : questions) {
+						Vector<Object> row = new Vector<Object>();
+						row.add(q.getQuestionNumber());
+						row.add(q.getQuestion());
+						row.add(q.getBetMinimum());
+						row.add(q);
+						questionTableModel.addRow(row);
+					}
+					questionTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+					questionTable.getColumnModel().getColumn(1).setPreferredWidth(243);
+					questionTable.getColumnModel().getColumn(2).setPreferredWidth(25);
+					questionTable.getColumnModel().removeColumn(questionTable.getColumnModel().getColumn(3));// ez da
+																												// agertuko
+
+				} catch (Exception e2) {
+					answerLbl.setText(e2.getMessage());
 				}
-				questionTable.getColumnModel().getColumn(0).setPreferredWidth(25);
-				questionTable.getColumnModel().getColumn(1).setPreferredWidth(243);
-				questionTable.getColumnModel().getColumn(2).setPreferredWidth(25);
-
 				// To change the default
 				answerLbl.setText("No question selected");
 			}
 		});
-
-		eventScrollPane.setViewportView(eventTable);
-		eventTableModel = new DefaultTableModel(null, eventColumnNames);
-
-		eventTable.setModel(eventTableModel);
-		eventTable.getColumnModel().getColumn(0).setPreferredWidth(25);
-		eventTable.getColumnModel().getColumn(1).setPreferredWidth(268);
-
-		questionScrollPane.setViewportView(questionTable);
-		questionTableModel = new DefaultTableModel(null, questionColumnNames);
-
-		questionTable.setModel(questionTableModel);
-		questionTable.getColumnModel().getColumn(0).setPreferredWidth(25);
-		questionTable.getColumnModel().getColumn(1).setPreferredWidth(243);
-		questionTable.getColumnModel().getColumn(2).setPreferredWidth(25);
-
-		this.getContentPane().add(eventScrollPane, null);
-		this.getContentPane().add(questionScrollPane, null);
-
-		JComboBox AnswerscomboBox = new JComboBox();
-		AnswerscomboBox.setBounds(138, 441, 406, 22);
-		getContentPane().add(AnswerscomboBox);
 
 		JFrame thisFrame = this;
 		JButton btnBet = new JButton(
@@ -256,43 +279,40 @@ public class BrowseQuestionsGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				MessageTextArea.setText("                                             ");
 				
-				if(businessLogic.isAnyUserLogged()) {
-				if (questionTable.getSelectedRow() != -1 && eventTable.getSelectedRow() != -1
-						&& AnswerscomboBox.getSelectedIndex() != -1) {
-					Integer answerNum = 0;
-					for (domain.Answer lag : answers) {
-						if (AnswerscomboBox.getSelectedItem().equals(lag.getContent())) {
-							answerNum = lag.getAnswerId();
+				if (businessLogic.isAnyUserLogged()) {
+					if (questionTable.getSelectedRow() != -1 && eventTable.getSelectedRow() != -1
+							&& questionTable.getSelectedRow() != -1) {
+						Integer answerNum = (Integer) answerTable.getValueAt(answerTable.getSelectedRow(), 0);
+						Integer questNumber = (Integer) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
+						Integer eventNumber = (Integer) eventTable.getValueAt(eventTable.getSelectedRow(), 0);
+
+						if (businessLogic.isInt(betInp.getText())) {
+							if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged().getWallet()
+									.getMoney()
+									&& Integer.parseInt(betInp.getText()) >= businessLogic
+											.getQuestion(eventNumber, questNumber).getBetMinimum()) {
+								setVisible(false);
+								ConfirmGUI confirmation = new ConfirmGUI();
+								confirmation.setVisible(true);
+								confirmation.previousFrame(thisFrame);
+								confirmation.setValues(eventNumber, questNumber, Integer.parseInt(betInp.getText()),
+										answerNum);
+								betInp.setText("");
+							} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged().getWallet()
+									.getMoney()) {
+								MessageTextArea.setText("You don't have enough money on you wallet!");
+							} else if (Integer.parseInt(betInp.getText()) < businessLogic
+									.getQuestion(eventNumber, questNumber).getBetMinimum()) {
+								MessageTextArea.setText("Please, enter a value higher than the minimum bet!");
+							}
+						} else {
+							MessageTextArea.setText("Please enter a numeric value, not: " + betInp.getText());
 						}
-					}
-					
-					Integer questNumber = (Integer) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
-					Integer eventNumber = (Integer) eventTable.getValueAt(eventTable.getSelectedRow(), 0);
-						
-					if (businessLogic.isInt(betInp.getText())) {
-						if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged().getWallet().getMoney()
-								&& Integer.parseInt(betInp.getText()) >= businessLogic
-										.getQuestion(eventNumber, questNumber).getBetMinimum()) {
-							setVisible(false);
-							ConfirmGUI confirmation = new ConfirmGUI();
-							confirmation.setVisible(true);
-							confirmation.previousFrame(thisFrame);
-							confirmation.setValues(eventNumber, questNumber, Integer.parseInt(betInp.getText()),
-									answerNum);
-							betInp.setText("");
-						} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged().getWallet()
-								.getMoney()) {
-							MessageTextArea.setText("You don't have enough money on you wallet!");
-						} else if (Integer.parseInt(betInp.getText()) < businessLogic
-								.getQuestion(eventNumber, questNumber).getBetMinimum()) {
-							MessageTextArea.setText("Please, enter a value higher than the minimum bet!");
-						}
-					}else {
-						MessageTextArea.setText("Please enter a numeric value, not: "+ betInp.getText());
-					}
 					}
 
-				}else MessageTextArea.setText("You are not able to bet without identification. \n Please register or login.");
+				} else
+					MessageTextArea
+							.setText("You are not able to bet without identification. \n Please register or login.");
 			}
 		});
 		btnBet.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -311,41 +331,52 @@ public class BrowseQuestionsGUI extends JFrame {
 		lblEnterAmount.setBounds(577, 295, 116, 14);
 		getContentPane().add(lblEnterAmount);
 		MessageTextArea.setFont(new Font("Georgia Pro Semibold", Font.PLAIN, 13));
-		MessageTextArea.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.MessageTextArea.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		MessageTextArea.setBounds(138, 478, 406, 92);
+		MessageTextArea
+				.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.MessageTextArea.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		MessageTextArea.setBounds(138, 568, 406, 50);
 
 		getContentPane().add(MessageTextArea);
 
 		questionTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int i = eventTable.getSelectedRow();
-				domain.Event ev = (domain.Event) eventTableModel.getValueAt(i, 2); // obtain ev object
+				
+				int i = questionTable.getSelectedRow();
+				domain.Question question = (domain.Question) questionTableModel.getValueAt(i, 3);// obtain ev object
 
-				Vector<Question> questions = ev.getQuestions();
+				ArrayList<Answer> answers = question.getAnswerList();
+				try {
+					answerTableModel.setDataVector(null, answerColumnNames);
+					answerTableModel.setColumnCount(4); // another column added to allocate answer objects
+				
+	
 
-				int i1 = questionTable.getSelectedRow();
-				domain.Question question = new Question();
-				for (Question lag : questions) {
-					if (lag.getQuestionNumber().equals((Integer) questionTableModel.getValueAt(i1, 0))) {
-						question = lag;// obtain question object
+					if (answers.isEmpty())
+						answerLbl.setText("No Answers for: " + question.getQuestion());
+					else
+						answerLbl.setText("Bet on: " + question.getQuestion());
+
+					for (domain.Answer a : answers) {
+						Vector<Object> row = new Vector<Object>();
+						row.add(a.getAnswerId());
+						row.add(a.getContent());
+						row.add(a.getRate());
+						row.add(a);
+						answerTableModel.addRow(row);
 					}
+					answerTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+					answerTable.getColumnModel().getColumn(1).setPreferredWidth(243);
+					answerTable.getColumnModel().getColumn(2).setPreferredWidth(25);
+					answerTable.getColumnModel().removeColumn(answerTable.getColumnModel().getColumn(3));// ez da
+																												// agertuko
+
+				} catch (Exception e3) {
+					e3.printStackTrace();
+					answerLbl.setText(e3.getMessage());
 				}
-
-				AnswerscomboBox.removeAllItems();
-				answers = question.getAnswerList();
-
-				if (answers.isEmpty())
-					answerLbl.setText("No Answers for: " + question.getQuestion());
-				else
-					answerLbl.setText("Bet on: " + question.getQuestion());
-
-				for (domain.Answer a : answers) {
-					AnswerscomboBox.addItem((String) a.getContent());
-				}
-
 			}
 		});
+		
 
 	}
 

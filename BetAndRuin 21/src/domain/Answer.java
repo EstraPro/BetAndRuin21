@@ -14,6 +14,7 @@ public class Answer {
 	@GeneratedValue
 	private Integer answerId;
 	private String content;
+	private Integer rate;
 	
 	@XmlIDREF
 	private Question question;
@@ -24,30 +25,22 @@ public class Answer {
 	 * @param content
 	 */
 	
-	public Answer(Integer answerId, String content) {
+	public Answer(String content, Integer rate) {
 		super();
-		this.answerId = answerId;
 		this.content = content;
+		this.rate= rate;
 	}
 	
 	/**
 	 * Constructor with questions to add
-	 * @param answerId
 	 * @param content
 	 * @param question
 	 */
-	public Answer(Integer answerId, String content, Question question) {
-		super();
-		this.answerId = answerId;
-		this.content = content;
-		this.question = question;
-	}
-
-	
-	public Answer(String content, Question question) {
+	public Answer(String content, Question question,Integer rate) {
 		super();
 		this.content = content;
 		this.question = question;
+		this.rate= rate;
 	}
 
 	/**
@@ -91,7 +84,22 @@ public class Answer {
 		return question;
 	}
 	
-	
+	/**
+	 * Getter for the rate
+	 * @return
+	 */
+	public Integer getRate() {
+		return rate;
+	}
+
+	/**
+	 * Setter for the rate
+	 * @param rate
+	 */
+	public void setRate(Integer rate) {
+		this.rate = rate;
+	}
+
 	/**
 	 * Setter for Question
 	 * @param question
