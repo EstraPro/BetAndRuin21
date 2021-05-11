@@ -385,7 +385,7 @@ public class DataAccess {
 		
 		return ret;
 	}
-
+	
 	/**
 	 * Updates the given bets of the user, by adding the recent one
 	 * 
