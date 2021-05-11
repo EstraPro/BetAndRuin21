@@ -12,18 +12,24 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 public class User {
-
-	@Id
-	private Integer id;
+	@XmlID
+	@XmlJavaTypeAdapter(IntegerAdapter.class)
+	@Id	
+	private String username;
 	private Date birthDate;
 	private String Name;
 	private String Surname;
 	private String Email;
 	private int BetId = 0;
-	private String username;
+
 	private String password;
 	private boolean loggedIn = false;
 	private String BankAccount;
@@ -39,12 +45,11 @@ public class User {
 	 * @param usr
 	 * @param passwd
 	 **/
-	public User(Integer id, String usr, String passwd) {
+	public User(String usr, String passwd) {
 
-		this.id = id;
 		username = usr;
 		password = passwd;
-		wallet = new Wallet(id);
+		wallet = new Wallet();
 	}
 	
 	public void updateUsername(String newName) {
@@ -81,16 +86,15 @@ public class User {
 	 * @param surname
 	 * @param email
 	 */
-	public User(Integer id, String username, String password, Date birthDate, String name, String surname, String email,
+	public User(String username, String password, Date birthDate, String name, String surname, String email,
 			String BankAccount) {
 		this.birthDate = birthDate;
 		Name = name;
 		Surname = surname;
 		Email = email;
-		this.id = id;
 		this.username = username;
 		this.password = password;
-		wallet = new Wallet(id);
+		wallet = new Wallet();
 		this.BankAccount = BankAccount;
 	}
 
@@ -126,14 +130,6 @@ public class User {
 		madeBets.add(bet);
 		wallet.removeMoney(amount);
 		BetId++;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getUsername() {

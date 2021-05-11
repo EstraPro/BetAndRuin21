@@ -1,7 +1,9 @@
 package domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Class that represents a virtual wallet
@@ -11,14 +13,15 @@ import javax.persistence.Id;
 @Entity
 public class Wallet {
 	@Id
+	@XmlJavaTypeAdapter(IntegerAdapter.class)
+	@GeneratedValue
 	private Integer walletId;
 	private int money;
 
 	/**
 	 * Constructor of wallet
 	 */
-	public Wallet(Integer Id) {
-		this.walletId = Id;
+	public Wallet() {
 		money = 10;
 	}
 

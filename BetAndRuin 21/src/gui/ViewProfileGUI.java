@@ -245,9 +245,9 @@ public class ViewProfileGUI extends JFrame {
 				int currency = businessLogic.getUserLogged().getWallet().getMoney();
 				lblMoneyShow.setText(currency + "€");
 				String accountNum  = businessLogic.getUserLogged().getBankAccount();
-				lblBankAccount.setText(accountNum);
+				lblBankAccount.setText("Bank Account: " + accountNum);
 				String newUserName = businessLogic.getUserLogged().getUsername();
-				lblUsername.setText(newUserName);
+				lblUsername.setText("Username: " + newUserName);
 				
 			}
 		});

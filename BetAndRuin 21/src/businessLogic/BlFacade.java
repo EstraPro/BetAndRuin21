@@ -53,7 +53,7 @@ public interface BlFacade  {
 	
 	@WebMethod public User getUserLogged();
 	
-	@WebMethod public Integer getLoggedUserId();
+	@WebMethod public String getLoggedUserUserName();
 	
 	@WebMethod public Question getQuestion(int eventNum, int questionNum);
 	
@@ -64,7 +64,8 @@ public interface BlFacade  {
 	@WebMethod public void resetLogins();
 	
 	@WebMethod public boolean passwdMatches(String pass1, String pass2);
-	@WebMethod public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
+	
+	@WebMethod public int storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
 			String bankAccount) ;
 	
 	@WebMethod public boolean checkCredentialsAdmin(String usname, String passwd);
@@ -77,13 +78,13 @@ public interface BlFacade  {
 	
 	@WebMethod public void insertMoneyLoggedUser(int amount);
 	
-	@WebMethod public void updateUserData(String uName, String pass, String bankN);
+	@WebMethod public int updateUserData(String uName, String pass, String bankN);
 	
 	@WebMethod public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum);
 	
 	@WebMethod public Event getEvent(Integer eventNum);
 	
-	@WebMethod public void storeBet(int userid, Question question, Answer answer, Event event, Date date, int amount);
+	@WebMethod public void storeBet(Question question, Answer answer, Event event, Date date, int amount);
 	
 	
 	

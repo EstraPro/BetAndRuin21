@@ -1,6 +1,7 @@
 package dataAccess;
 
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Calendar;
 
@@ -12,11 +13,15 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
+import com.objectdb.o.UserException;
 
 import configuration.ConfigXML;
 import configuration.UtilDate;
@@ -121,17 +126,17 @@ public class DataAccess {
 				q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
 
 				a1 = q1.addSpecificAnswer("Athletic ganara");
-				a2 = q1.addSpecificAnswer( "Atlético ganara");
-				a3 = q2.addSpecificAnswer( "Athletic metera el primer gol");
-				a4 = q2.addSpecificAnswer( "Atlético metera el primer gol");
-				a5 = q3.addSpecificAnswer( "Athletic ganara");
-				a6 = q3.addSpecificAnswer( "Atlético ganara");
-				a7 = q4.addSpecificAnswer( "Mas de dos");
-				a8 = q4.addSpecificAnswer( "Menos de dos");
-				a9 = q5.addSpecificAnswer( "Málaga ganara");
-				a10 = q5.addSpecificAnswer( "Valencia ganara");
-				a11 = q6.addSpecificAnswer( "Si");
-				a12 = q6.addSpecificAnswer( "No");
+				a2 = q1.addSpecificAnswer("Atlético ganara");
+				a3 = q2.addSpecificAnswer("Athletic metera el primer gol");
+				a4 = q2.addSpecificAnswer("Atlético metera el primer gol");
+				a5 = q3.addSpecificAnswer("Athletic ganara");
+				a6 = q3.addSpecificAnswer("Atlético ganara");
+				a7 = q4.addSpecificAnswer("Mas de dos");
+				a8 = q4.addSpecificAnswer("Menos de dos");
+				a9 = q5.addSpecificAnswer("Málaga ganara");
+				a10 = q5.addSpecificAnswer("Valencia ganara");
+				a11 = q6.addSpecificAnswer("Si");
+				a12 = q6.addSpecificAnswer("No");
 
 			} else if (Locale.getDefault().equals(new Locale("en"))) {
 
@@ -142,18 +147,18 @@ public class DataAccess {
 				q5 = ev17.addQuestion("Who will win the match?", 1);
 				q6 = ev17.addQuestion("Will they score in the first half of the match?", 2);
 
-				a1 = q1.addSpecificAnswer( "Athletic will win");
-				a2 = q1.addSpecificAnswer( "Atlético will win");
-				a3 = q2.addSpecificAnswer( "Athletic will score first");
-				a4 = q2.addSpecificAnswer( "Atlético will score first");
-				a5 = q3.addSpecificAnswer( "Athletic will win");
-				a6 = q3.addSpecificAnswer( "Atlético will win");
-				a7 = q4.addSpecificAnswer( "More than two");
-				a8 = q4.addSpecificAnswer( "Less than two");
-				a9 = q5.addSpecificAnswer( "Málaga will win");
-				a10 = q5.addSpecificAnswer( "Valencia will win");
-				a11 = q6.addSpecificAnswer( "Yes");
-				a12 = q6.addSpecificAnswer( "No");
+				a1 = q1.addSpecificAnswer("Athletic will win");
+				a2 = q1.addSpecificAnswer("Atlético will win");
+				a3 = q2.addSpecificAnswer("Athletic will score first");
+				a4 = q2.addSpecificAnswer("Atlético will score first");
+				a5 = q3.addSpecificAnswer("Athletic will win");
+				a6 = q3.addSpecificAnswer("Atlético will win");
+				a7 = q4.addSpecificAnswer("More than two");
+				a8 = q4.addSpecificAnswer("Less than two");
+				a9 = q5.addSpecificAnswer("Málaga will win");
+				a10 = q5.addSpecificAnswer("Valencia will win");
+				a11 = q6.addSpecificAnswer("Yes");
+				a12 = q6.addSpecificAnswer("No");
 
 			} else {
 
@@ -175,29 +180,16 @@ public class DataAccess {
 				a9 = q5.addSpecificAnswer("Málaga-k irabaziko du");
 				a10 = q5.addSpecificAnswer("Valencia-k irabaziko du");
 				a11 = q6.addSpecificAnswer("Bai");
-				a12 = q6.addSpecificAnswer( "Ez");
+				a12 = q6.addSpecificAnswer("Ez");
 			}
-
-			db.persist(a1);
-			db.persist(a2);
-			db.persist(a3);
-			db.persist(a4);
-			db.persist(a5);
-			db.persist(a6);
-			db.persist(a7);
-			db.persist(a8);
-			db.persist(a9);
-			db.persist(a10);
-			db.persist(a11);
-			db.persist(a12);
-
-			db.persist(q1);
-			db.persist(q2);
-			db.persist(q3);
-			db.persist(q4);
-			db.persist(q5);
-			db.persist(q6);
-
+			/*
+			 * db.persist(a1); db.persist(a2); db.persist(a3); db.persist(a4);
+			 * db.persist(a5); db.persist(a6); db.persist(a7); db.persist(a8);
+			 * db.persist(a9); db.persist(a10); db.persist(a11); db.persist(a12);
+			 * 
+			 * db.persist(q1); db.persist(q2); db.persist(q3); db.persist(q4);
+			 * db.persist(q5); db.persist(q6);
+			 */
 			db.persist(ev1);
 			db.persist(ev2);
 			db.persist(ev3);
@@ -219,8 +211,8 @@ public class DataAccess {
 			db.persist(ev19);
 			db.persist(ev20);
 
-			User admin = new User(0, "admin", "admin");
-			User pepita = new User(1, "pepi", "1234", new Date(), "Pepita", "Kaltzaslargas", "motozikleta@gmail.com",
+			User admin = new User("admin", "admin");
+			User pepita = new User("pepi", "1234", new Date(), "Pepita", "Kaltzaslargas", "motozikleta@gmail.com",
 					"ES 2345 4937 4345 8678");
 			db.persist(admin);
 			db.persist(pepita);
@@ -243,9 +235,10 @@ public class DataAccess {
 	 * @throws QuestionAlreadyExist if the same question already exists for the
 	 *                              event
 	 */
-	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList) throws QuestionAlreadyExist {
+	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList)
+			throws QuestionAlreadyExist {
 		System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
-				+ " minimum bet = " + betMinimum+ "Possible Answers"+ answerList.toString());
+				+ " minimum bet = " + betMinimum + "Possible Answers" + answerList.toString());
 
 		Event ev = db.find(Event.class, event.getEventNumber());
 
@@ -255,7 +248,7 @@ public class DataAccess {
 
 		db.getTransaction().begin();
 		Question q = ev.addQuestion(question, betMinimum);
-		for(String lag : answerList) {
+		for (String lag : answerList) {
 			q.addSpecificAnswer(lag);
 		}
 		// db.persist(q);
@@ -370,20 +363,27 @@ public class DataAccess {
 	 * @param userp
 	 * @param passwordp
 	 */
-	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
+	public int storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
 			String bankAccount) {
 		db.getTransaction().begin();
+		User user = null;
+		int ret = 0;
+		try {
 
-		TypedQuery<Integer> queryMaxId = db.createQuery("SELECT MAX(id) FROM User", Integer.class);
+			user = new User(userp, passwordp, birthDate, name, surname, email, bankAccount);
+			db.persist(user);
+			db.getTransaction().commit();
+			
+			System.out.println(userp + " Registered!");
+			ret = 1;
 
-		List<Integer> ids = queryMaxId.getResultList();
+		} catch (Exception e) {
+			System.out.println("Duplicated Username");
+			ret = 0;
+		}
 
-		int id = ids.get(0);
-
-		User user = new User(id + 1, userp, passwordp, birthDate, name, surname, email, bankAccount);
-		db.persist(user);
-		db.getTransaction().commit();
-		System.out.println(userp + " Registered!");
+		
+		return ret;
 	}
 
 	/**
@@ -393,16 +393,16 @@ public class DataAccess {
 	 * @param questionId
 	 * @param amount
 	 */
-	public void storeBet(int userid, Question question, Answer answer, Event event, Date date, int amount) {
+	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
 
-		Integer id = getLoggedUserId();
+		String username = getLoggedUserUserName();
 
 		this.open(false);
 
 		db.getTransaction().begin();
 
-		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
-		query.setParameter(1, id);
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = ?1", User.class);
+		query.setParameter(1, username);
 		List<User> users = query.getResultList();
 
 		users.get(0).storeBet(question, answer, event, date, amount);
@@ -418,13 +418,13 @@ public class DataAccess {
 	 * @param userid
 	 * @return
 	 */
-	public User getUserById(int userid) {
+	public User getUserByUsername(String username) {
 
 		this.open(false);
 
 		db.getTransaction().begin();
-		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
-		query.setParameter(1, userid);
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = ?1", User.class);
+		query.setParameter(1, username);
 		List<User> user = query.getResultList();
 
 		db.getTransaction().commit();
@@ -444,7 +444,7 @@ public class DataAccess {
 	public boolean checkUser(String usname, String passwd) {
 
 		TypedQuery<User> userPassQuery = db.createQuery(
-				"SELECT id FROM User WHERE username.equals(\"" + usname + "\") AND password.equals(\"" + passwd + "\")",
+				"SELECT FROM User WHERE username.equals(\"" + usname + "\") AND password.equals(\"" + passwd + "\")",
 				User.class);
 
 		List<User> users = userPassQuery.getResultList();
@@ -499,20 +499,21 @@ public class DataAccess {
 	 * 
 	 * @return
 	 */
-	public Integer getLoggedUserId() {
+	public String getLoggedUserUserName() {
 
 		this.open(false);
 
 		db.getTransaction().begin();
 
-		TypedQuery<Integer> queryLoggedUsers = db.createQuery("SELECT id FROM User WHERE loggedIn=true", Integer.class);
+		TypedQuery<String> queryLoggedUsers = db.createQuery("SELECT username FROM User WHERE loggedIn=true",
+				String.class);
 
-		List<Integer> ids = queryLoggedUsers.getResultList();
+		List<String> usernames = queryLoggedUsers.getResultList();
 
 		db.getTransaction().commit();
 		this.close();
 
-		return ids.get(0);
+		return usernames.get(0);
 	}
 
 	/**
@@ -574,13 +575,13 @@ public class DataAccess {
 	 */
 	public void insertMoneyLoggedUser(int amount) {
 
-		Integer id = getLoggedUserId();
+		String username = getLoggedUserUserName();
 
 		this.open(false);
 
 		db.getTransaction().begin();
-		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
-		query.setParameter(1, id);
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = ?1", User.class);
+		query.setParameter(1, username);
 		List<User> users = query.getResultList();
 
 		users.get(0).getWallet().insertMoney(amount);
@@ -597,26 +598,76 @@ public class DataAccess {
 	 * @param pass
 	 * @param bankN
 	 */
-	public void updateUserData(String uName, String pass, String bankN) {
-		
-		Integer id = getLoggedUserId();
+	public int updateUserData(String uName, String pass, String bankN) {
+		int ret = 0;
+		String username = getLoggedUserUserName();
 
 		this.open(false);
 
 		db.getTransaction().begin();
-		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
-		query.setParameter(1, id);
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = ?1", User.class);
+		query.setParameter(1, username);
 		List<User> users = query.getResultList();
-
-		if (!uName.isEmpty()) users.get(0).updateUsername(uName);
-		if (!pass.isEmpty()) users.get(0).updatePassword(pass);
-		if (!bankN.isEmpty()) users.get(0).updateBankNumber(bankN);
-
-		db.getTransaction().commit();
-
+		User modifiedUser = null;
+		
+		try {
+			if (!uName.isEmpty()) {
+				modifiedUser = this.copyUser(users.get(0),uName);
+				if (!pass.isEmpty())
+					modifiedUser.updatePassword(pass);
+				if (!bankN.isEmpty())
+					modifiedUser.updateBankNumber(bankN);
+				
+				db.persist(modifiedUser);
+				db.getTransaction().commit();
+				this.deleteUser(users.get(0));
+				
+			}else {
+				if (!pass.isEmpty())
+					users.get(0).updatePassword(pass);
+				if (!bankN.isEmpty())
+					users.get(0).updateBankNumber(bankN);
+			}
+				
+			ret = 1;
+		}catch (Exception e) {
+			System.out.println("UserName Already Exist");
+			ret = 0;
+		}
 		this.close();
+		return ret;
 	}
 	
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public User copyUser(User user, String newUsername) {
+		User NewUser = new User(newUsername, user.getPassword(), user.getBirthDate(),user.getName(), user.getSurname(), user.getEmail() ,user.getBankAccount());
+		NewUser.setLoggedIn(true);
+		return NewUser;
+	}
+
+	/**
+	 * 
+	 * @param username
+	 */
+	public void deleteUser(User username) {
+		
+		db.getTransaction().begin();
+		
+		User conFlightRes = null;
+		try {
+			 conFlightRes = db.find(User.class, username.getUsername());
+		}catch(IllegalArgumentException e) {
+			db.merge(username);
+		}
+		db.remove(conFlightRes);
+		
+		db.getTransaction().commit();
+	}
+
 	/**
 	 * Method that removes a bet given its id, and updates the money in wallet
 	 * 
@@ -625,14 +676,14 @@ public class DataAccess {
 	 */
 	public void removeBet(Integer remBetId, int amount) {
 
-		Integer id = getLoggedUserId();
+		String username = getLoggedUserUserName();
 
 		this.open(false);
 
 		db.getTransaction().begin();
 
-		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.id = ?1", User.class);
-		query.setParameter(1, id);
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = ?1", User.class);
+		query.setParameter(1, username);
 		List<User> users = query.getResultList();
 
 		users.get(0).removeBet(remBetId);

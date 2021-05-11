@@ -125,7 +125,7 @@ public class BlFacadeImplementation implements BlFacade {
 	@WebMethod
 	public User getUserLogged(){
 		//dbManager.open(false);
-		User ret = dbManager.getUserById(getLoggedUserId());
+		User ret = dbManager.getUserByUsername(getLoggedUserUserName());
 		//dbManager.close();
 		return ret;
 		
@@ -136,9 +136,9 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @return
 	 */
 	@WebMethod
-	public Integer getLoggedUserId() {
+	public String getLoggedUserUserName() {
 		
-		return dbManager.getLoggedUserId();
+		return dbManager.getLoggedUserUserName();
 	}
 	
 	
@@ -218,12 +218,12 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param userp
 	 * @param passwordp
 	 */
-	public void storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
+	public int storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
 			String bankAccount) {
 		dbManager.open(false);
-		dbManager.storeUser(userp, passwordp, birthDate, name, surname, email, bankAccount);
+		int ret = dbManager.storeUser(userp, passwordp, birthDate, name, surname, email, bankAccount);
 		dbManager.close();
-		
+		return ret;
 	}
 
 	/**
@@ -244,9 +244,9 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param questionId
 	 * @param amount
 	 */
-	public void storeBet(int userid, Question question, Answer answer, Event event, Date date, int amount) {
+	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
 
-		dbManager.storeBet(userid, question, answer, event, date, amount);
+		dbManager.storeBet(question, answer, event, date, amount);
 	}
 
 	/**
@@ -306,9 +306,9 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param pass
 	 * @param bankN
 	 */
-	public void updateUserData(String uName, String pass, String bankN) {
+	public int updateUserData(String uName, String pass, String bankN) {
 		
-		dbManager.updateUserData(uName, pass, bankN);
+		return dbManager.updateUserData(uName, pass, bankN);
 	}
 
 	/**

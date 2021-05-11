@@ -155,7 +155,7 @@ public class MainGUI extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 					setVisible(false);
-					if(businessLogic.getLoggedUserId().equals(0)) {
+					if(businessLogic.getLoggedUserUserName().equals("admin")) {
 						CreateQuestionGUI nextGUI = new CreateQuestionGUI(businessLogic, null);
 						nextGUI.previousFrame(thisFrame);
 						nextGUI.setVisible(true);	
@@ -228,7 +228,7 @@ public class MainGUI extends JFrame {
 		BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("ViewProfile"));
 		
 		if(businessLogic.isAnyUserLogged())
-			if(businessLogic.getLoggedUserId().equals(0))
+			if(businessLogic.getLoggedUserUserName().equals("admin"))
 				BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));;
 				
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));

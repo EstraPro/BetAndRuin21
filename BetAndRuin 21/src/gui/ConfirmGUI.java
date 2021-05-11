@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
-
 
 import java.awt.EventQueue;
 
@@ -21,11 +19,13 @@ import java.awt.event.ActionEvent;
 
 public class ConfirmGUI extends JFrame {
 
+	
+
 	private JPanel contentPane;
 
 	private JFrame prevFrame;
 
-	private Integer id, eventNum, questionNum, answerNum, amount;
+	private Integer eventNum, questionNum, answerNum, amount;
 
 	private BlFacade businessLogic;
 	
@@ -66,7 +66,7 @@ public class ConfirmGUI extends JFrame {
 		JButton btnYes = new JButton("YES");
 		btnYes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				businessLogic.storeBet(businessLogic.getLoggedUserId(), businessLogic.getQuestion(eventNum,questionNum), 
+				businessLogic.storeBet(businessLogic.getQuestion(eventNum,questionNum), 
 						businessLogic.getAnswer(eventNum,questionNum, answerNum), businessLogic.getEvent(eventNum), new Date(), amount);
 				setVisible(false);
 				prevFrame.setVisible(true);
@@ -95,7 +95,6 @@ public class ConfirmGUI extends JFrame {
 	/**
 	 * Setter for all values given from BrowseQuestionsGUI
 	 * 
-	 * @param id
 	 * @param eventNum
 	 * @param questionNum
 	 * @param amount

@@ -107,13 +107,14 @@ public class RegisterGUI extends JFrame {
 
 					if (businessLogic.passwdMatches(String.valueOf(txtPassword.getPassword()),
 							String.valueOf(txtRetypePass.getPassword()))) {
-						businessLogic.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()),dateChooser.getDate(), NameField.getText(), 
-								SurnameField.getText(), EmailField.getText(), bankAccountField.getText());
-						dispalyTxt.setText("Registered!");
-					
-						setVisible(false);
-						prevFrame.setVisible(true);
-						
+						if(businessLogic.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()),dateChooser.getDate(), NameField.getText(), 
+								SurnameField.getText(), EmailField.getText(), bankAccountField.getText())==0) {
+							dispalyTxt.setText("That username already exists, \n please enter new one.");
+						}else {
+							dispalyTxt.setText("Registered!");
+							setVisible(false);
+							prevFrame.setVisible(true);
+						}
 					} else {
 						dispalyTxt.setText("Password MissMatch($·$)");
 					}
@@ -217,12 +218,14 @@ public class RegisterGUI extends JFrame {
 
 				if (businessLogic.passwdMatches(String.valueOf(txtPassword.getPassword()),
 						String.valueOf(txtRetypePass.getPassword()))) {
-					businessLogic.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()),dateChooser.getDate(), NameField.getText(), 
-							SurnameField.getText(), EmailField.getText(), bankAccountField.getText());
-					dispalyTxt.setText("Registered!");
-				
-					setVisible(false);
-					prevFrame.setVisible(true);
+					if(businessLogic.storeUser(txtUsername.getText(), String.valueOf(txtPassword.getPassword()),dateChooser.getDate(), NameField.getText(), 
+							SurnameField.getText(), EmailField.getText(), bankAccountField.getText())==0) {
+						dispalyTxt.setText("That username already exists, \n please enter new one.");
+					}else {
+						dispalyTxt.setText("Registered!");
+						setVisible(false);
+						prevFrame.setVisible(true);
+					}
 					
 				} else {
 					dispalyTxt.setText("Password MissMatch($·$)");

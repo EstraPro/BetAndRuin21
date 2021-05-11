@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
 
 public class EditProfileGUI extends JFrame {
 
@@ -70,7 +71,7 @@ public class EditProfileGUI extends JFrame {
 
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 464, 328);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -114,6 +115,10 @@ public class EditProfileGUI extends JFrame {
 		lblBank.setBounds(52, 184, 148, 15);
 		contentPane.add(lblBank);
 		
+		JTextArea errorArea = new JTextArea();
+		errorArea.setBounds(78, 208, 275, 34);
+		contentPane.add(errorArea);
+		
 		JButton btnUpdateInfo = new JButton("Update Info");
 		btnUpdateInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -138,12 +143,28 @@ public class EditProfileGUI extends JFrame {
 					bank = txtBankaccount.getText();
 				}
 				System.out.println(uname + "" + pass + "" + bank);
-				businessLogic.updateUserData(uname, pass, bank);
+				if(businessLogic.updateUserData(uname, pass, bank)==0) {
+					errorArea.setText("There is already a user with that username,\n please enter a differnt one.");
+				}else {
+					errorArea.setText("Changes done!");
+				}
+				
+				
+			}
+		});
+		btnUpdateInfo.setBounds(265, 253, 117, 25);
+		contentPane.add(btnUpdateInfo);
+		
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				prevFrame.setVisible(true);
 			}
 		});
-		btnUpdateInfo.setBounds(170, 236, 117, 25);
-		contentPane.add(btnUpdateInfo);
+		btnBack.setBounds(52, 253, 117, 25);
+		contentPane.add(btnBack);
+		
+		
 	}
 }
