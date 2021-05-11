@@ -211,7 +211,7 @@ public class BlFacadeImplementation implements BlFacade {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Stores a newly registered user to the database
 	 * 
