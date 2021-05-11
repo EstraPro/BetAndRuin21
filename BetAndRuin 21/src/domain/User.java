@@ -238,4 +238,4 @@ public class User {
 		}
 		System.out.println("Bets: " + madeBets.size());
 	}
-}
+}	
