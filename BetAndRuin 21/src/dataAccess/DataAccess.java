@@ -411,7 +411,7 @@ public class DataAccess {
 
 		this.close();
 	}
-
+	
 	/**
 	 * Gets the needed user stored in the database
 	 * 
