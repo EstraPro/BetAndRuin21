@@ -15,6 +15,7 @@ public class Answer {
 	private Integer answerId;
 	private String content;
 	private Integer rate;
+	private Integer type;
 	
 	@XmlIDREF
 	private Question question;
