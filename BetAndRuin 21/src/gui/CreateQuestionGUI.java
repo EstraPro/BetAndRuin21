@@ -72,6 +72,8 @@ public class CreateQuestionGUI extends JFrame {
 	private JComboBox<Integer> ratecomboBox3;
 	private JComboBox<Integer> ratecomboBox4;
 	
+	private JComboBox<Integer> questionTypeComboBox;
+	
 	private final JButton btnLogout = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Logout")); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
@@ -115,7 +117,7 @@ public class CreateQuestionGUI extends JFrame {
 		calendar.setBounds(new Rectangle(47, 109, 225, 150));
 		eventScrollPane.setBounds(new Rectangle(25, 44, 346, 116));
 
-		createBtn.setBounds(new Rectangle(86, 482, 149, 30));
+		createBtn.setBounds(new Rectangle(85, 503, 149, 30));
 		createBtn.setEnabled(false);
 
 		createBtn.addActionListener(new ActionListener() {
@@ -124,7 +126,7 @@ public class CreateQuestionGUI extends JFrame {
 				jButtonCreate_actionPerformed(e);
 			}
 		});
-		closeBtn.setBounds(new Rectangle(433, 482, 130, 30));
+		closeBtn.setBounds(new Rectangle(423, 503, 130, 30));
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -132,7 +134,7 @@ public class CreateQuestionGUI extends JFrame {
 			}
 		});
 
-		msgLbl.setBounds(new Rectangle(285, 273, 305, 20));
+		msgLbl.setBounds(new Rectangle(285, 233, 305, 20));
 		msgLbl.setForeground(Color.red);
 		// jLabelMsg.setSize(new Dimension(305, 20));
 
@@ -158,33 +160,33 @@ public class CreateQuestionGUI extends JFrame {
 		paintDaysWithEvents(calendar, datesWithEventsInCurrentMonth);
 
 		eventDateLbl.setBounds(new Rectangle(40, 15, 140, 25));
-		eventDateLbl.setBounds(47, 75, 140, 25);
+		eventDateLbl.setBounds(47, 59, 140, 25);
 		getContentPane().add(eventDateLbl);
 		
 		JLabel lblAnswers = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.lblNewLabel.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		lblAnswers.setBounds(32, 348, 75, 14);
+		lblAnswers.setBounds(32, 382, 75, 14);
 		getContentPane().add(lblAnswers);
 		
 		answersText = new JTextField();
 		answersText.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.textField.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		answersText.setBounds(107, 345, 429, 20);
+		answersText.setBounds(107, 379, 429, 20);
 		getContentPane().add(answersText);
 		answersText.setColumns(10);
 		
 		answers1Text = new JTextField();
 		answers1Text.setText(" ");
 		answers1Text.setColumns(10);
-		answers1Text.setBounds(107, 376, 429, 20);
+		answers1Text.setBounds(107, 410, 429, 20);
 		getContentPane().add(answers1Text);
 		
 		answers2Text = new JTextField();
 		answers2Text.setText(" ");
 		answers2Text.setColumns(10);
-		answers2Text.setBounds(107, 407, 429, 20);
+		answers2Text.setBounds(107, 441, 429, 20);
 		getContentPane().add(answers2Text);
 		answers3Text.setText(" ");
 		answers3Text.setColumns(10);
-		answers3Text.setBounds(107, 439, 429, 20);
+		answers3Text.setBounds(107, 472, 429, 20);
 		
 		getContentPane().add(answers3Text);
 		btnLogout.addActionListener(new ActionListener() {
@@ -202,20 +204,20 @@ public class CreateQuestionGUI extends JFrame {
 		getContentPane().add(btnLogout);
 		
 		JLabel lblRates = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.lblRates.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		lblRates.setBounds(535, 320, 75, 14);
+		lblRates.setBounds(535, 354, 75, 14);
 		getContentPane().add(lblRates);
 		
 		ratecomboBox1 = new JComboBox<Integer>();
-		ratecomboBox1.setBounds(571, 344, 39, 22);
+		ratecomboBox1.setBounds(571, 378, 39, 22);
 		
 		ratecomboBox2 = new JComboBox<Integer>();
-		ratecomboBox2.setBounds(571, 375, 39, 22);
+		ratecomboBox2.setBounds(571, 409, 39, 22);
 		
 		ratecomboBox3 = new JComboBox<Integer>();
-		ratecomboBox3.setBounds(571, 406, 39, 22);
+		ratecomboBox3.setBounds(571, 440, 39, 22);
 		
 		ratecomboBox4 = new JComboBox<Integer>();
-		ratecomboBox4.setBounds(571, 438, 39, 22);
+		ratecomboBox4.setBounds(571, 471, 39, 22);
 		
 		for(int i = 1 ; i<101; i++) {
 			ratecomboBox1.addItem((Integer)i);
@@ -228,6 +230,19 @@ public class CreateQuestionGUI extends JFrame {
 		getContentPane().add(ratecomboBox2);
 		getContentPane().add(ratecomboBox3);
 		getContentPane().add(ratecomboBox4);
+		
+		JLabel questType = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.questType.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		questType.setBounds(new Rectangle(32, 301, 75, 20));
+		questType.setBounds(32, 332, 75, 20);
+		getContentPane().add(questType);
+		
+		questionTypeComboBox = new JComboBox<Integer>();
+		
+		questionTypeComboBox.setBounds(107, 331, 80, 22);
+		for(int i = 1 ; i<4; i++) {
+			questionTypeComboBox.addItem((Integer)i);
+		}
+		getContentPane().add(questionTypeComboBox);
 
 		// Code for JCalendar
 		this.calendar.addPropertyChangeListener(new PropertyChangeListener() {
@@ -351,6 +366,8 @@ public class CreateQuestionGUI extends JFrame {
 			String inputAnswer2 = answers2Text.getText();
 			String inputAnswer3 = answers3Text.getText();
 			
+			Integer inputType = (Integer) questionTypeComboBox.getSelectedItem();
+			
 			
 			
 			if(inputAnswer.length() > 1 && ratecomboBox1.getSelectedIndex()!=-1 ) {
@@ -381,7 +398,7 @@ public class CreateQuestionGUI extends JFrame {
 				else {
 					if(inputAnswerTotal.size() >= 1 && inputRateTotal.size() >= 1) {
 						
-						businessLogic.createQuestion(event, inputQuestion, inputPrice, inputAnswerTotal,inputRateTotal);
+						businessLogic.createQuestion(event, inputQuestion, inputPrice, inputAnswerTotal,inputRateTotal,inputType);
 					}else {
 						msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswer"));
 					}

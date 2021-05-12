@@ -15,7 +15,6 @@ public class Answer {
 	private Integer answerId;
 	private String content;
 	private Integer rate;
-	private Integer type;
 	
 	@XmlIDREF
 	private Question question;
@@ -108,6 +107,7 @@ public class Answer {
 	public void setQuestion(Question question) {
 		this.question = question;
 	}
+
 
 	@Override
 	public String toString() {
