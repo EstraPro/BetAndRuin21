@@ -37,6 +37,7 @@ public class User {
 	private List<Bet> madeBets = new ArrayList<Bet>();
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private Wallet wallet;
+ private int a;
 
 	/**
 	 * Constructor for Admin
