@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 
 import businessLogic.BlFacade;
 import businessLogic.BlFacadeImplementation;
+import java.awt.Font;
 
 public class MainGUI extends JFrame {
 
@@ -65,11 +66,25 @@ public class MainGUI extends JFrame {
 		});
 		
 		this.setBussinessLogic(new BlFacadeImplementation());
-		this.setBounds(100, 100, 281, 231);
+		this.setBounds(100, 100, 348, 309);
 
 		this.initializeMainPane();
 		this.setContentPane(mainPane);
+		{
+			btnInsertResults = new JButton(ResourceBundle.getBundle("Etiquetas").getString("btnInsertResults")); //$NON-NLS-1$ //$NON-NLS-2$
+			btnInsertResults.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setVisible(false);
+					InsertResultsGUI InsertWindow = new InsertResultsGUI();
+					InsertWindow.setVisible(true);
+					InsertWindow.previousFrame(thisFrame);
+				}
+			});
+			btnInsertResults.setBounds(35, 123, 265, 38);
+			mainPane.add(btnInsertResults);
+		}
 		
+		btnInsertResults.setVisible(false);
 		businessLogic.resetLogins();
 
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
@@ -79,9 +94,11 @@ public class MainGUI extends JFrame {
 
 	private void initializeMainPane() {
 		mainPane = new JPanel();
-		mainPane.setLayout(new GridLayout(5, 1, 0, 0));
-
+		mainPane.setLayout(null);
+		
 		selectOptionLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
+		selectOptionLbl.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
+		selectOptionLbl.setBounds(35, 0, 265, 38);
 		selectOptionLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		mainPane.add(selectOptionLbl);
 
@@ -93,11 +110,12 @@ public class MainGUI extends JFrame {
 		initializeLocalePane();
 		{
 			panel = new JPanel();
+			panel.setBounds(0, 172, 332, 38);
 			mainPane.add(panel);
 			{
 				MainGUI thisFrame = this;
-				btnRegister = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MainGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
-				btnRegister.setBounds(0, 0, 122, 34);
+				btnRegister = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MainGUI.btnNewButton.text"));
+				btnRegister.setBounds(0, 0, 144, 34);
 				btnRegister.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
@@ -113,6 +131,7 @@ public class MainGUI extends JFrame {
 			{
 				MainGUI thisFrame = this;
 				btnLogin = new JButton(ResourceBundle.getBundle("Etiquetas").getString("MainGUI.btnNewButton_1.text"));
+				btnLogin.setBounds(193, 1, 139, 33);
 				btnLogin.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
@@ -122,7 +141,6 @@ public class MainGUI extends JFrame {
 						LoginWindow.previousFrame(thisFrame);
 					}
 				});
-				btnLogin.setBounds(143, 1, 122, 33);
 				panel.add(btnLogin);
 			}
 		}
@@ -133,6 +151,7 @@ public class MainGUI extends JFrame {
 		
 		JFrame thisFrame = this;
 		browseQuestionsBtn = new JButton();
+		browseQuestionsBtn.setBounds(35, 45, 265, 38);
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		browseQuestionsBtn.addActionListener(new java.awt.event.ActionListener() {
 			@Override
@@ -147,10 +166,14 @@ public class MainGUI extends JFrame {
 	}
 	
 	MainGUI thisFrame = this;
+	private JButton btnInsertResults;
 	private void initializeCancelBetsBtn() {
 		BifunctionalBtn = new JButton();
+		BifunctionalBtn.setBounds(35, 84, 265, 38);
 		BifunctionalBtn.setVisible(false);
 		BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("ViewProfile")); 
+
+		
 		BifunctionalBtn.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -172,8 +195,10 @@ public class MainGUI extends JFrame {
 
 	private void initializeLocalePane() {
 		localePane = new JPanel();
+		localePane.setBounds(0, 221, 322, 38);
 
 		initializeEuskaraRbtn();
+		localePane.setLayout(null);
 		localePane.add(euskaraRbtn);
 
 		initializeCastellanoRbtn();
@@ -185,6 +210,7 @@ public class MainGUI extends JFrame {
 
 	private void initializeEuskaraRbtn() {
 		euskaraRbtn = new JRadioButton("Euskara");
+		euskaraRbtn.setBounds(25, 7, 96, 23);
 		euskaraRbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -198,6 +224,7 @@ public class MainGUI extends JFrame {
 
 	private void initializeCastellanoRbtn() {
 		castellanoRbtn = new JRadioButton("Castellano");
+		castellanoRbtn.setBounds(123, 7, 105, 23);
 		castellanoRbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -211,6 +238,7 @@ public class MainGUI extends JFrame {
 
 	private void initializeEnglishRbtn() {
 		englishRbtn = new JRadioButton("English");
+		englishRbtn.setBounds(230, 7, 92, 23);
 		englishRbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -226,6 +254,7 @@ public class MainGUI extends JFrame {
 		selectOptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectUseCase"));
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("ViewProfile"));
+		btnInsertResults.setText(ResourceBundle.getBundle("Etiquetas").getString("btnInsertResults"));
 		
 		if(businessLogic.isAnyUserLogged())
 			if(businessLogic.getLoggedUserUserName().equals("admin"))
@@ -257,4 +286,14 @@ public class MainGUI extends JFrame {
 	public void setBifunctionalBtn(JButton bifunctionalBtn) {
 		BifunctionalBtn = bifunctionalBtn;
 	}
+
+	public JButton getBtnInsertResults() {
+		return btnInsertResults;
+	}
+
+	public void setBtnInsertResults(JButton btnInsertResults) {
+		this.btnInsertResults = btnInsertResults;
+	}
+	
+	
 }
