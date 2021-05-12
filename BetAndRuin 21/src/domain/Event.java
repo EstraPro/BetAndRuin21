@@ -90,8 +90,8 @@ public class Event implements Serializable {
 	 * @param betMinimum of that question
 	 * @return Bet
 	 */
-	public Question addQuestion(String question, float betMinimum)  {
-		Question q=new Question(question,betMinimum, this);
+	public Question addQuestion(String question, float betMinimum, Integer type)  {
+		Question q=new Question(question,betMinimum, this, type);
 		questions.add(q);
 		return q;
 	}

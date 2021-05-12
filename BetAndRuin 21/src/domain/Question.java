@@ -25,6 +25,7 @@ public class Question implements Serializable {
 	private String question; 
 	private float betMinimum;
 	private String result;
+	private Integer type;
 	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private ArrayList<Answer> answerList = new ArrayList<Answer>();
 
@@ -35,19 +36,21 @@ public class Question implements Serializable {
 		super();
 	}
 
-	public Question(Integer queryNumber, String query, float betMinimum, Event event) {
+	public Question(Integer queryNumber, String query, float betMinimum, Event event, Integer type) {
 		super();
 		this.questionNumber = queryNumber;
 		this.question = query;
 		this.betMinimum=betMinimum;
 		this.event = event;
+		this.type=type;
 	}
 
-	public Question(String query, float betMinimum,  Event event) {
+	public Question(String query, float betMinimum,  Event event, Integer type) {
 		super();
 		this.question = query;
 		this.betMinimum=betMinimum;
 		this.event = event;
+		this.type=type;
 	}
 
 	/**
@@ -145,7 +148,23 @@ public class Question implements Serializable {
 		this.event = event;
 	}
 	
-	
+	/**
+	 * Gets the question type
+	 * 
+	 * @return the type
+	 */
+	public Integer getType() {
+		return type;
+	}
+
+	/**
+	 * Sets the question type
+	 * 
+	 * @param the type
+	 */
+	public void setType(Integer type) {
+		this.type = type;
+	}
 
 	public ArrayList<Answer> getAnswerList() {
 		return answerList;
