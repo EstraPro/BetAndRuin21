@@ -60,7 +60,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 */
 	@Override
 	@WebMethod
-	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList) 
+	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList, ArrayList<Integer> rateList) 
 			throws EventFinished, QuestionAlreadyExist {
 
 		//The minimum bid must be greater than 0
@@ -71,7 +71,7 @@ public class BlFacadeImplementation implements BlFacade {
 			throw new EventFinished(ResourceBundle.getBundle("Etiquetas").
 					getString("ErrorEventHasFinished"));
 
-		qry = dbManager.createQuestion(event, question, betMinimum,answerList);		
+		qry = dbManager.createQuestion(event, question, betMinimum,answerList,rateList);		
 		dbManager.close();
 		return qry;
 	}
@@ -211,7 +211,7 @@ public class BlFacadeImplementation implements BlFacade {
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Stores a newly registered user to the database
 	 * 

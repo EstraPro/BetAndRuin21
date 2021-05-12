@@ -89,14 +89,14 @@ public class ViewProfileGUI extends JFrame {
 		
 		this.setBusinessLogic(new BlFacadeImplementation());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 760, 467);
+		setBounds(100, 100, 853, 467);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JScrollPane showBetscrollPane = new JScrollPane();
-		showBetscrollPane.setBounds(10, 247, 725, 128);
+		showBetscrollPane.setBounds(10, 247, 817, 128);
 		contentPane.add(showBetscrollPane);
 		
 		
@@ -146,13 +146,13 @@ public class ViewProfileGUI extends JFrame {
 				new Object[][] {
 				},
 				new String[] {
-					"#Bet", "Event", "Question", "Answer", "Amount(\u20AC)", "Date"
+					"#Bet", "Event", "Question", "Answer", "Amount(\u20AC)", "Date","Expected Profit"
 				}
 			);
 		
 		tableListBet = new JTable(tableModel);
 		
-		Object[] ezaugarriList = new Object[6];
+		Object[] ezaugarriList = new Object[7];
 		for(Bet lag: businessLogic.getUserLogged().getAllBets()) {
 			ezaugarriList[0] = lag.getId();
 			ezaugarriList[1] = lag.getEvent().getDescription();
@@ -160,15 +160,9 @@ public class ViewProfileGUI extends JFrame {
 			ezaugarriList[3] = lag.getAnswer().getContent();
 			ezaugarriList[4] = lag.getAmount();
 			ezaugarriList[5] = df.format(lag.getDate());
+			ezaugarriList[6] = lag.getProfit();
 			tableModel.insertRow(tableModel.getRowCount(), ezaugarriList);
 		}
-		
-		tableListBet.getColumnModel().getColumn(0).setPreferredWidth(25);
-		tableListBet.getColumnModel().getColumn(1).setPreferredWidth(50);
-		tableListBet.getColumnModel().getColumn(2).setPreferredWidth(150);
-		tableListBet.getColumnModel().getColumn(3).setPreferredWidth(100);
-		tableListBet.getColumnModel().getColumn(4).setPreferredWidth(50);
-		tableListBet.getColumnModel().getColumn(5).setPreferredWidth(50);
 
 		tableListBet.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
 		showBetscrollPane.setViewportView(tableListBet);
@@ -217,7 +211,7 @@ public class ViewProfileGUI extends JFrame {
 			}
 		});
 		DeleteBetbtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		DeleteBetbtn.setBounds(552, 386, 120, 31);
+		DeleteBetbtn.setBounds(615, 386, 120, 31);
 		contentPane.add(DeleteBetbtn);
 
 		JPanel NameSurnamepanel = new JPanel();

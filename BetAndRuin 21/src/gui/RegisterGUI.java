@@ -226,7 +226,7 @@ public class RegisterGUI extends JFrame {
 						setVisible(false);
 						prevFrame.setVisible(true);
 					}
-					
+						
 				} else {
 					dispalyTxt.setText("Password MissMatch($·$)");
 				}

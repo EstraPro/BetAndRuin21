@@ -220,7 +220,7 @@ public class User {
 	public String getBankAccount() {
 		return BankAccount;
 	}
-
+			
 	public void setBankAccount(String bankAccount) {
 		BankAccount = bankAccount;
 	}
@@ -238,4 +238,4 @@ public class User {
 		}
 		System.out.println("Bets: " + madeBets.size());
 	}
-}
+}	
