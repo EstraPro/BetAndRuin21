@@ -102,6 +102,7 @@ public class DataAccess {
 			Question q4;
 			Question q5;
 			Question q6;
+			Question q7;
 
 			Answer a1;
 			Answer a2;
@@ -118,12 +119,12 @@ public class DataAccess {
 
 			if (Locale.getDefault().equals(new Locale("es"))) {
 
-				q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
-				q2 = ev1.addQuestion("¿Quién meterá el primer gol?", 2);
-				q3 = ev11.addQuestion("¿Quién ganará el partido?", 1);
-				q4 = ev11.addQuestion("¿Cuántos goles se marcarán?", 2);
-				q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
-				q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
+				q1 = ev1.addQuestion("¿Quién ganará el partido?", 1, 1);
+				q2 = ev1.addQuestion("¿Quién meterá el primer gol?", 2, 1);
+				q3 = ev11.addQuestion("¿Quién ganará el partido?", 1, 1);
+				q4 = ev11.addQuestion("¿Cuántos goles se marcarán?", 2, 1);
+				q5 = ev17.addQuestion("¿Quién ganará el partido?", 1, 1);
+				q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2, 1);
 
 				a1 = q1.addSpecificAnswer("Athletic ganara",35);
 				a2 = q1.addSpecificAnswer("Atlético ganara",54);
@@ -140,12 +141,13 @@ public class DataAccess {
 
 			} else if (Locale.getDefault().equals(new Locale("en"))) {
 
-				q1 = ev1.addQuestion("Who will win the match?", 1);
-				q2 = ev1.addQuestion("Which team will score first?", 2);
-				q3 = ev11.addQuestion("Who will win the match?", 1);
-				q4 = ev11.addQuestion("How many goals will be scored?", 2);
-				q5 = ev17.addQuestion("Who will win the match?", 1);
-				q6 = ev17.addQuestion("Will they score in the first half of the match?", 2);
+				q1 = ev1.addQuestion("Who will win the match?", 1, 1);
+				q2 = ev1.addQuestion("Which team will score first?", 2, 1);
+				q3 = ev11.addQuestion("Who will win the match?", 1, 1);
+				q4 = ev11.addQuestion("How many goals will be scored?", 2, 1);
+				q5 = ev17.addQuestion("Who will win the match?", 1, 1);
+				q6 = ev17.addQuestion("Will they score in the first half of the match?", 2, 1);
+				q7 = ev11.addQuestion("which will be the result?", 2, 2);
 
 				a1 = q1.addSpecificAnswer("Athletic will win",35);
 				a2 = q1.addSpecificAnswer("Atlético will win",54);
@@ -162,12 +164,12 @@ public class DataAccess {
 
 			} else {
 
-				q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1);
-				q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2);
-				q3 = ev11.addQuestion("Zeinek irabaziko du partidua?", 1);
-				q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2);
-				q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
-				q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
+				q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1, 1);
+				q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2, 1);
+				q3 = ev11.addQuestion("Zeinek irabaziko du partidua?", 1, 1);
+				q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2, 1);
+				q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1, 1);
+				q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2, 1);
 
 				a1 = q1.addSpecificAnswer("Athletic-ek irabaziko du",35);
 				a2 = q1.addSpecificAnswer("Atlético-k irabaziko du",54);
@@ -235,7 +237,7 @@ public class DataAccess {
 	 * @throws QuestionAlreadyExist if the same question already exists for the
 	 *                              event
 	 */
-	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList, ArrayList<Integer> rateList)
+	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList, ArrayList<Integer> rateList, Integer type)
 			throws QuestionAlreadyExist {
 		System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
 				+ " minimum bet = " + betMinimum + "Possible Answers" + answerList.toString());
@@ -247,7 +249,7 @@ public class DataAccess {
 					ResourceBundle.getBundle("Etiquetas").getString("ErrorQuestionAlreadyExist"));
 
 		db.getTransaction().begin();
-		Question q = ev.addQuestion(question, betMinimum);
+		Question q = ev.addQuestion(question, betMinimum, type);
 		for (int i =0 ; i<answerList.size(); i++) {
 			q.addSpecificAnswer(answerList.get(i), rateList.get(0));
 		}

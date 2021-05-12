@@ -108,6 +108,7 @@ public class Answer {
 		this.question = question;
 	}
 
+
 	@Override
 	public String toString() {
 		return "Answer [answerId=" + answerId + ", content=" + content + ", question=" + question + "]";

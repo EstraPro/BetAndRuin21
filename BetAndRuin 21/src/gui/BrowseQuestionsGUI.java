@@ -35,6 +35,10 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.DropMode;
 import javax.swing.JComboBox;
+import java.awt.SystemColor;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class BrowseQuestionsGUI extends JFrame {
 
@@ -83,12 +87,17 @@ public class BrowseQuestionsGUI extends JFrame {
 
 	private JTextField betInp;
 	private final JTextArea MessageTextArea = new JTextArea();
+	private final JComboBox goals1comboBox = new JComboBox();
+	private final JComboBox goals2comboBox = new JComboBox();
+	private final JTextArea Team1TextArea = new JTextArea();
+	private final JTextArea Team2TextArea = new JTextArea();
 
 	public void setBusinessLogic(BlFacade bl) {
 		businessLogic = bl;
 	}
 
 	public BrowseQuestionsGUI(BlFacade bl) {
+		
 		businessLogic = bl;
 		try {
 			jbInit();
@@ -98,18 +107,8 @@ public class BrowseQuestionsGUI extends JFrame {
 	}
 
 	private void jbInit() throws Exception {
-
-		this.getContentPane().setLayout(null);
-		this.setSize(new Dimension(776, 711));
+		this.setSize(new Dimension(896, 818));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
-
-		eventDateLbl.setBounds(new Rectangle(40, 15, 140, 25));
-		questionLbl.setBounds(138, 248, 406, 14);
-		eventLbl.setBounds(295, 19, 259, 16);
-
-		this.getContentPane().add(eventDateLbl, null);
-		this.getContentPane().add(questionLbl);
-		this.getContentPane().add(eventLbl);
 		
 		
 		eventScrollPane.setViewportView(eventTable);
@@ -135,12 +134,6 @@ public class BrowseQuestionsGUI extends JFrame {
 		answerTable.getColumnModel().getColumn(1).setPreferredWidth(243);
 		answerTable.getColumnModel().getColumn(2).setPreferredWidth(25);
 
-		this.getContentPane().add(eventScrollPane, null);
-		this.getContentPane().add(questionScrollPane, null);
-		this.getContentPane().add(answerScrollPane, null);
-
-		closeBtn.setBounds(new Rectangle(271, 640, 130, 30));
-
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -149,13 +142,25 @@ public class BrowseQuestionsGUI extends JFrame {
 			}
 		});
 
-		this.getContentPane().add(closeBtn, null);
-
-		calendar.setBounds(new Rectangle(40, 50, 225, 150));
-
 		datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
 		CreateQuestionGUI.paintDaysWithEvents(calendar, datesWithEventsInCurrentMonth);
 
+		for(int i = 0 ; i<15; i++) {
+			goals1comboBox.addItem((Integer)i);
+		}
+		
+		for(int i = 0 ; i<15; i++) {
+			goals2comboBox.addItem((Integer)i);
+		}
+		
+		
+		goals1comboBox.setVisible(false);
+		goals2comboBox.setVisible(false);
+		Team1TextArea.setVisible(false);
+		Team2TextArea.setVisible(false);
+		answerScrollPane.setVisible(false);
+		
+		
 		// Code for JCalendar
 		this.calendar.addPropertyChangeListener(new PropertyChangeListener() {
 
@@ -220,16 +225,9 @@ public class BrowseQuestionsGUI extends JFrame {
 			}
 		});
 
-		this.getContentPane().add(calendar, null);
-
 		JLabel answerLbl = new JLabel(
-				ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.answerLbl.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		answerLbl.setBounds(138, 416, 406, 14);
-		getContentPane().add(answerLbl);
-
-		eventScrollPane.setBounds(new Rectangle(292, 50, 346, 150));
-		questionScrollPane.setBounds(new Rectangle(138, 274, 406, 116));
-		answerScrollPane.setBounds(new Rectangle(138, 441, 406, 116));
+				ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.answerLbl.text"));
+		
 
 		eventTable.addMouseListener(new MouseAdapter() {
 			@Override
@@ -280,7 +278,7 @@ public class BrowseQuestionsGUI extends JFrame {
 				MessageTextArea.setText("                                             ");
 				
 				if (businessLogic.isAnyUserLogged()) {
-					if (questionTable.getSelectedRow() != -1 && eventTable.getSelectedRow() != -1
+					if (answerTable.getSelectedRow() != -1 && eventTable.getSelectedRow() != -1
 							&& questionTable.getSelectedRow() != -1) {
 						Integer answerNum = (Integer) answerTable.getValueAt(answerTable.getSelectedRow(), 0);
 						Integer questNumber = (Integer) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
@@ -316,26 +314,124 @@ public class BrowseQuestionsGUI extends JFrame {
 			}
 		});
 		btnBet.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnBet.setBounds(589, 347, 89, 43);
-		getContentPane().add(btnBet);
 
 		betInp = new JTextField();
 		betInp.setColumns(10);
 		betInp.setText("");
-		betInp.setBounds(589, 315, 89, 20);
-		getContentPane().add(betInp);
 
 		JLabel lblEnterAmount = new JLabel(
 				ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.lblEnterAmount.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		lblEnterAmount.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblEnterAmount.setBounds(577, 295, 116, 14);
-		getContentPane().add(lblEnterAmount);
+		MessageTextArea.setBackground(SystemColor.menu);
 		MessageTextArea.setFont(new Font("Georgia Pro Semibold", Font.PLAIN, 13));
 		MessageTextArea
-				.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.MessageTextArea.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		MessageTextArea.setBounds(138, 568, 406, 50);
-
-		getContentPane().add(MessageTextArea);
+				.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.MessageTextArea.text"));
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(40)
+					.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+					.addGap(211)
+					.addComponent(eventLbl, GroupLayout.PREFERRED_SIZE, 259, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(40)
+					.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
+					.addGap(126)
+					.addComponent(eventScrollPane, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(305)
+					.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(445, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(238)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(Team1TextArea, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+						.addComponent(goals1comboBox, Alignment.LEADING, 0, 90, Short.MAX_VALUE))
+					.addGap(93)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(goals2comboBox, 0, 89, Short.MAX_VALUE)
+							.addGap(370))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(Team2TextArea, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(171)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(questionLbl, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(MessageTextArea, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap())
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(answerScrollPane, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
+									.addContainerGap())
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(questionScrollPane, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
+										.addComponent(answerLbl, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+											.addComponent(btnBet, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+											.addComponent(betInp, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
+										.addComponent(lblEnterAmount, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
+									.addGap(42))))))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(15)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(4)
+							.addComponent(eventLbl, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)))
+					.addGap(10)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+						.addComponent(eventScrollPane, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+					.addGap(29)
+					.addComponent(questionLbl)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(59)
+							.addComponent(lblEnterAmount, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(betInp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(btnBet, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(questionScrollPane, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(answerLbl)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(answerScrollPane, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+					.addGap(27)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(Team1TextArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(Team2TextArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(goals1comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(goals2comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(74)
+					.addComponent(MessageTextArea, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addGap(24))
+		);
+		Team1TextArea.setBackground(SystemColor.menu);
+		Team1TextArea.setEditable(false);
+		Team2TextArea.setBackground(SystemColor.menu);
+		Team2TextArea.setEditable(false);
+		getContentPane().setLayout(groupLayout);
 
 		questionTable.addMouseListener(new MouseAdapter() {
 			@Override
@@ -344,13 +440,20 @@ public class BrowseQuestionsGUI extends JFrame {
 				int i = questionTable.getSelectedRow();
 				domain.Question question = (domain.Question) questionTableModel.getValueAt(i, 3);// obtain ev object
 
+				Integer qtype = question.getType();
+				
+				if (qtype.equals(1)) {
+				goals1comboBox.setVisible(false);
+				goals2comboBox.setVisible(false);
+				Team1TextArea.setVisible(false);
+				Team2TextArea.setVisible(false);
+				answerScrollPane.setVisible(true);
+				
 				ArrayList<Answer> answers = question.getAnswerList();
 				try {
 					answerTableModel.setDataVector(null, answerColumnNames);
 					answerTableModel.setColumnCount(4); // another column added to allocate answer objects
 				
-	
-
 					if (answers.isEmpty())
 						answerLbl.setText("No Answers for: " + question.getQuestion());
 					else
@@ -373,6 +476,26 @@ public class BrowseQuestionsGUI extends JFrame {
 				} catch (Exception e3) {
 					e3.printStackTrace();
 					answerLbl.setText(e3.getMessage());
+				}
+				}else if (qtype.equals(2)){
+					answerScrollPane.setVisible(false);
+					goals1comboBox.setVisible(true);
+					goals2comboBox.setVisible(true);
+					Team1TextArea.setVisible(true);
+					Team2TextArea.setVisible(true);
+					Team1TextArea.setText("       ");
+					Team2TextArea.setText("       ");
+					String[] teams = question.getEvent().getDescription().split("-");
+					String first = teams[0];
+					String second = teams[1];
+					Team1TextArea.setText(first);
+					Team2TextArea.setText(second);
+					
+					Integer team1Goals = (Integer) goals1comboBox.getSelectedItem();
+					Integer team2Goals = (Integer) goals2comboBox.getSelectedItem();
+					
+					String answer2 = team1Goals + "-" + team2Goals;
+					
 				}
 			}
 		});
