@@ -194,6 +194,7 @@ public class CreateQuestionGUI extends JFrame {
 				prevFrame.getBtnLogin().setVisible(true);
 				prevFrame.getBtnRegister().setVisible(true);
 				prevFrame.getBifunctionalBtn().setVisible(false);
+				prevFrame.getBtnInsertResults().setVisible(false);
 				businessLogic.resetLogins();
 			}
 		});

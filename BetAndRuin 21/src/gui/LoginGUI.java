@@ -95,6 +95,7 @@ public class LoginGUI extends JFrame {
 						prevFrame.getBtnRegister().setVisible(false);
 						prevFrame.getBifunctionalBtn().setVisible(true);
 						prevFrame.getBifunctionalBtn().setText("Create Questions");
+						prevFrame.getBtnInsertResults().setVisible(true);
 						businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
 					}
 
@@ -107,6 +108,7 @@ public class LoginGUI extends JFrame {
 						prevFrame.getBtnRegister().setVisible(false);
 						prevFrame.getBifunctionalBtn().setVisible(true);
 						prevFrame.getBifunctionalBtn().setText("View Profile");
+						prevFrame.getBtnInsertResults().setVisible(false);
 						businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
 					}
 
@@ -137,6 +139,7 @@ public class LoginGUI extends JFrame {
 					prevFrame.getBtnRegister().setVisible(false);
 					prevFrame.getBifunctionalBtn().setVisible(true);
 					prevFrame.getBifunctionalBtn().setText("Create Questions");
+					prevFrame.getBtnInsertResults().setVisible(true);
 					businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
 				}
 
@@ -149,6 +152,7 @@ public class LoginGUI extends JFrame {
 					prevFrame.getBtnRegister().setVisible(false);
 					prevFrame.getBifunctionalBtn().setVisible(true);
 					prevFrame.getBifunctionalBtn().setText("View Profile");
+					prevFrame.getBtnInsertResults().setVisible(false);
 					businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
 				}
 
