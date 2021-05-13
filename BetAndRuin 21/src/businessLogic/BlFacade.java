@@ -85,6 +85,9 @@ public interface BlFacade  {
 	@WebMethod public Event getEvent(Integer eventNum);
 	
 	@WebMethod public void storeBet(Question question, Answer answer, Event event, Date date, int amount);
+
+	@WebMethod int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
+			ArrayList<Date> dateList);
 	
 	
 	
