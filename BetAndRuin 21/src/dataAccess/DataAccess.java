@@ -759,7 +759,7 @@ public class DataAccess {
 	}
 
 	public int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
-			ArrayList<Date> dateList) {
+			ArrayList<String> questionsContent, ArrayList<Date> dateList) {
 
 		// sortuko ditut errore kasu desberdinak 0=Ondo joan da, 1=Zeozer jan duela,
 		// arrayek size desberdina, 2=Zeozer Txarto idatzita dago dokumentuan, 3=Datak txarto daude, duela asko pasata edo oso goiz da oraindik
@@ -779,7 +779,7 @@ public class DataAccess {
 						//Dagoen bet bakoitzeko ebaluatu
 						for(Integer bet: bets) {
 							this.evaluateBet(bet, questionType.get(i), resultList.get(i));
-							//Ez dut pentsatu hainbeste nola egin. Baina ziurrenik beharko duzu jakin ze questionsen erantzuna ema dizuten. Igual zutabe gehiarri bat
+							//Ez dut pentsatu hainbeste nola egin. Pasatu dizut Question content list, dala questiona zein dan(String question)
 						}
 
 					}

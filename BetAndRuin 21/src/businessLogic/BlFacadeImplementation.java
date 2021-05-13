@@ -337,19 +337,20 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	public int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType,
-			ArrayList<String> resultList, ArrayList<Date> dateList) {
+	public int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
+			ArrayList<String> questionsContent, ArrayList<Date> dateList) {
 		dbManager.open(false);
-		int ret = dbManager.manageResults(eventList,questionType,resultList,dateList);
+		int ret = dbManager.manageResults(eventList,questionType,resultList,questionsContent, dateList);
 		dbManager.close();
 		return ret;
 	}
 
-	@Override
+	@WebMethod
 	public Integer createAnswer(Integer eventNum, Integer questionNum, String answerContent, String answerRate) throws AnswerAlreadyExist {
 		dbManager.open(false);
 		int ret = dbManager.createAnswer(eventNum,questionNum,answerContent,answerRate);
 		dbManager.close();
 		return ret;
 	}
+
 }

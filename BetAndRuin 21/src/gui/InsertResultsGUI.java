@@ -1,11 +1,19 @@
 package gui;
 
 import java.awt.BorderLayout;
+
+import java.io.Closeable;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import businessLogic.BlFacade;
 import businessLogic.BlFacadeImplementation;
@@ -18,10 +26,15 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -90,26 +103,71 @@ public class InsertResultsGUI extends JFrame {
 				errorArea.setText("");
 				if (!inputText.getText().equals("")) {
 					File file;
-					Scanner scanner;
+
 					try {
 						file = new File(inputText.getText());
-						scanner = new Scanner(file);
+
 						/**
-						 * Scan the results, lortu arrayList bat zutabe bakoitzarentzat. Sartu diot question type. 
-						 * Emaitza bakoitzak question bati erantzungo diolako. Horrela determina dezakegu sartuko duen resulta
-						 * Adibidez question tipe-a aukera mugatuena bada, esan ahal diogu sartzeko erantzuna espezifikoki. Edo erantzuna
-						 * emaitza exaktua bada hori sartzeko zuzenean...
-						 * Zutabeak: Question type-a, Event-a, Result-a, Data
+						 * Scan the results, lortu arrayList bat zutabe bakoitzarentzat. Sartu diot
+						 * question type. Emaitza bakoitzak question bati erantzungo diolako. Horrela
+						 * determina dezakegu sartuko duen resulta Adibidez question tipe-a aukera
+						 * mugatuena bada, esan ahal diogu sartzeko erantzuna espezifikoki. Edo
+						 * erantzuna emaitza exaktua bada hori sartzeko zuzenean... Zutabeak: Question
+						 * type-a, Event-a, Result-a, Data
 						 * 
 						 * Hutsik dauden zutabeak ez kontuan hartu listan, ez gorde (" ") adibidez
 						 */
 						//
-						ArrayList<String> eventList = null;
-						ArrayList<Integer> questionType = null;
-						ArrayList<String> resultList = null;
-						ArrayList<Date> dateList = null;
-						int depends = businessLogic.manageResults(eventList,questionType,resultList,dateList);
-						switch(depends) {
+						POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(file));
+						HSSFWorkbook wb = new HSSFWorkbook(fs);
+						HSSFSheet sheet = wb.getSheetAt(0);
+						HSSFRow row;
+						HSSFCell cell;
+
+						int rows; // No of rows
+						rows = sheet.getPhysicalNumberOfRows();
+
+						ArrayList<String> eventList = new ArrayList<String>();
+						ArrayList<Integer> questionType = new ArrayList<Integer>();
+						ArrayList<String> resultList = new ArrayList<String>();
+						ArrayList<String> questionsContent = new ArrayList<String>();
+						ArrayList<Date> dateList = new ArrayList<Date>();
+
+						for (int r = 0; r < rows; r++) {
+							row = sheet.getRow(r);
+							if (row != null) {
+								for (int c = 0; c < 5; c++) {
+									cell = row.getCell((short) c);
+									if (cell != null) {
+										
+										switch (c) {
+										case 0:
+											eventList.add(cell.getStringCellValue());
+											break;
+										case 1:
+											questionType.add(Integer.parseInt(cell.getStringCellValue()));
+											break;
+										case 2:
+											resultList.add(cell.getStringCellValue());
+											break;
+										case 3:
+											questionsContent.add(cell.getStringCellValue());
+											break;
+										case 4:
+											String sDate1=cell.getStringCellValue();  
+										    Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);  
+											dateList.add(date1);
+											break;
+										default:
+									
+										}
+
+									}
+								}
+							}
+						}
+						int depends = businessLogic.manageResults(eventList, questionType, resultList,questionsContent, dateList);
+						switch (depends) {
 						case 0:
 							errorArea.setText("Results entered and managed!");
 							break;
@@ -125,7 +183,14 @@ public class InsertResultsGUI extends JFrame {
 						}
 
 					} catch (FileNotFoundException e1) {
+					
+					} catch (IOException e1) {
 						errorArea.setText("Can't find a existing file with that path.");
+						System.out.println("Some thing wrong with I/O");
+						e1.printStackTrace();
+					} catch (ParseException e1) {
+						System.out.println("Some date is written wrong");
+						errorArea.setText("Some date is written wrong");
 						e1.printStackTrace();
 					}
 
