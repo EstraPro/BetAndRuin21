@@ -30,6 +30,7 @@ import domain.Bet;
 import domain.Event;
 import domain.Question;
 import domain.User;
+import exceptions.AnswerAlreadyExist;
 import exceptions.QuestionAlreadyExist;
 
 /**
@@ -184,14 +185,14 @@ public class DataAccess {
 				a11 = q6.addSpecificAnswer("Bai", 31);
 				a12 = q6.addSpecificAnswer("Ez", 9);
 			}
-			/*
-			 * db.persist(a1); db.persist(a2); db.persist(a3); db.persist(a4);
-			 * db.persist(a5); db.persist(a6); db.persist(a7); db.persist(a8);
-			 * db.persist(a9); db.persist(a10); db.persist(a11); db.persist(a12);
-			 * 
-			 * db.persist(q1); db.persist(q2); db.persist(q3); db.persist(q4);
-			 * db.persist(q5); db.persist(q6);
-			 */
+			
+			  db.persist(a1); db.persist(a2); db.persist(a3); db.persist(a4);
+			  db.persist(a5); db.persist(a6); db.persist(a7); db.persist(a8);
+			  db.persist(a9); db.persist(a10); db.persist(a11); db.persist(a12);
+			 
+			  db.persist(q1); db.persist(q2); db.persist(q3); db.persist(q4);
+			  db.persist(q5); db.persist(q6);
+			 
 			db.persist(ev1);
 			db.persist(ev2);
 			db.persist(ev3);
@@ -236,9 +237,10 @@ public class DataAccess {
 	 * @return the created question, or null, or an exception
 	 * @throws QuestionAlreadyExist if the same question already exists for the
 	 *                              event
+	 * @throws AnswerAlreadyExist 
 	 */
 	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList, ArrayList<Integer> rateList, Integer type)
-			throws QuestionAlreadyExist {
+			throws QuestionAlreadyExist, AnswerAlreadyExist {
 
 	System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
 				+ " minimum bet = " + betMinimum + "Possible Answers" + answerList.toString());
@@ -254,7 +256,14 @@ public class DataAccess {
 		Question q = ev.addQuestion(question, betMinimum, type);
 		
 		for (int i = 0; i < answerList.size(); i++) {
-			q.addSpecificAnswer(answerList.get(i), rateList.get(0));
+			if(q.doesAnswerExist(answerList.get(i))) {
+				throw new AnswerAlreadyExist(
+						ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswerAlreadyExist"));
+			}else {
+				q.addSpecificAnswer(answerList.get(i), rateList.get(0));
+			}
+				
+			
 		}
 		// db.persist(q);
 		db.persist(ev); // db.persist(q) not required when CascadeType.PERSIST is added
@@ -262,6 +271,32 @@ public class DataAccess {
 		// @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 		db.getTransaction().commit();
 		return q;
+	}
+	
+	public int createAnswer(Integer eventNum, Integer questionNum, String answerContent, String answerRate) throws AnswerAlreadyExist {
+		Question qu = db.find(Question.class, questionNum);
+		int ret=0;
+		Answer ans= null;
+		if (qu.doesAnswerExist(answerContent)) {
+			ans = qu.getSpecificAnswerbyContent(answerContent);
+			ret = ans.getAnswerId();
+		}
+		else {
+			db.getTransaction().begin();
+			qu.addSpecificAnswer(answerContent,Integer.parseInt(answerRate));
+			db.persist(qu);
+			db.getTransaction().commit();
+			
+			TypedQuery<Question> query = db.createQuery("SELECT que FROM Question que WHERE que.questionNumber=?1", Question.class);
+			query.setParameter(1, questionNum);
+			List<Question> questions = query.getResultList();
+			Question question = questions.get(0);
+			ans = question.getSpecificAnswerbyContent(answerContent);
+			
+			ret = ans.getAnswerId();
+		}		
+		
+		return ret;
 	}
 
 	/**
@@ -782,4 +817,6 @@ public class DataAccess {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 }

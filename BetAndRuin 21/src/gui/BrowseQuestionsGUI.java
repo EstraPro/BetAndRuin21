@@ -63,8 +63,6 @@ public class BrowseQuestionsGUI extends JFrame {
 	private JScrollPane answerScrollPane = new JScrollPane();
 	private Vector<Date> datesWithEventsInCurrentMonth = new Vector<Date>();
 
-
-
 	private JTable eventTable = new JTable();
 	private JTable questionTable = new JTable();
 	private JTable answerTable = new JTable();
@@ -97,7 +95,7 @@ public class BrowseQuestionsGUI extends JFrame {
 	}
 
 	public BrowseQuestionsGUI(BlFacade bl) {
-		
+
 		businessLogic = bl;
 		try {
 			jbInit();
@@ -109,8 +107,7 @@ public class BrowseQuestionsGUI extends JFrame {
 	private void jbInit() throws Exception {
 		this.setSize(new Dimension(896, 818));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
-		
-		
+
 		eventScrollPane.setViewportView(eventTable);
 		eventTableModel = new DefaultTableModel(null, eventColumnNames);
 
@@ -145,22 +142,20 @@ public class BrowseQuestionsGUI extends JFrame {
 		datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
 		CreateQuestionGUI.paintDaysWithEvents(calendar, datesWithEventsInCurrentMonth);
 
-		for(int i = 0 ; i<15; i++) {
-			goals1comboBox.addItem((Integer)i);
+		for (int i = 0; i < 15; i++) {
+			goals1comboBox.addItem((Integer) i);
 		}
-		
-		for(int i = 0 ; i<15; i++) {
-			goals2comboBox.addItem((Integer)i);
+
+		for (int i = 0; i < 15; i++) {
+			goals2comboBox.addItem((Integer) i);
 		}
-		
-		
+
 		goals1comboBox.setVisible(false);
 		goals2comboBox.setVisible(false);
 		Team1TextArea.setVisible(false);
 		Team2TextArea.setVisible(false);
 		answerScrollPane.setVisible(false);
-		
-		
+
 		// Code for JCalendar
 		this.calendar.addPropertyChangeListener(new PropertyChangeListener() {
 
@@ -227,7 +222,6 @@ public class BrowseQuestionsGUI extends JFrame {
 
 		JLabel answerLbl = new JLabel(
 				ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.answerLbl.text"));
-		
 
 		eventTable.addMouseListener(new MouseAdapter() {
 			@Override
@@ -276,107 +270,112 @@ public class BrowseQuestionsGUI extends JFrame {
 		btnBet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MessageTextArea.setText("                                             ");
-				
+
 				if (businessLogic.isAnyUserLogged()) {
-					
+
 					if (eventTable.getSelectedRow() != -1 && questionTable.getSelectedRow() != -1) {
-						
-						Integer questNumber = (Integer) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
+						int i = questionTable.getSelectedRow();
+						domain.Question question = (domain.Question) questionTableModel.getValueAt(i, 3);
+						Integer questNumber = question.getQuestionNumber();
 						Integer eventNumber = (Integer) eventTable.getValueAt(eventTable.getSelectedRow(), 0);
+						
+						
 
 						if (businessLogic.isInt(betInp.getText())) {
-							//TYPE 1
-							if (businessLogic.getQuestion(eventNumber, questNumber).getType().equals(1)) {
+							// TYPE 1
+							
+							//New parameter for confrimGUI to pass the needed info, depending on the question
+							//inforList: questionType, answerNum(1 motakoa bada)/answercontent(2 motakoa bada), (2 Motakoek behar duten infoa)
+							ArrayList<String> infoList = new ArrayList<String>();
+							//QuestionType gehitu
+							infoList.add(String.valueOf(question.getType()));
+							
+							if (question.getType().equals(1)) {
 								if (answerTable.getSelectedRow() != -1) {
 									if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged().getWallet()
-									.getMoney()
-									&& Integer.parseInt(betInp.getText()) >= businessLogic
-											.getQuestion(eventNumber, questNumber).getBetMinimum()) {
+											.getMoney()
+											&& Integer.parseInt(betInp.getText()) >= question.getBetMinimum()) {
 										setVisible(false);
 										ConfirmGUI confirmation = new ConfirmGUI();
 										confirmation.setVisible(true);
 										confirmation.previousFrame(thisFrame);
-								
-										Integer answerNum = (Integer) answerTable.getValueAt(answerTable.getSelectedRow(), 0);
-										confirmation.setValues(eventNumber, questNumber, Integer.parseInt(betInp.getText()),
-										answerNum);
-								betInp.setText("");
-								
-								
-							} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged().getWallet()
-									.getMoney()) {
-								MessageTextArea.setText("You don't have enough money on you wallet!");
-							} else if (Integer.parseInt(betInp.getText()) < businessLogic
-									.getQuestion(eventNumber, questNumber).getBetMinimum()) {
-								MessageTextArea.setText("Please, enter a value higher than the minimum bet!");
-							}
-							}else {
-								MessageTextArea.setText("Please, select an answer");
-							}
-		
-								
-								//MOLDATU ZATI HAU!! NOLA LORTU ANSWERID? EDO BESTE METODO BAT SORTU ANSWERID EZ DENA BEHAR.. YOKESE TIO
-							//TYPE 2
-							} else if (businessLogic.getQuestion(eventNumber, questNumber).getType().equals(2)) {
-							
-								Integer team1Goals = (Integer) goals1comboBox.getSelectedItem();
-								Integer team2Goals = (Integer) goals2comboBox.getSelectedItem();
-								
-								//Content of the answer will be saved as for example  ---->  2-3
-								String answer2content = team1Goals + "-" + team2Goals;
-								
-								
-								//Create a new answer with rate 0. Then, depending on which are the values, the
-								//rate will be different.
-								Answer answ = new Answer(answer2content, 0);
-								
+
+										Integer answerNum = (Integer) answerTable
+												.getValueAt(answerTable.getSelectedRow(), 0);
+										
+										//Add answerNum
+										infoList.add(String.valueOf(answerNum));
+										
+										confirmation.setValues(eventNumber, questNumber,
+												Integer.parseInt(betInp.getText()), infoList);
+										betInp.setText("");
+
+									} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged()
+											.getWallet().getMoney()) {
+										MessageTextArea.setText("You don't have enough money on you wallet!");
+									} else if (Integer.parseInt(betInp.getText()) < businessLogic
+											.getQuestion(eventNumber, questNumber).getBetMinimum()) {
+										MessageTextArea.setText("Please, enter a value higher than the minimum bet!");
+									}
+								} else {
+									MessageTextArea.setText("Please, select an answer");
+								}
+
+								// MOLDATU ZATI HAU!! NOLA LORTU ANSWERID? EDO BESTE METODO BAT SORTU ANSWERID
+								// EZ DENA BEHAR.. YOKESE TIO
+								// TYPE 2
+							} else if (question.getType().equals(2)) {
+
+								if (goals1comboBox.getSelectedIndex() != -1
+										&& goals2comboBox.getSelectedIndex() != -1) {
+
+									Integer team1Goals = (Integer) goals1comboBox.getSelectedItem();
+									Integer team2Goals = (Integer) goals2comboBox.getSelectedItem();
+
+									// Content of the answer will be saved as for example ----> 2-3
+									String answer2content = team1Goals + "-" + team2Goals;
+
 									if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged().getWallet()
-									.getMoney()
-									&& Integer.parseInt(betInp.getText()) >= businessLogic
-											.getQuestion(eventNumber, questNumber).getBetMinimum()) {
+											.getMoney()
+											&& Integer.parseInt(betInp.getText()) >= question.getBetMinimum()) {
+
+										infoList.add(answer2content);
 										
-										setVisible(false);
-										ConfirmGUI confirmation = new ConfirmGUI();
-										confirmation.setVisible(true);
-										confirmation.previousFrame(thisFrame);
+										// Different cases for rates. This is something really general, I don't think
+										// it has to be very accurate
 										
-										//Different cases for rates. This is something really general, I don't think
-										//it has to be very accurate
-										
-										if (team1Goals>team2Goals+3 || team2Goals>team1Goals+3) {
-											answ.setRate(50);
-								
-										}else if (team1Goals.equals(team2Goals)){
-											answ.setRate(30);
-										}else {
-											answ.setRate(20);
+										if (team1Goals > team2Goals + 3 || team2Goals > team1Goals + 3) {
+											infoList.add("50");
+
+										} else if (team1Goals.equals(team2Goals)) {
+											infoList.add("30");
+										} else {
+											infoList.add("20");
 										}
 										
-										//Create the official answer
-										Answer offAns = businessLogic.getQuestion(eventNumber, questNumber).addSpecificAnswer(answer2content, answ.getRate());
 										
-										//get the official answer ID.
-										Integer answerNum = offAns.getAnswerId();
-										
-									
-										confirmation.setValues(eventNumber, questNumber, Integer.parseInt(betInp.getText()),
-										answerNum);
-								betInp.setText("");
-								
-								
-							} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged().getWallet()
-									.getMoney()) {
-								MessageTextArea.setText("You don't have enough money on you wallet!");
-							} else if (Integer.parseInt(betInp.getText()) < businessLogic
-									.getQuestion(eventNumber, questNumber).getBetMinimum()) {
-								MessageTextArea.setText("Please, enter a value higher than the minimum bet!");
-							}
-							
+										setVisible(false);
+										ConfirmGUI confirmation = new ConfirmGUI();
+										confirmation.setVisible(true);
+										confirmation.previousFrame(thisFrame);
+										confirmation.setValues(eventNumber, questNumber,
+												Integer.parseInt(betInp.getText()), infoList);
+										betInp.setText("");
+
+									} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged()
+											.getWallet().getMoney()) {
+										MessageTextArea.setText("You don't have enough money on you wallet!");
+									} else if (Integer.parseInt(betInp.getText()) < question.getBetMinimum()) {
+										MessageTextArea.setText("Please, enter a value higher than the minimum bet!");
+									}
+								}else {
+									MessageTextArea.setText("Please, select the goals for each team.");
+								}
 							}
 						} else {
 							MessageTextArea.setText("Please enter a numeric value, not: " + betInp.getText());
 						}
-					
+
 					}
 
 				} else
@@ -398,106 +397,115 @@ public class BrowseQuestionsGUI extends JFrame {
 		MessageTextArea
 				.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.MessageTextArea.text"));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(40)
-					.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-					.addGap(211)
-					.addComponent(eventLbl, GroupLayout.PREFERRED_SIZE, 259, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(40)
-					.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
-					.addGap(126)
-					.addComponent(eventScrollPane, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(305)
-					.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(445, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(238)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(Team1TextArea, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-						.addComponent(goals1comboBox, Alignment.LEADING, 0, 90, Short.MAX_VALUE))
-					.addGap(93)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(goals2comboBox, 0, 89, Short.MAX_VALUE)
-							.addGap(370))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(Team2TextArea, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(171)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(questionLbl, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup().addGap(40)
+						.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+						.addGap(211)
+						.addComponent(eventLbl, GroupLayout.PREFERRED_SIZE, 259, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup().addGap(40)
+						.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE).addGap(126)
+						.addComponent(eventScrollPane, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup().addGap(305)
+						.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(445, Short.MAX_VALUE))
+				.addGroup(
+						groupLayout.createSequentialGroup().addGap(238)
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(Team1TextArea, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 90,
+												Short.MAX_VALUE)
+										.addComponent(goals1comboBox, Alignment.LEADING, 0, 90, Short.MAX_VALUE))
+								.addGap(93)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(goals2comboBox, 0, 89, Short.MAX_VALUE).addGap(370))
+										.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(Team2TextArea, GroupLayout.PREFERRED_SIZE, 90,
+														GroupLayout.PREFERRED_SIZE)
+												.addContainerGap())))
+				.addGroup(groupLayout.createSequentialGroup().addGap(171)
 						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(MessageTextArea, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap())
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(answerScrollPane, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap())
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(questionScrollPane, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
-										.addComponent(answerLbl, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE))
-									.addPreferredGap(ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-											.addComponent(btnBet, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-											.addComponent(betInp, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
-										.addComponent(lblEnterAmount, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
-									.addGap(42))))))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(15)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout
+										.createSequentialGroup()
+										.addComponent(questionLbl, GroupLayout.PREFERRED_SIZE, 406,
+												GroupLayout.PREFERRED_SIZE)
+										.addContainerGap())
+								.addGroup(groupLayout
+										.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(
+														MessageTextArea, GroupLayout.PREFERRED_SIZE, 406,
+														GroupLayout.PREFERRED_SIZE)
+												.addContainerGap())
+										.addGroup(groupLayout.createParallelGroup(
+												Alignment.LEADING).addGroup(
+														groupLayout.createSequentialGroup()
+																.addComponent(
+																		answerScrollPane, GroupLayout.PREFERRED_SIZE,
+																		406, GroupLayout.PREFERRED_SIZE)
+																.addContainerGap())
+												.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
+														.createParallelGroup(Alignment.LEADING)
+														.addComponent(questionScrollPane, GroupLayout.PREFERRED_SIZE,
+																406, GroupLayout.PREFERRED_SIZE)
+														.addComponent(answerLbl, GroupLayout.PREFERRED_SIZE, 406,
+																GroupLayout.PREFERRED_SIZE))
+														.addPreferredGap(ComponentPlacement.RELATED, 145,
+																Short.MAX_VALUE)
+														.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+																.addGroup(groupLayout
+																		.createParallelGroup(Alignment.TRAILING)
+																		.addComponent(btnBet,
+																				GroupLayout.PREFERRED_SIZE, 89,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addComponent(betInp,
+																				GroupLayout.PREFERRED_SIZE, 89,
+																				GroupLayout.PREFERRED_SIZE))
+																.addComponent(lblEnterAmount,
+																		GroupLayout.PREFERRED_SIZE, 116,
+																		GroupLayout.PREFERRED_SIZE))
+														.addGap(42)))))));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addGap(15)
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(4)
-							.addComponent(eventLbl, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)))
-					.addGap(10)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup().addGap(4)
+								.addComponent(eventLbl, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)))
+				.addGap(10)
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
 						.addComponent(eventScrollPane, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
-					.addGap(29)
-					.addComponent(questionLbl)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(59)
-							.addComponent(lblEnterAmount, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(betInp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(btnBet, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(questionScrollPane, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(answerLbl)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(answerScrollPane, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-					.addGap(27)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(Team1TextArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(Team2TextArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(goals1comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(goals2comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(74)
-					.addComponent(MessageTextArea, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-					.addGap(24))
-		);
+				.addGap(29).addComponent(questionLbl).addPreferredGap(ComponentPlacement.UNRELATED)
+				.addGroup(groupLayout
+						.createParallelGroup(
+								Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup().addGap(59)
+								.addComponent(lblEnterAmount, GroupLayout.PREFERRED_SIZE, 14,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(betInp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(btnBet, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(questionScrollPane, GroupLayout.PREFERRED_SIZE, 116,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(18).addComponent(answerLbl)))
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(answerScrollPane, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE).addGap(27)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(Team1TextArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(Team2TextArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE))
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(goals1comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(goals2comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE))
+				.addGap(74).addComponent(MessageTextArea, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE).addGap(24)));
 		Team1TextArea.setBackground(SystemColor.menu);
 		Team1TextArea.setEditable(false);
 		Team2TextArea.setBackground(SystemColor.menu);
@@ -507,48 +515,49 @@ public class BrowseQuestionsGUI extends JFrame {
 		questionTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 				int i = questionTable.getSelectedRow();
-				domain.Question question = (domain.Question) questionTableModel.getValueAt(i, 3);// obtain ev object
+				domain.Question question = (domain.Question) questionTableModel.getValueAt(i, 3);// obtain question
+																									// object
 
 				Integer qtype = question.getType();
-				
-				if (qtype.equals(1)) {
-				goals1comboBox.setVisible(false);
-				goals2comboBox.setVisible(false);
-				Team1TextArea.setVisible(false);
-				Team2TextArea.setVisible(false);
-				answerScrollPane.setVisible(true);
-				
-				ArrayList<Answer> answers = question.getAnswerList();
-				try {
-					answerTableModel.setDataVector(null, answerColumnNames);
-					answerTableModel.setColumnCount(4); // another column added to allocate answer objects
-				
-					if (answers.isEmpty())
-						answerLbl.setText("No Answers for: " + question.getQuestion());
-					else
-						answerLbl.setText("Bet on: " + question.getQuestion());
 
-					for (domain.Answer a : answers) {
-						Vector<Object> row = new Vector<Object>();
-						row.add(a.getAnswerId());
-						row.add(a.getContent());
-						row.add(a.getRate());
-						row.add(a);
-						answerTableModel.addRow(row);
-					}
-					answerTable.getColumnModel().getColumn(0).setPreferredWidth(25);
-					answerTable.getColumnModel().getColumn(1).setPreferredWidth(243);
-					answerTable.getColumnModel().getColumn(2).setPreferredWidth(25);
-					answerTable.getColumnModel().removeColumn(answerTable.getColumnModel().getColumn(3));// ez da
+				if (qtype.equals((Integer) 1)) {
+					goals1comboBox.setVisible(false);
+					goals2comboBox.setVisible(false);
+					Team1TextArea.setVisible(false);
+					Team2TextArea.setVisible(false);
+					answerScrollPane.setVisible(true);
+
+					ArrayList<Answer> answers = question.getAnswerList();
+					try {
+						answerTableModel.setDataVector(null, answerColumnNames);
+						answerTableModel.setColumnCount(4); // another column added to allocate answer objects
+
+						if (answers.isEmpty())
+							answerLbl.setText("No Answers for: " + question.getQuestion());
+						else
+							answerLbl.setText("Bet on: " + question.getQuestion());
+
+						for (domain.Answer a : answers) {
+							Vector<Object> row = new Vector<Object>();
+							row.add(a.getAnswerId());
+							row.add(a.getContent());
+							row.add(a.getRate());
+							row.add(a);
+							answerTableModel.addRow(row);
+						}
+						answerTable.getColumnModel().getColumn(0).setPreferredWidth(25);
+						answerTable.getColumnModel().getColumn(1).setPreferredWidth(243);
+						answerTable.getColumnModel().getColumn(2).setPreferredWidth(25);
+						answerTable.getColumnModel().removeColumn(answerTable.getColumnModel().getColumn(3));// ez da
 																												// agertuko
 
-				} catch (Exception e3) {
-					e3.printStackTrace();
-					answerLbl.setText(e3.getMessage());
-				}
-				}else if (qtype.equals(2)){
+					} catch (Exception e3) {
+						e3.printStackTrace();
+						answerLbl.setText(e3.getMessage());
+					}
+				} else if (qtype.equals((Integer) 2)) {
 					answerScrollPane.setVisible(false);
 					goals1comboBox.setVisible(true);
 					goals2comboBox.setVisible(true);
@@ -561,18 +570,14 @@ public class BrowseQuestionsGUI extends JFrame {
 					String second = teams[1];
 					Team1TextArea.setText(first);
 					Team2TextArea.setText(second);
-					
+
 					answerLbl.setText("Bet on: " + question.getQuestion());
-					
-					
-					//Hau bukatu gabe uste dut!!
-					
-					
-					
+
+					// Hau bukatu gabe uste dut!!
+
 				}
 			}
 		});
-		
 
 	}
 

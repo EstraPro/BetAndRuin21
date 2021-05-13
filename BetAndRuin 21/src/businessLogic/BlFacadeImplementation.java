@@ -15,6 +15,7 @@ import domain.Answer;
 import domain.Event;
 import domain.Question;
 import domain.User;
+import exceptions.AnswerAlreadyExist;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
 
@@ -57,11 +58,12 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @return the created question, or null, or an exception
 	 * @throws EventFinished if current data is after data of the event
 	 * @throws QuestionAlreadyExist if the same question already exists for the event
+	 * @throws AnswerAlreadyExist 
 	 */
 	@Override
 	@WebMethod
 	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList, ArrayList<Integer> rateList, Integer type) 
-			throws EventFinished, QuestionAlreadyExist {
+			throws EventFinished, QuestionAlreadyExist, AnswerAlreadyExist {
 
 		//The minimum bid must be greater than 0
 		dbManager.open(false);
@@ -339,6 +341,14 @@ public class BlFacadeImplementation implements BlFacade {
 			ArrayList<String> resultList, ArrayList<Date> dateList) {
 		dbManager.open(false);
 		int ret = dbManager.manageResults(eventList,questionType,resultList,dateList);
+		dbManager.close();
+		return ret;
+	}
+
+	@Override
+	public Integer createAnswer(Integer eventNum, Integer questionNum, String answerContent, String answerRate) throws AnswerAlreadyExist {
+		dbManager.open(false);
+		int ret = dbManager.createAnswer(eventNum,questionNum,answerContent,answerRate);
 		dbManager.close();
 		return ret;
 	}

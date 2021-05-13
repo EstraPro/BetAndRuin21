@@ -9,11 +9,13 @@ import javax.swing.border.EmptyBorder;
 
 import businessLogic.BlFacade;
 import businessLogic.BlFacadeImplementation;
+import exceptions.AnswerAlreadyExist;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 
@@ -25,7 +27,9 @@ public class ConfirmGUI extends JFrame {
 
 	private JFrame prevFrame;
 
-	private Integer eventNum, questionNum, answerNum, amount;
+	private Integer eventNum, questionNum, amount;
+	
+	private ArrayList<String> infoList;
 
 	private BlFacade businessLogic;
 	
@@ -66,8 +70,21 @@ public class ConfirmGUI extends JFrame {
 		JButton btnYes = new JButton("YES");
 		btnYes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			
+				if(Integer.parseInt(infoList.get(0))==1) {
 				businessLogic.storeBet(businessLogic.getQuestion(eventNum,questionNum), 
-						businessLogic.getAnswer(eventNum,questionNum, answerNum), businessLogic.getEvent(eventNum), new Date(), amount);
+						businessLogic.getAnswer(eventNum,questionNum, Integer.parseInt(infoList.get(1))), businessLogic.getEvent(eventNum), new Date(), amount);
+				}else if(Integer.parseInt(infoList.get(0))==2) {
+				
+					Integer newAnserNum=null;
+					try {
+						newAnserNum = businessLogic.createAnswer(eventNum,questionNum, infoList.get(1), infoList.get(2));
+					} catch (AnswerAlreadyExist e) {
+						e.printStackTrace();
+					};
+					businessLogic.storeBet(businessLogic.getQuestion(eventNum,questionNum), 
+							businessLogic.getAnswer(eventNum,questionNum, newAnserNum), businessLogic.getEvent(eventNum), new Date(), amount);
+				}
 				setVisible(false);
 				prevFrame.setVisible(true);
 			}
@@ -99,12 +116,12 @@ public class ConfirmGUI extends JFrame {
 	 * @param questionNum
 	 * @param amount
 	 */
-	public void setValues(Integer eventNum, Integer questionNum, Integer amount, Integer answerNum) {
+	public void setValues(Integer eventNum, Integer questionNum, Integer amount, ArrayList<String> infoList) {
 
 		this.eventNum = eventNum;
 		this.questionNum = questionNum;
 		this.amount = amount;
-		this.answerNum = answerNum;
+		this.infoList = infoList;
 	}
 
 	/**

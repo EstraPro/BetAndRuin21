@@ -282,3 +282,191 @@ Type domain.Wallet is not enhanced.
 [2021-05-13 02:12:45 #9 type] 
 Type domain.Bet is not enhanced.
 
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-05-13 02:46:27 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' has been recovered (tr. 9-12)
+
+[2021-05-13 02:46:27 #2 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 11420@LASTO-P
+
+[2021-05-13 02:46:27 #3 store] 
+Configuration path: ?
+
+[2021-05-13 02:46:27 #4 type] 
+Type domain.Event is not enhanced.
+
+[2021-05-13 02:46:27 #5 type] 
+Type domain.Question is not enhanced.
+
+[2021-05-13 02:46:27 #6 type] 
+Type domain.Answer is not enhanced.
+
+[2021-05-13 02:46:27 #7 type] 
+Type domain.User is not enhanced.
+
+[2021-05-13 02:46:27 #8 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-05-13 02:46:27 #9 type] 
+Type domain.Bet is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-05-13 10:50:27 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 18376@LASTO-P
+
+[2021-05-13 10:50:28 #2 store] 
+Configuration path: ?
+
+[2021-05-13 10:50:28 #3 type] 
+Type domain.Answer is not enhanced.
+
+[2021-05-13 10:50:28 #4 type] 
+Type domain.Question is not enhanced.
+
+[2021-05-13 10:50:28 #5 type] 
+Type domain.Event is not enhanced.
+
+[2021-05-13 10:50:28 #6 type] 
+Type domain.User is not enhanced.
+
+[2021-05-13 10:50:28 #7 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-05-13 10:50:28 #8 type] 
+Type domain.Bet is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-05-13 10:51:05 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 15032@LASTO-P
+
+[2021-05-13 10:51:05 #2 store] 
+Configuration path: ?
+
+[2021-05-13 10:51:05 #3 type] 
+Type domain.Answer is not enhanced.
+
+[2021-05-13 10:51:05 #4 type] 
+Type domain.Question is not enhanced.
+
+[2021-05-13 10:51:05 #5 type] 
+Type domain.Event is not enhanced.
+
+[2021-05-13 10:51:05 #6 type] 
+Type domain.User is not enhanced.
+
+[2021-05-13 10:51:05 #7 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-05-13 10:51:05 #8 type] 
+Type domain.Bet is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-05-13 12:35:45 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 17280@LASTO-P
+
+[2021-05-13 12:35:45 #2 store] 
+Configuration path: ?
+
+[2021-05-13 12:35:45 #3 type] 
+Type domain.Answer is not enhanced.
+
+[2021-05-13 12:35:45 #4 type] 
+Type domain.Question is not enhanced.
+
+[2021-05-13 12:35:45 #5 type] 
+Type domain.Event is not enhanced.
+
+[2021-05-13 12:35:45 #6 type] 
+Type domain.User is not enhanced.
+
+[2021-05-13 12:35:45 #7 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-05-13 12:35:45 #8 type] 
+Type domain.Bet is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-05-13 12:39:41 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 7824@LASTO-P
+
+[2021-05-13 12:39:41 #2 store] 
+Configuration path: ?
+
+[2021-05-13 12:39:41 #3 type] 
+Type domain.Answer is not enhanced.
+
+[2021-05-13 12:39:41 #4 type] 
+Type domain.Question is not enhanced.
+
+[2021-05-13 12:39:41 #5 type] 
+Type domain.Event is not enhanced.
+
+[2021-05-13 12:39:41 #6 type] 
+Type domain.User is not enhanced.
+
+[2021-05-13 12:39:41 #7 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-05-13 12:39:41 #8 type] 
+Type domain.Bet is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-05-13 12:40:59 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 2660@LASTO-P
+
+[2021-05-13 12:40:59 #2 store] 
+Configuration path: ?
+
+[2021-05-13 12:40:59 #3 type] 
+Type domain.Answer is not enhanced.
+
+[2021-05-13 12:40:59 #4 type] 
+Type domain.Question is not enhanced.
+
+[2021-05-13 12:41:00 #5 type] 
+Type domain.Event is not enhanced.
+
+[2021-05-13 12:41:00 #6 type] 
+Type domain.User is not enhanced.
+
+[2021-05-13 12:41:00 #7 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-05-13 12:41:00 #8 type] 
+Type domain.Bet is not enhanced.
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2021-05-13 12:41:26 #1 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' has been recovered (tr. 1-8)
+
+[2021-05-13 12:41:26 #2 store] 
+Database 'C:\Users\user\git\BetAndRuin_repos\BetAndRuin 21\bets.temp' is opened by 15800@LASTO-P
+
+[2021-05-13 12:41:26 #3 store] 
+Configuration path: ?
+
+[2021-05-13 12:41:26 #4 type] 
+Type domain.Answer is not enhanced.
+
+[2021-05-13 12:41:26 #5 type] 
+Type domain.Question is not enhanced.
+
+[2021-05-13 12:41:26 #6 type] 
+Type domain.Event is not enhanced.
+
+[2021-05-13 12:41:26 #7 type] 
+Type domain.User is not enhanced.
+
+[2021-05-13 12:41:26 #8 type] 
+Type domain.Wallet is not enhanced.
+
+[2021-05-13 12:41:26 #9 type] 
+Type domain.Bet is not enhanced.
+
