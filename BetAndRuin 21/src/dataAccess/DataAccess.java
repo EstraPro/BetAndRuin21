@@ -124,6 +124,7 @@ public class DataAccess {
 				q4 = ev11.addQuestion("¿Cuántos goles se marcarán?", 2);
 				q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
 				q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
+				
 
 				a1 = q1.addSpecificAnswer("Athletic ganara", 35);
 				a2 = q1.addSpecificAnswer("Atlético ganara", 54);
@@ -182,14 +183,14 @@ public class DataAccess {
 				a11 = q6.addSpecificAnswer("Bai", 31);
 				a12 = q6.addSpecificAnswer("Ez", 9);
 			}
-			/*
-			 * db.persist(a1); db.persist(a2); db.persist(a3); db.persist(a4);
-			 * db.persist(a5); db.persist(a6); db.persist(a7); db.persist(a8);
-			 * db.persist(a9); db.persist(a10); db.persist(a11); db.persist(a12);
-			 * 
-			 * db.persist(q1); db.persist(q2); db.persist(q3); db.persist(q4);
-			 * db.persist(q5); db.persist(q6);
-			 */
+			
+			  db.persist(a1); db.persist(a2); db.persist(a3); db.persist(a4);
+			  db.persist(a5); db.persist(a6); db.persist(a7); db.persist(a8);
+			  db.persist(a9); db.persist(a10); db.persist(a11); db.persist(a12);
+			  
+			  db.persist(q1); db.persist(q2); db.persist(q3); db.persist(q4);
+			  db.persist(q5); db.persist(q6);
+			 
 			db.persist(ev1);
 			db.persist(ev2);
 			db.persist(ev3);
@@ -645,6 +646,12 @@ public class DataAccess {
 	public User copyUser(User user, String newUsername) {
 		User NewUser = new User(newUsername, user.getPassword(), user.getBirthDate(), user.getName(), user.getSurname(),
 				user.getEmail(), user.getBankAccount());
+		NewUser.setWallet(user.getWallet());
+		NewUser.setBetId(user.getBetId());
+		for(Bet bet: user.getMadeBets()) {
+			bet.setUser(NewUser);
+			NewUser.storeBetObject(bet);
+		}
 		NewUser.setLoggedIn(true);
 		return NewUser;
 	}

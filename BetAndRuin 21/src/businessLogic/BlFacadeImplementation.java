@@ -106,7 +106,8 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 		return dates;
 	}
-
+	
+	@WebMethod
 	public void close() {
 		dbManager.close();
 	}
@@ -115,13 +116,14 @@ public class BlFacadeImplementation implements BlFacade {
 	 * This method invokes the data access to initialize the database with some events and questions.
 	 * It is invoked only when the option "initialize" is declared in the tag dataBaseOpenMode of resources/config.xml file
 	 */	
+	
 	@WebMethod	
 	public void initializeBD(){
 		dbManager.open(false);
 		dbManager.initializeDB();
 		dbManager.close();
 	}
-	
+	@Override
 	@WebMethod
 	public User getUserLogged(){
 		//dbManager.open(false);
@@ -135,13 +137,14 @@ public class BlFacadeImplementation implements BlFacade {
 	 * Return id of logged user
 	 * @return
 	 */
+	@Override
 	@WebMethod
 	public String getLoggedUserUserName() {
 		
 		return dbManager.getLoggedUserUserName();
 	}
 	
-	
+	@Override
 	@WebMethod 
 	public boolean isInt(String str) {
 		try {
@@ -151,7 +154,7 @@ public class BlFacadeImplementation implements BlFacade {
 			return false;
 		}
 	}
-	
+	@Override
 	@WebMethod 
 	public boolean isAnyUserLogged() {
 		
@@ -161,6 +164,7 @@ public class BlFacadeImplementation implements BlFacade {
 		return lag;
 	};
 	
+	@Override
 	@WebMethod 
 	public void resetLogins() {
 		dbManager.resetLogins();
@@ -173,6 +177,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param passwd
 	 * @return true if they match, false if not
 	 */
+	@Override
 	@WebMethod
 	public boolean checkCredentialsUser(String usname, String passwd) {
 		dbManager.open(false);
@@ -188,6 +193,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param passwd
 	 * @return true if they match, false if not
 	 */
+	@Override
 	@WebMethod
 	public boolean checkCredentialsAdmin(String usname, String passwd) {
 
@@ -205,6 +211,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param pass2
 	 * @return true if they match, false if not
 	 */
+	@Override
 	@WebMethod
 	public boolean passwdMatches(String pass1, String pass2) {
 
@@ -221,6 +228,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param userp
 	 * @param passwordp
 	 */
+	@Override
 	@WebMethod
 	public int storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
 			String bankAccount) {
@@ -233,6 +241,7 @@ public class BlFacadeImplementation implements BlFacade {
 	/**
 	 * Marks loggedIn attribute as true
 	 */
+	@Override
 	@WebMethod
 	public void markLogin(String user, String passwd) {
 		dbManager.open(false);
@@ -249,6 +258,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param questionId
 	 * @param amount
 	 */
+	@Override
 	@WebMethod
 	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
 
@@ -262,6 +272,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param questionNum
 	 * @return
 	 */
+	@Override
 	@WebMethod
 	public Question getQuestion(int eventNum, int questionNum) {
 
@@ -276,6 +287,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param answerNum
 	 * @return
 	 */
+	@Override
 	@WebMethod
 	public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum) {
 
@@ -288,6 +300,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param eventNum
 	 * @return
 	 */
+	@Override
 	@WebMethod
 	public Event getEvent(Integer eventNum) {
 
@@ -300,6 +313,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * 
 	 * @param amount
 	 */
+	@Override
 	@WebMethod
 	public void insertMoneyLoggedUser(int amount) {
 
@@ -316,6 +330,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param pass
 	 * @param bankN
 	 */
+	@Override
 	@WebMethod
 	public int updateUserData(String uName, String pass, String bankN) {
 		
@@ -328,12 +343,14 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param remBetId
 	 * @param amount
 	 */
+	@Override
 	@WebMethod
 	public void removeBet(Integer remBetId, int amount) {
 
 		dbManager.removeBet(remBetId, amount);
 	}
 
+	@Override
 	@WebMethod
 	public int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType,
 			ArrayList<String> resultList, ArrayList<Date> dateList) {

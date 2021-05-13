@@ -43,7 +43,6 @@ public class InsertResultsGUI extends JFrame {
 			public void run() {
 				try {
 					InsertResultsGUI frame = new InsertResultsGUI();
-					frame.setBusinessLogic(new BlFacadeImplementation());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,7 +60,6 @@ public class InsertResultsGUI extends JFrame {
 	 */
 	public InsertResultsGUI() {
 
-		this.setBusinessLogic(new BlFacadeImplementation());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
