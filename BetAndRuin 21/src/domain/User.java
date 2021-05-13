@@ -22,7 +22,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @Entity
 public class User {
 	@XmlID
-	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@Id	
 	private String username;
 	private Date birthDate;

@@ -1,7 +1,10 @@
 package domain;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class IntegerAdapter extends XmlAdapter<String, Integer> {
 
 	@Override
