@@ -161,8 +161,13 @@ public class ViewProfileGUI extends JFrame {
 			ezaugarriList[6] = lag.getProfit();
 			tableModel.insertRow(tableModel.getRowCount(), ezaugarriList);
 		}
-
-		tableListBet.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		tableListBet.getColumnModel().getColumn(0).setPreferredWidth(25);
+		tableListBet.getColumnModel().getColumn(1).setPreferredWidth(60);
+		tableListBet.getColumnModel().getColumn(2).setPreferredWidth(120);
+		tableListBet.getColumnModel().getColumn(3).setPreferredWidth(70);
+		tableListBet.getColumnModel().getColumn(4).setPreferredWidth(30);
+		tableListBet.getColumnModel().getColumn(5).setPreferredWidth(50);
+		tableListBet.getColumnModel().getColumn(6).setPreferredWidth(50);
 		showBetscrollPane.setViewportView(tableListBet);
 
 		////////////////////////////////////////////////////////////////////// Insert

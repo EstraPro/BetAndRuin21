@@ -392,35 +392,17 @@ public class CreateQuestionGUI extends JFrame {
 			// Displays an exception if the query field is empty
 			String inputQuestion = queryText.getText();
 			
-			//Inserts the Answers in the input depending on how many answers the admin enters.
-			ArrayList<String> inputAnswerTotal = new ArrayList<String>();
-			ArrayList<Integer> inputRateTotal = new ArrayList<Integer>();
-			
-			String inputAnswer = answersText.getText();
-			String inputAnswer1 = answers1Text.getText();
-			String inputAnswer2 = answers2Text.getText();
-			String inputAnswer3 = answers3Text.getText();
-			
 			Integer inputType = (Integer) questionTypeComboBox.getSelectedItem();
 			
 			
 			
-			if(inputAnswer.length() > 1 && ratecomboBox1.getSelectedIndex()!=-1 ) {
-				inputRateTotal.add((Integer) ratecomboBox1.getSelectedItem());
-				inputAnswerTotal.add(inputAnswer);
-			}
-			if(inputAnswer1.length() > 1 && ratecomboBox2.getSelectedIndex()!=-1 ) {
-				inputRateTotal.add((Integer) ratecomboBox2.getSelectedItem());
-				inputAnswerTotal.add(inputAnswer1);
-			}
-			if(inputAnswer2.length() > 1 && ratecomboBox3.getSelectedIndex()!=-1 ) {
-				inputRateTotal.add((Integer) ratecomboBox3.getSelectedItem());
-				inputAnswerTotal.add(inputAnswer2);
-			}
-			if(inputAnswer3.length() > 1 && ratecomboBox4.getSelectedIndex()!=-1 ) {
-				inputRateTotal.add((Integer) ratecomboBox4.getSelectedItem());
-				inputAnswerTotal.add(inputAnswer3);
-			}
+			
+			
+			
+			
+			
+			
+			
 			
 			
 			if (inputQuestion.length() > 0) {
@@ -431,13 +413,48 @@ public class CreateQuestionGUI extends JFrame {
 				if (inputPrice <= 0)
 					errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
 				else {
-					if(inputAnswerTotal.size() >= 1 && inputRateTotal.size() >= 1) {
-						
-						businessLogic.createQuestion(event, inputQuestion, inputPrice, inputAnswerTotal,inputRateTotal,inputType);
-					}else {
-						msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswer"));
+					if(questionTypeComboBox.getSelectedIndex()!=-1) {
+						if((int)questionTypeComboBox.getSelectedItem()==1) {
+							
+							//Inserts the Answers in the input depending on how many answers the admin enters.
+							ArrayList<String> inputAnswerTotal = new ArrayList<String>();
+							ArrayList<Integer> inputRateTotal = new ArrayList<Integer>();
+							
+							String inputAnswer = answersText.getText();
+							String inputAnswer1 = answers1Text.getText();
+							String inputAnswer2 = answers2Text.getText();
+							String inputAnswer3 = answers3Text.getText();
+							
+							
+							if(inputAnswer.length() > 1 && ratecomboBox1.getSelectedIndex()!=-1 ) {
+								inputRateTotal.add((Integer) ratecomboBox1.getSelectedItem());
+								inputAnswerTotal.add(inputAnswer);
+							}
+							if(inputAnswer1.length() > 1 && ratecomboBox2.getSelectedIndex()!=-1 ) {
+								inputRateTotal.add((Integer) ratecomboBox2.getSelectedItem());
+								inputAnswerTotal.add(inputAnswer1);
+							}
+							if(inputAnswer2.length() > 1 && ratecomboBox3.getSelectedIndex()!=-1 ) {
+								inputRateTotal.add((Integer) ratecomboBox3.getSelectedItem());
+								inputAnswerTotal.add(inputAnswer2);
+							}
+							if(inputAnswer3.length() > 1 && ratecomboBox4.getSelectedIndex()!=-1 ) {
+								inputRateTotal.add((Integer) ratecomboBox4.getSelectedItem());
+								inputAnswerTotal.add(inputAnswer3);
+							}
+							
+							if(inputAnswerTotal.size() >= 1 && inputRateTotal.size() >= 1) {
+								
+								businessLogic.createQuestion(event, inputQuestion, inputPrice, inputAnswerTotal,inputRateTotal,inputType);
+								
+							}else {
+								msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswer"));
+							}
+						}
+						if((int)questionTypeComboBox.getSelectedItem()==2){
+							businessLogic.createQuestion(event, inputQuestion, inputPrice, null ,null ,inputType);
+						}
 					}
-					
 					msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("QuestionCreated"));
 				}
 			} else

@@ -241,10 +241,17 @@ public class DataAccess {
 	 */
 	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList, ArrayList<Integer> rateList, Integer type)
 			throws QuestionAlreadyExist, AnswerAlreadyExist {
+		
+		if(type.equals(1))
+		{
+			System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
+					+ " minimum bet = " + betMinimum + "Possible Answers" + answerList.toString());
+		}else if(type.equals(2)){
+			System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
+					+ " minimum bet = " + betMinimum);
+			}
 
-	System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
-				+ " minimum bet = " + betMinimum + "Possible Answers" + answerList.toString());
-
+		
 		Event ev = db.find(Event.class, event.getEventNumber());
 
 		if (ev.doesQuestionExist(question))
@@ -255,15 +262,15 @@ public class DataAccess {
 		
 		Question q = ev.addQuestion(question, betMinimum, type);
 		
-		for (int i = 0; i < answerList.size(); i++) {
-			if(q.doesAnswerExist(answerList.get(i))) {
-				throw new AnswerAlreadyExist(
-						ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswerAlreadyExist"));
-			}else {
-				q.addSpecificAnswer(answerList.get(i), rateList.get(0));
+		if(type.equals(1)) {
+			for (int i = 0; i < answerList.size(); i++) {
+				if(q.doesAnswerExist(answerList.get(i))) {
+					throw new AnswerAlreadyExist(
+							ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswerAlreadyExist"));
+				}else {
+					q.addSpecificAnswer(answerList.get(i), rateList.get(0));
+				}		
 			}
-				
-			
 		}
 		// db.persist(q);
 		db.persist(ev); // db.persist(q) not required when CascadeType.PERSIST is added

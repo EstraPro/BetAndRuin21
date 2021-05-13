@@ -105,8 +105,9 @@ public class BrowseQuestionsGUI extends JFrame {
 	}
 
 	private void jbInit() throws Exception {
-		this.setSize(new Dimension(896, 818));
+		this.setSize(new Dimension(889, 613));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
+		eventScrollPane.setBounds(283, 50, 346, 150);
 
 		eventScrollPane.setViewportView(eventTable);
 		eventTableModel = new DefaultTableModel(null, eventColumnNames);
@@ -114,6 +115,7 @@ public class BrowseQuestionsGUI extends JFrame {
 		eventTable.setModel(eventTableModel);
 		eventTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 		eventTable.getColumnModel().getColumn(1).setPreferredWidth(268);
+		questionScrollPane.setBounds(10, 279, 406, 116);
 
 		questionScrollPane.setViewportView(questionTable);
 		questionTableModel = new DefaultTableModel(null, questionColumnNames);
@@ -122,6 +124,7 @@ public class BrowseQuestionsGUI extends JFrame {
 		questionTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 		questionTable.getColumnModel().getColumn(1).setPreferredWidth(243);
 		questionTable.getColumnModel().getColumn(2).setPreferredWidth(25);
+		answerScrollPane.setBounds(438, 279, 406, 116);
 
 		answerScrollPane.setViewportView(answerTable);
 		answerTableModel = new DefaultTableModel(null, answerColumnNames);
@@ -130,6 +133,7 @@ public class BrowseQuestionsGUI extends JFrame {
 		answerTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 		answerTable.getColumnModel().getColumn(1).setPreferredWidth(243);
 		answerTable.getColumnModel().getColumn(2).setPreferredWidth(25);
+		closeBtn.setBounds(364, 517, 130, 30);
 
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
@@ -149,12 +153,17 @@ public class BrowseQuestionsGUI extends JFrame {
 		for (int i = 0; i < 15; i++) {
 			goals2comboBox.addItem((Integer) i);
 		}
+		goals1comboBox.setBounds(76, 479, 50, 22);
 
 		goals1comboBox.setVisible(false);
+		goals2comboBox.setBounds(205, 479, 50, 22);
 		goals2comboBox.setVisible(false);
+		Team1TextArea.setBounds(76, 446, 104, 22);
 		Team1TextArea.setVisible(false);
+		Team2TextArea.setBounds(205, 446, 90, 22);
 		Team2TextArea.setVisible(false);
 		answerScrollPane.setVisible(false);
+		calendar.setBounds(40, 50, 225, 150);
 
 		// Code for JCalendar
 		this.calendar.addPropertyChangeListener(new PropertyChangeListener() {
@@ -222,6 +231,7 @@ public class BrowseQuestionsGUI extends JFrame {
 
 		JLabel answerLbl = new JLabel(
 				ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.answerLbl.text"));
+		answerLbl.setBounds(438, 254, 406, 14);
 
 		eventTable.addMouseListener(new MouseAdapter() {
 			@Override
@@ -267,6 +277,7 @@ public class BrowseQuestionsGUI extends JFrame {
 		JFrame thisFrame = this;
 		JButton btnBet = new JButton(
 				ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.btnNewButton.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		btnBet.setBounds(677, 157, 89, 43);
 		btnBet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MessageTextArea.setText("                                             ");
@@ -388,131 +399,44 @@ public class BrowseQuestionsGUI extends JFrame {
 		btnBet.setFont(new Font("Tahoma", Font.PLAIN, 15));
 
 		betInp = new JTextField();
+		betInp.setBounds(677, 128, 89, 20);
 		betInp.setColumns(10);
 		betInp.setText("");
 
 		JLabel lblEnterAmount = new JLabel(
 				ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.lblEnterAmount.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		lblEnterAmount.setBounds(677, 103, 116, 14);
 		lblEnterAmount.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		MessageTextArea.setBounds(438, 413, 406, 50);
 		MessageTextArea.setBackground(SystemColor.menu);
 		MessageTextArea.setFont(new Font("Georgia Pro Semibold", Font.PLAIN, 13));
 		MessageTextArea
 				.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestionsGUI.MessageTextArea.text"));
-		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup().addGap(40)
-						.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-						.addGap(211)
-						.addComponent(eventLbl, GroupLayout.PREFERRED_SIZE, 259, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup().addGap(40)
-						.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE).addGap(126)
-						.addComponent(eventScrollPane, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup().addGap(305)
-						.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(445, Short.MAX_VALUE))
-				.addGroup(
-						groupLayout.createSequentialGroup().addGap(238)
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(Team1TextArea, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 90,
-												Short.MAX_VALUE)
-										.addComponent(goals1comboBox, Alignment.LEADING, 0, 90, Short.MAX_VALUE))
-								.addGap(93)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(goals2comboBox, 0, 89, Short.MAX_VALUE).addGap(370))
-										.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(Team2TextArea, GroupLayout.PREFERRED_SIZE, 90,
-														GroupLayout.PREFERRED_SIZE)
-												.addContainerGap())))
-				.addGroup(groupLayout.createSequentialGroup().addGap(171)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout
-										.createSequentialGroup()
-										.addComponent(questionLbl, GroupLayout.PREFERRED_SIZE, 406,
-												GroupLayout.PREFERRED_SIZE)
-										.addContainerGap())
-								.addGroup(groupLayout
-										.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(
-														MessageTextArea, GroupLayout.PREFERRED_SIZE, 406,
-														GroupLayout.PREFERRED_SIZE)
-												.addContainerGap())
-										.addGroup(groupLayout.createParallelGroup(
-												Alignment.LEADING).addGroup(
-														groupLayout.createSequentialGroup()
-																.addComponent(
-																		answerScrollPane, GroupLayout.PREFERRED_SIZE,
-																		406, GroupLayout.PREFERRED_SIZE)
-																.addContainerGap())
-												.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
-														.createParallelGroup(Alignment.LEADING)
-														.addComponent(questionScrollPane, GroupLayout.PREFERRED_SIZE,
-																406, GroupLayout.PREFERRED_SIZE)
-														.addComponent(answerLbl, GroupLayout.PREFERRED_SIZE, 406,
-																GroupLayout.PREFERRED_SIZE))
-														.addPreferredGap(ComponentPlacement.RELATED, 145,
-																Short.MAX_VALUE)
-														.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-																.addGroup(groupLayout
-																		.createParallelGroup(Alignment.TRAILING)
-																		.addComponent(btnBet,
-																				GroupLayout.PREFERRED_SIZE, 89,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addComponent(betInp,
-																				GroupLayout.PREFERRED_SIZE, 89,
-																				GroupLayout.PREFERRED_SIZE))
-																.addComponent(lblEnterAmount,
-																		GroupLayout.PREFERRED_SIZE, 116,
-																		GroupLayout.PREFERRED_SIZE))
-														.addGap(42)))))));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addGap(15)
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup().addGap(4)
-								.addComponent(eventLbl, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)))
-				.addGap(10)
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-						.addComponent(eventScrollPane, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
-				.addGap(29).addComponent(questionLbl).addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(groupLayout
-						.createParallelGroup(
-								Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup().addGap(59)
-								.addComponent(lblEnterAmount, GroupLayout.PREFERRED_SIZE, 14,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(betInp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(btnBet, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(questionScrollPane, GroupLayout.PREFERRED_SIZE, 116,
-										GroupLayout.PREFERRED_SIZE)
-								.addGap(18).addComponent(answerLbl)))
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addComponent(answerScrollPane, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE).addGap(27)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(Team1TextArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(Team2TextArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(goals1comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(goals2comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE))
-				.addGap(74).addComponent(MessageTextArea, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE).addGap(24)));
 		Team1TextArea.setBackground(SystemColor.menu);
 		Team1TextArea.setEditable(false);
 		Team2TextArea.setBackground(SystemColor.menu);
 		Team2TextArea.setEditable(false);
-		getContentPane().setLayout(groupLayout);
+		getContentPane().setLayout(null);
+		getContentPane().add(closeBtn);
+		getContentPane().add(questionScrollPane);
+		questionLbl.setBounds(10, 254, 406, 14);
+		getContentPane().add(questionLbl);
+		getContentPane().add(answerScrollPane);
+		getContentPane().add(answerLbl);
+		eventDateLbl.setBounds(40, 15, 140, 25);
+		getContentPane().add(eventDateLbl);
+		getContentPane().add(calendar);
+		eventLbl.setBounds(283, 24, 259, 16);
+		getContentPane().add(eventLbl);
+		getContentPane().add(eventScrollPane);
+		getContentPane().add(btnBet);
+		getContentPane().add(betInp);
+		getContentPane().add(lblEnterAmount);
+		getContentPane().add(MessageTextArea);
+		getContentPane().add(Team1TextArea);
+		getContentPane().add(goals1comboBox);
+		getContentPane().add(goals2comboBox);
+		getContentPane().add(Team2TextArea);
 
 		questionTable.addMouseListener(new MouseAdapter() {
 			@Override
@@ -553,7 +477,7 @@ public class BrowseQuestionsGUI extends JFrame {
 						answerTable.getColumnModel().getColumn(1).setPreferredWidth(243);
 						answerTable.getColumnModel().getColumn(2).setPreferredWidth(25);
 						answerTable.getColumnModel().removeColumn(answerTable.getColumnModel().getColumn(3));// ez da
-																												// agertuko
+						answerLbl.setBounds(438, 254, 406, 14);																						// agertuko
 
 					} catch (Exception e3) {
 						e3.printStackTrace();
@@ -572,9 +496,10 @@ public class BrowseQuestionsGUI extends JFrame {
 					String second = teams[1];
 					Team1TextArea.setText(first);
 					Team2TextArea.setText(second);
+					
 
 					answerLbl.setText("Bet on: " + question.getQuestion());
-
+					answerLbl.setBounds(10, 406, 406, 14);
 					// Hau bukatu gabe uste dut!!
 
 				}
