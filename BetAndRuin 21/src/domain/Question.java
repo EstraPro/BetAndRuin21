@@ -189,6 +189,9 @@ public class Question implements Serializable {
 		return q;
 		
 	}
+	
+	
+	
 	@Override
 	public String toString(){
 		return questionNumber + ";" + question + ";" + Float.toString(betMinimum);

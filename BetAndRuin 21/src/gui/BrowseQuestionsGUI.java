@@ -278,24 +278,31 @@ public class BrowseQuestionsGUI extends JFrame {
 				MessageTextArea.setText("                                             ");
 				
 				if (businessLogic.isAnyUserLogged()) {
-					if (answerTable.getSelectedRow() != -1 && eventTable.getSelectedRow() != -1
-							&& questionTable.getSelectedRow() != -1) {
-						Integer answerNum = (Integer) answerTable.getValueAt(answerTable.getSelectedRow(), 0);
+					
+					if (eventTable.getSelectedRow() != -1 && questionTable.getSelectedRow() != -1) {
+						
 						Integer questNumber = (Integer) questionTable.getValueAt(questionTable.getSelectedRow(), 0);
 						Integer eventNumber = (Integer) eventTable.getValueAt(eventTable.getSelectedRow(), 0);
 
 						if (businessLogic.isInt(betInp.getText())) {
-							if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged().getWallet()
+							//TYPE 1
+							if (businessLogic.getQuestion(eventNumber, questNumber).getType().equals(1)) {
+								if (answerTable.getSelectedRow() != -1) {
+									if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged().getWallet()
 									.getMoney()
 									&& Integer.parseInt(betInp.getText()) >= businessLogic
 											.getQuestion(eventNumber, questNumber).getBetMinimum()) {
-								setVisible(false);
-								ConfirmGUI confirmation = new ConfirmGUI();
-								confirmation.setVisible(true);
-								confirmation.previousFrame(thisFrame);
-								confirmation.setValues(eventNumber, questNumber, Integer.parseInt(betInp.getText()),
+										setVisible(false);
+										ConfirmGUI confirmation = new ConfirmGUI();
+										confirmation.setVisible(true);
+										confirmation.previousFrame(thisFrame);
+								
+										Integer answerNum = (Integer) answerTable.getValueAt(answerTable.getSelectedRow(), 0);
+										confirmation.setValues(eventNumber, questNumber, Integer.parseInt(betInp.getText()),
 										answerNum);
 								betInp.setText("");
+								
+								
 							} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged().getWallet()
 									.getMoney()) {
 								MessageTextArea.setText("You don't have enough money on you wallet!");
@@ -303,9 +310,73 @@ public class BrowseQuestionsGUI extends JFrame {
 									.getQuestion(eventNumber, questNumber).getBetMinimum()) {
 								MessageTextArea.setText("Please, enter a value higher than the minimum bet!");
 							}
+							}else {
+								MessageTextArea.setText("Please, select an answer");
+							}
+		
+								
+								//MOLDATU ZATI HAU!! NOLA LORTU ANSWERID? EDO BESTE METODO BAT SORTU ANSWERID EZ DENA BEHAR.. YOKESE TIO
+							//TYPE 2
+							} else if (businessLogic.getQuestion(eventNumber, questNumber).getType().equals(2)) {
+							
+								Integer team1Goals = (Integer) goals1comboBox.getSelectedItem();
+								Integer team2Goals = (Integer) goals2comboBox.getSelectedItem();
+								
+								//Content of the answer will be saved as for example  ---->  2-3
+								String answer2content = team1Goals + "-" + team2Goals;
+								
+								
+								//Create a new answer with rate 0. Then, depending on which are the values, the
+								//rate will be different.
+								Answer answ = new Answer(answer2content, 0);
+								
+									if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged().getWallet()
+									.getMoney()
+									&& Integer.parseInt(betInp.getText()) >= businessLogic
+											.getQuestion(eventNumber, questNumber).getBetMinimum()) {
+										
+										setVisible(false);
+										ConfirmGUI confirmation = new ConfirmGUI();
+										confirmation.setVisible(true);
+										confirmation.previousFrame(thisFrame);
+										
+										//Different cases for rates. This is something really general, I don't think
+										//it has to be very accurate
+										
+										if (team1Goals>team2Goals+3 || team2Goals>team1Goals+3) {
+											answ.setRate(50);
+								
+										}else if (team1Goals.equals(team2Goals)){
+											answ.setRate(30);
+										}else {
+											answ.setRate(20);
+										}
+										
+										//Create the official answer
+										Answer offAns = businessLogic.getQuestion(eventNumber, questNumber).addSpecificAnswer(answer2content, answ.getRate());
+										
+										//get the official answer ID.
+										Integer answerNum = offAns.getAnswerId();
+										
+									
+										confirmation.setValues(eventNumber, questNumber, Integer.parseInt(betInp.getText()),
+										answerNum);
+								betInp.setText("");
+								
+								
+							} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged().getWallet()
+									.getMoney()) {
+								MessageTextArea.setText("You don't have enough money on you wallet!");
+							} else if (Integer.parseInt(betInp.getText()) < businessLogic
+									.getQuestion(eventNumber, questNumber).getBetMinimum()) {
+								MessageTextArea.setText("Please, enter a value higher than the minimum bet!");
+							}
+							
+							}
 						} else {
 							MessageTextArea.setText("Please enter a numeric value, not: " + betInp.getText());
 						}
+					
 					}
 
 				} else
@@ -491,10 +562,12 @@ public class BrowseQuestionsGUI extends JFrame {
 					Team1TextArea.setText(first);
 					Team2TextArea.setText(second);
 					
-					Integer team1Goals = (Integer) goals1comboBox.getSelectedItem();
-					Integer team2Goals = (Integer) goals2comboBox.getSelectedItem();
+					answerLbl.setText("Bet on: " + question.getQuestion());
 					
-					String answer2 = team1Goals + "-" + team2Goals;
+					
+					//Hau bukatu gabe uste dut!!
+					
+					
 					
 				}
 			}
