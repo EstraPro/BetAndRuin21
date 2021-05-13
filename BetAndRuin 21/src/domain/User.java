@@ -29,7 +29,8 @@ public class User {
 	private String Surname;
 	private String Email;
 	private int BetId = 0;
-
+	
+	private boolean loggedIn = false;
 	private String password;
 	private String BankAccount;
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -249,7 +250,15 @@ public class User {
 	public void setBetId(int betId) {
 		BetId = betId;
 	}
+	
+	public boolean isLoggedIn() {
 
+		return loggedIn;
+	}
+
+	public void setLoggedIn(boolean loggedIn) {
+		this.loggedIn = loggedIn;
+	}
 
 	/**
 	 * Method to remove a bet made by an user with id remBetId

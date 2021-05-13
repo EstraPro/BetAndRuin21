@@ -477,6 +477,28 @@ public class DataAccess {
 
 		return user.get(0);
 	}
+	
+	/**
+	 * Return id of logged user
+	 * 
+	 * @return
+	 */
+	public String getLoggedUserUserName() {
+
+		this.open(false);
+
+		db.getTransaction().begin();
+
+		TypedQuery<String> queryLoggedUsers = db.createQuery("SELECT username FROM User WHERE loggedIn=true",
+				String.class);
+
+		List<String> usernames = queryLoggedUsers.getResultList();
+
+		db.getTransaction().commit();
+		this.close();
+
+		return usernames.get(0);
+	}
 
 	/**
 	 * Check user credentials
