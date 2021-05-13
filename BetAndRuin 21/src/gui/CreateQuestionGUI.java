@@ -240,7 +240,7 @@ public class CreateQuestionGUI extends JFrame {
 		questionTypeComboBox = new JComboBox<Integer>();
 		
 		questionTypeComboBox.setBounds(107, 331, 80, 22);
-		for(int i = 1 ; i<4; i++) {
+		for(int i = 1 ; i<3; i++) {
 			questionTypeComboBox.addItem((Integer)i);
 		}
 		getContentPane().add(questionTypeComboBox);
