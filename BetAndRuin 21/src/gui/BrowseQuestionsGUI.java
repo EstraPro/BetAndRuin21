@@ -358,6 +358,7 @@ public class BrowseQuestionsGUI extends JFrame {
 										setVisible(false);
 										ConfirmGUI confirmation = new ConfirmGUI();
 										confirmation.setVisible(true);
+										confirmation.setBusinessLogic(businessLogic);
 										confirmation.previousFrame(thisFrame);
 										confirmation.setValues(eventNumber, questNumber,
 												Integer.parseInt(betInp.getText()), infoList);
