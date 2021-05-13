@@ -118,8 +118,14 @@ public class User {
 		this.BankAccount = BankAccount;
 	}
 
-	public ArrayList<Bet> getAllBets() {
-		return (ArrayList<Bet>) madeBets;
+	public ArrayList<Bet> getAllOngoingBets() {
+		ArrayList<Bet> ret= new ArrayList<Bet>();
+		for(Bet lag: madeBets) {
+			if(!lag.isAvaluated()) {
+				ret.add(lag);
+			}
+		}
+		return ret;
 	}
 
 	/*

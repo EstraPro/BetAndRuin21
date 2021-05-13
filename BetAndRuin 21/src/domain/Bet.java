@@ -18,6 +18,7 @@ public class Bet {
 	private Event event;
 	private int amount;
 	private Date date;
+	private boolean avaluated;
 	
 	@XmlIDREF
 	private User user;
@@ -39,6 +40,8 @@ public class Bet {
 		this.amount = amount;
 		this.date = date;
 		this.user= user;
+		this.avaluated=false;
+		
 	}
 
 	public Question getQuestion() {
@@ -88,19 +91,33 @@ public class Bet {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Question: " + question.getQuestion() + "\n" +"Answer: " + answer.getContent() + "\n" + "Event: " + event.getDescription() + ", Amount of Betting: " + amount
 				+ ", Date: " + date.toString();
 	}
-
+	
 	public double getProfit() {
 		double profit=((this.answer.getRate() * 0.01)+1)*this.amount;
 		return profit;
 	}
 	
-	
+    public boolean isAvaluated() {
+		return avaluated;
+	}
+
+	public void setAvaluated(boolean avaluated) {
+		this.avaluated = avaluated;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 
 }

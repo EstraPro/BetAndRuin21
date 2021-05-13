@@ -153,7 +153,7 @@ public class ViewProfileGUI extends JFrame {
 		tableListBet = new JTable(tableModel);
 		
 		Object[] ezaugarriList = new Object[7];
-		for(Bet lag: businessLogic.getUserLogged().getAllBets()) {
+		for(Bet lag: businessLogic.getUserLogged().getAllOngoingBets()) {
 			ezaugarriList[0] = lag.getId();
 			ezaugarriList[1] = lag.getEvent().getDescription();
 			ezaugarriList[2] = lag.getQuestion().getQuestion();

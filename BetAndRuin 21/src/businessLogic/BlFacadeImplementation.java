@@ -173,6 +173,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param passwd
 	 * @return true if they match, false if not
 	 */
+	@WebMethod
 	public boolean checkCredentialsUser(String usname, String passwd) {
 		dbManager.open(false);
 		boolean ret = dbManager.checkUser(usname, passwd);
@@ -187,6 +188,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param passwd
 	 * @return true if they match, false if not
 	 */
+	@WebMethod
 	public boolean checkCredentialsAdmin(String usname, String passwd) {
 
 		if (usname.equals("admin") && passwd.equals("admin")) {
@@ -203,6 +205,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param pass2
 	 * @return true if they match, false if not
 	 */
+	@WebMethod
 	public boolean passwdMatches(String pass1, String pass2) {
 
 		if (pass1.equals(pass2) && pass1.length() != 0) {
@@ -218,6 +221,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param userp
 	 * @param passwordp
 	 */
+	@WebMethod
 	public int storeUser(String userp, String passwordp, Date birthDate, String name, String surname, String email,
 			String bankAccount) {
 		dbManager.open(false);
@@ -229,6 +233,7 @@ public class BlFacadeImplementation implements BlFacade {
 	/**
 	 * Marks loggedIn attribute as true
 	 */
+	@WebMethod
 	public void markLogin(String user, String passwd) {
 		dbManager.open(false);
 		dbManager.markLogin(user, passwd);
@@ -244,6 +249,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param questionId
 	 * @param amount
 	 */
+	@WebMethod
 	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
 
 		dbManager.storeBet(question, answer, event, date, amount);
@@ -256,6 +262,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param questionNum
 	 * @return
 	 */
+	@WebMethod
 	public Question getQuestion(int eventNum, int questionNum) {
 
 		return dbManager.getQuestion(eventNum, questionNum);
@@ -269,6 +276,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param answerNum
 	 * @return
 	 */
+	@WebMethod
 	public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum) {
 
 		return dbManager.getAnswer(eventNum, questionNum, answerNum);
@@ -280,6 +288,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param eventNum
 	 * @return
 	 */
+	@WebMethod
 	public Event getEvent(Integer eventNum) {
 
 		return dbManager.getEvent(eventNum);
@@ -291,6 +300,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * 
 	 * @param amount
 	 */
+	@WebMethod
 	public void insertMoneyLoggedUser(int amount) {
 
 		dbManager.insertMoneyLoggedUser(amount);
@@ -306,6 +316,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param pass
 	 * @param bankN
 	 */
+	@WebMethod
 	public int updateUserData(String uName, String pass, String bankN) {
 		
 		return dbManager.updateUserData(uName, pass, bankN);
@@ -317,8 +328,18 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param remBetId
 	 * @param amount
 	 */
+	@WebMethod
 	public void removeBet(Integer remBetId, int amount) {
 
 		dbManager.removeBet(remBetId, amount);
+	}
+
+	@WebMethod
+	public int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType,
+			ArrayList<String> resultList, ArrayList<Date> dateList) {
+		dbManager.open(false);
+		int ret = dbManager.manageResults(eventList,questionType,resultList,dateList);
+		dbManager.close();
+		return ret;
 	}
 }
