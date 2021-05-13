@@ -26,12 +26,14 @@ import javax.swing.JList;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import javax.swing.JTextArea;
 
 public class ViewProfileGUI extends JFrame {
 
@@ -40,6 +42,8 @@ public class ViewProfileGUI extends JFrame {
 	private BlFacade businessLogic;
 
 	private MainGUI prevFrame;
+
+	private JTextArea ErrorMessageArea;
 
 	private boolean bool = false;
 	private JTable tableListBet;
@@ -53,7 +57,7 @@ public class ViewProfileGUI extends JFrame {
 
 		prevFrame = frame;
 	}
-	
+
 	/*
 	 * 
 	 */
@@ -96,8 +100,6 @@ public class ViewProfileGUI extends JFrame {
 		JScrollPane showBetscrollPane = new JScrollPane();
 		showBetscrollPane.setBounds(10, 247, 817, 128);
 		contentPane.add(showBetscrollPane);
-		
-		
 
 		///////////////////////////////////////////////////// Labels of User Info
 		JPanel UserInfopanel2 = new JPanel();
@@ -118,17 +120,17 @@ public class ViewProfileGUI extends JFrame {
 		JLabel lblBirthDate = new JLabel("Birth Date:");
 		lblBirthDate.setBounds(10, 77, 223, 26);
 		UserInfopanel2.add(lblBirthDate);
-		//To get the Date in the format we want
+		// To get the Date in the format we want
 		String pattern = "MM / dd / yyyy";
 
-		// Create an instance of SimpleDateFormat used for formatting 
+		// Create an instance of SimpleDateFormat used for formatting
 		// the string representation of date according to the chosen pattern
 		DateFormat df = new SimpleDateFormat(pattern);
-		
-		// Using DateFormat format method we can create a string 
+
+		// Using DateFormat format method we can create a string
 		// representation of a date with the defined format.
 		String birthDayAsString = df.format(businessLogic.getUserLogged().getBirthDate());
-		//finally set it to
+		// finally set it to
 		lblBirthDate.setText("Birth Date: " + birthDayAsString);
 
 		JLabel lblMoneyShow = new JLabel("Money");
@@ -137,21 +139,16 @@ public class ViewProfileGUI extends JFrame {
 		lblMoneyShow.setBounds(628, 8, 107, 35);
 		contentPane.add(lblMoneyShow);
 		lblMoneyShow.setText(businessLogic.getUserLogged().getWallet().getMoney() + "€");
-		
-		////////////////////////////////////////////////////////////////////////ListBet
-		
-		DefaultTableModel tableModel = new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"#Bet", "Event", "Question", "Answer", "Amount(\u20AC)", "Date","Expected Profit"
-				}
-			);
-		
+
+		//////////////////////////////////////////////////////////////////////// ListBet
+
+		DefaultTableModel tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "#Bet", "Event",
+				"Question", "Answer", "Amount(\u20AC)", "Date", "Expected Profit", "Ezkutaketa" });
+
 		tableListBet = new JTable(tableModel);
-		
-		Object[] ezaugarriList = new Object[7];
-		for(Bet lag: businessLogic.getUserLogged().getAllOngoingBets()) {
+
+		Object[] ezaugarriList = new Object[8];
+		for (Bet lag : businessLogic.getUserLogged().getAllOngoingBets()) {
 			ezaugarriList[0] = lag.getId();
 			ezaugarriList[1] = lag.getEvent().getDescription();
 			ezaugarriList[2] = lag.getQuestion().getQuestion();
@@ -159,6 +156,7 @@ public class ViewProfileGUI extends JFrame {
 			ezaugarriList[4] = lag.getAmount();
 			ezaugarriList[5] = df.format(lag.getDate());
 			ezaugarriList[6] = lag.getProfit();
+			ezaugarriList[7] = lag.getEvent();
 			tableModel.insertRow(tableModel.getRowCount(), ezaugarriList);
 		}
 		tableListBet.getColumnModel().getColumn(0).setPreferredWidth(25);
@@ -168,6 +166,7 @@ public class ViewProfileGUI extends JFrame {
 		tableListBet.getColumnModel().getColumn(4).setPreferredWidth(30);
 		tableListBet.getColumnModel().getColumn(5).setPreferredWidth(50);
 		tableListBet.getColumnModel().getColumn(6).setPreferredWidth(50);
+		tableListBet.getColumnModel().removeColumn(tableListBet.getColumnModel().getColumn(7));
 		showBetscrollPane.setViewportView(tableListBet);
 
 		////////////////////////////////////////////////////////////////////// Insert
@@ -207,10 +206,37 @@ public class ViewProfileGUI extends JFrame {
 		JButton DeleteBetbtn = new JButton("Delete Bet");
 		DeleteBetbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(tableListBet.getSelectedRow()!=-1) {
-					Integer remBetId = (Integer) tableModel.getValueAt(tableListBet.getSelectedRow(),0);
-					businessLogic.removeBet(remBetId, (int) tableModel.getValueAt(tableListBet.getSelectedRow(), 4));
-					tableModel.removeRow(tableListBet.getSelectedRow());
+
+				/*
+				 * if(tableListBet.getSelectedRow()!=-1) { Integer remBetId = (Integer)
+				 * tableModel.getValueAt(tableListBet.getSelectedRow(),0);
+				 * businessLogic.removeBet(remBetId, (int)
+				 * tableModel.getValueAt(tableListBet.getSelectedRow(), 4));
+				 * tableModel.removeRow(tableListBet.getSelectedRow()); }
+				 */
+
+				if (tableListBet.getSelectedRow() != -1) {
+
+					Integer remBetId = (Integer) tableModel.getValueAt(tableListBet.getSelectedRow(), 0);
+
+					domain.Event remBetEvent = (domain.Event) tableModel.getValueAt(tableListBet.getSelectedRow(), 7);
+					Date remBetDate = (Date) remBetEvent.getEventDate();
+					Date currentDate = new Date();
+					String remBetDateString = df.format(remBetDate);
+					String currentDateString = df.format(currentDate);
+
+					ErrorMessageArea.setText("");
+
+					if (currentDateString.compareTo(remBetDateString) <= 0) {
+						ErrorMessageArea.setText("You can not delete that bet it \n has already expired!");
+					} else if (Math.abs(((String) tableModel.getValueAt(tableListBet.getSelectedRow(), 5))
+							.compareTo(currentDateString)) >= 10) {
+						ErrorMessageArea.setText("More than 10 days have passed since you made the bet!");
+					} else {
+						businessLogic.removeBet(remBetId,
+								(int) tableModel.getValueAt(tableListBet.getSelectedRow(), 4));
+						tableModel.removeRow(tableListBet.getSelectedRow());
+					}
 				}
 			}
 		});
@@ -242,45 +268,45 @@ public class ViewProfileGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int currency = businessLogic.getUserLogged().getWallet().getMoney();
 				lblMoneyShow.setText(currency + "€");
-				String accountNum  = businessLogic.getUserLogged().getBankAccount();
+				String accountNum = businessLogic.getUserLogged().getBankAccount();
 				lblBankAccount.setText("Bank Account: " + accountNum);
 				String newUserName = businessLogic.getUserLogged().getUsername();
 				lblUsername.setText("Username: " + newUserName);
-				
+
 			}
 		});
 		btnRefresh.setBounds(549, 58, 79, 31);
 		contentPane.add(btnRefresh);
-		
+
 		JLabel lblBetsList = new JLabel("Made Bets:");
 		lblBetsList.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblBetsList.setBounds(10, 225, 79, 14);
 		contentPane.add(lblBetsList);
-		
+
 		JPanel photoPanel = new JPanel();
 		photoPanel.setBounds(287, 46, 195, 168);
 		contentPane.add(photoPanel);
 		photoPanel.setLayout(null);
-		
+
 		JLabel LogoLabel = new JLabel(" ");
 		LogoLabel.setBounds(0, 0, 160, 168);
 		photoPanel.add(LogoLabel);
-		
+
 		LogoLabel.setIcon(new ImageIcon("./Image/myke.jpg"));
-		
+
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.setBounds(10, 8, 89, 23);
 		contentPane.add(btnLogout);
-		
+
 		JLabel lblProfilePhotoTxt = new JLabel("Profile Photo: ");
 		lblProfilePhotoTxt.setBounds(287, 29, 195, 14);
 		contentPane.add(lblProfilePhotoTxt);
-		
+
 		JButton btnEditprofile = new JButton("Edit Profile");
 		ViewProfileGUI frame = this;
 		btnEditprofile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				setVisible(false);
 				EditProfileGUI newg = new EditProfileGUI();
 				newg.setBusinessLogic(businessLogic);
@@ -290,6 +316,10 @@ public class ViewProfileGUI extends JFrame {
 		});
 		btnEditprofile.setBounds(111, 8, 111, 23);
 		contentPane.add(btnEditprofile);
+
+		ErrorMessageArea = new JTextArea();
+		ErrorMessageArea.setBounds(507, 181, 308, 52);
+		contentPane.add(ErrorMessageArea);
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
