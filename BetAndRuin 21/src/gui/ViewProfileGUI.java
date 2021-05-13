@@ -36,6 +36,8 @@ import java.awt.Insets;
 import javax.swing.JTextArea;
 
 public class ViewProfileGUI extends JFrame {
+	
+	private static String Username;
 
 	private JPanel contentPane;
 
@@ -57,6 +59,14 @@ public class ViewProfileGUI extends JFrame {
 
 		prevFrame = frame;
 	}
+	
+	public String getUsername() {
+		return Username;
+	}
+
+	public void setUsername(String username) {
+		Username = username;
+	}
 
 	/*
 	 * 
@@ -73,10 +83,11 @@ public class ViewProfileGUI extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.out.println(Username);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewProfileGUI frame = new ViewProfileGUI();
+					ViewProfileGUI frame = new ViewProfileGUI(Username);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -88,7 +99,8 @@ public class ViewProfileGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ViewProfileGUI() {
+	public ViewProfileGUI(String User) {
+		Username = User;
 		this.setBusinessLogic(new BlFacadeImplementation());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 853, 467);
@@ -110,12 +122,12 @@ public class ViewProfileGUI extends JFrame {
 		JLabel lblEmail = new JLabel("E-Mail:");
 		lblEmail.setBounds(10, 11, 212, 26);
 		UserInfopanel2.add(lblEmail);
-		lblEmail.setText("E-Mail: " + businessLogic.getUserLogged().getEmail());
+		lblEmail.setText("E-Mail: " + businessLogic.getUserLogged(Username).getEmail());
 
 		JLabel lblBankAccount = new JLabel("Bank Account:");
 		lblBankAccount.setBounds(10, 45, 282, 21);
 		UserInfopanel2.add(lblBankAccount);
-		lblBankAccount.setText("Bank Account: " + businessLogic.getUserLogged().getBankAccount());
+		lblBankAccount.setText("Bank Account: " + businessLogic.getUserLogged(Username).getBankAccount());
 
 		JLabel lblBirthDate = new JLabel("Birth Date:");
 		lblBirthDate.setBounds(10, 77, 223, 26);
@@ -129,7 +141,7 @@ public class ViewProfileGUI extends JFrame {
 
 		// Using DateFormat format method we can create a string
 		// representation of a date with the defined format.
-		String birthDayAsString = df.format(businessLogic.getUserLogged().getBirthDate());
+		String birthDayAsString = df.format(businessLogic.getUserLogged(Username).getBirthDate());
 		// finally set it to
 		lblBirthDate.setText("Birth Date: " + birthDayAsString);
 
@@ -138,7 +150,7 @@ public class ViewProfileGUI extends JFrame {
 		lblMoneyShow.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMoneyShow.setBounds(628, 8, 107, 35);
 		contentPane.add(lblMoneyShow);
-		lblMoneyShow.setText(businessLogic.getUserLogged().getWallet().getMoney() + "€");
+		lblMoneyShow.setText(businessLogic.getUserLogged(Username).getWallet().getMoney() + "€");
 
 		//////////////////////////////////////////////////////////////////////// ListBet
 
@@ -148,7 +160,7 @@ public class ViewProfileGUI extends JFrame {
 		tableListBet = new JTable(tableModel);
 
 		Object[] ezaugarriList = new Object[8];
-		for (Bet lag : businessLogic.getUserLogged().getAllOngoingBets()) {
+		for (Bet lag : businessLogic.getUserLogged(Username).getAllOngoingBets()) {
 			ezaugarriList[0] = lag.getId();
 			ezaugarriList[1] = lag.getEvent().getDescription();
 			ezaugarriList[2] = lag.getQuestion().getQuestion();
@@ -177,6 +189,7 @@ public class ViewProfileGUI extends JFrame {
 		InsertMoneyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InsertMoneyGUI InsertGUI = new InsertMoneyGUI();
+				InsertGUI.setUsername(Username);
 				InsertGUI.setBusinessLogic(businessLogic);
 				InsertGUI.previousFrame(thisFrame);
 				setVisible(false);
@@ -197,6 +210,7 @@ public class ViewProfileGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				prevFrame.setVisible(true);
+				prevFrame.setUsername(Username);
 			}
 		});
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -227,13 +241,13 @@ public class ViewProfileGUI extends JFrame {
 
 					ErrorMessageArea.setText("");
 
-					if (currentDateString.compareTo(remBetDateString) <= 0) {
+				/*	if (currentDateString.compareTo(remBetDateString) <= 0) {
 						ErrorMessageArea.setText("You can not delete that bet it \n has already expired!");
-					} else if (Math.abs(((String) tableModel.getValueAt(tableListBet.getSelectedRow(), 5))
+					} else*/ if (Math.abs(((String) tableModel.getValueAt(tableListBet.getSelectedRow(), 5))
 							.compareTo(currentDateString)) >= 10) {
 						ErrorMessageArea.setText("More than 10 days have passed since you made the bet!");
 					} else {
-						businessLogic.removeBet(remBetId,
+						businessLogic.removeBet(Username ,remBetId,
 								(int) tableModel.getValueAt(tableListBet.getSelectedRow(), 4));
 						tableModel.removeRow(tableListBet.getSelectedRow());
 					}
@@ -254,23 +268,23 @@ public class ViewProfileGUI extends JFrame {
 		NameSurnamepanel.add(NameLbl);
 		NameLbl.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		NameLbl.setText(
-				"Name: " + businessLogic.getUserLogged().getName() + " " + businessLogic.getUserLogged().getSurname());
+				"Name: " + businessLogic.getUserLogged(Username).getName() + " " + businessLogic.getUserLogged(Username).getSurname());
 
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblUsername.setBounds(10, 36, 230, 25);
 		NameSurnamepanel.add(lblUsername);
-		lblUsername.setText("Username: " + businessLogic.getUserLogged().getUsername());
+		lblUsername.setText("Username: " + businessLogic.getUserLogged(Username).getUsername());
 
 		JButton btnRefresh = new JButton("Refresh");
 		btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int currency = businessLogic.getUserLogged().getWallet().getMoney();
+				int currency = businessLogic.getUserLogged(Username).getWallet().getMoney();
 				lblMoneyShow.setText(currency + "€");
-				String accountNum = businessLogic.getUserLogged().getBankAccount();
+				String accountNum = businessLogic.getUserLogged(Username).getBankAccount();
 				lblBankAccount.setText("Bank Account: " + accountNum);
-				String newUserName = businessLogic.getUserLogged().getUsername();
+				String newUserName = businessLogic.getUserLogged(Username).getUsername();
 				lblUsername.setText("Username: " + newUserName);
 
 			}
@@ -309,6 +323,7 @@ public class ViewProfileGUI extends JFrame {
 
 				setVisible(false);
 				EditProfileGUI newg = new EditProfileGUI();
+				newg.setUsername(Username);
 				newg.setBusinessLogic(businessLogic);
 				newg.setVisible(true);
 				newg.previousFrame(frame);
@@ -327,7 +342,7 @@ public class ViewProfileGUI extends JFrame {
 				prevFrame.getBtnLogin().setVisible(true);
 				prevFrame.getBtnRegister().setVisible(true);
 				prevFrame.getBifunctionalBtn().setVisible(false);
-				businessLogic.resetLogins();
+				prevFrame.setUsername(null);
 			}
 		});
 

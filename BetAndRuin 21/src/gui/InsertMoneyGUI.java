@@ -25,6 +25,7 @@ import java.awt.event.KeyEvent;
 
 public class InsertMoneyGUI extends JFrame {
 
+	private String Username;
 	private JPanel contentPane;
 	private JTextField InsertAmountField;
 	
@@ -40,6 +41,14 @@ public class InsertMoneyGUI extends JFrame {
 	public void previousFrame(JFrame frame) {
 
 		prevFrame = frame;
+	}
+	
+	public String getUsername() {
+		return Username;
+	}
+
+	public void setUsername(String username) {
+		Username = username;
 	}
 	
 	/*
@@ -69,7 +78,7 @@ public class InsertMoneyGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public InsertMoneyGUI() {
-		
+		Username=null;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -96,7 +105,7 @@ public class InsertMoneyGUI extends JFrame {
 		btnInsert.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					businessLogic.insertMoneyLoggedUser(Integer.parseInt(InsertAmountField.getText()));
+					businessLogic.insertMoneyLoggedUser(Username, Integer.parseInt(InsertAmountField.getText()));
 					AnswertextArea.setText("Done! \n"+ InsertAmountField.getText() +"€ added to your system account.");
 				}catch(NumberFormatException e1) {
 					AnswertextArea.setText("Please enter a number, not :" + InsertAmountField.getText());
@@ -115,7 +124,7 @@ public class InsertMoneyGUI extends JFrame {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					
 					try {
-						businessLogic.insertMoneyLoggedUser(Integer.parseInt(InsertAmountField.getText()));
+						businessLogic.insertMoneyLoggedUser(Username, Integer.parseInt(InsertAmountField.getText()));
 						AnswertextArea.setText("Done! \n"+ InsertAmountField.getText() +"€ added to your system account.");
 					}catch(NumberFormatException e1) {
 						AnswertextArea.setText("Please enter a number, not :" + InsertAmountField.getText());

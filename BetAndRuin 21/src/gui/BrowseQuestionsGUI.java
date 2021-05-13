@@ -47,7 +47,8 @@ public class BrowseQuestionsGUI extends JFrame {
 	private JFrame prevFrame;
 
 	private BlFacade businessLogic;
-
+	
+	private String Username;
 	private final JLabel eventDateLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
 	private final JLabel questionLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Questions"));
 	private final JLabel eventLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Events"));
@@ -93,9 +94,22 @@ public class BrowseQuestionsGUI extends JFrame {
 	public void setBusinessLogic(BlFacade bl) {
 		businessLogic = bl;
 	}
+	
+	
+	
+	public String getUsername() {
+		return Username;
+	}
+
+
+
+	public void setUsername(String username) {
+		Username = username;
+	}
+
+
 
 	public BrowseQuestionsGUI(BlFacade bl) {
-
 		businessLogic = bl;
 		try {
 			jbInit();
@@ -103,7 +117,7 @@ public class BrowseQuestionsGUI extends JFrame {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private void jbInit() throws Exception {
 		this.setSize(new Dimension(889, 613));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
@@ -282,7 +296,7 @@ public class BrowseQuestionsGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				MessageTextArea.setText("                                             ");
 
-				if (businessLogic.isAnyUserLogged()) {
+				if (Username!=null) {
 
 					if (eventTable.getSelectedRow() != -1 && questionTable.getSelectedRow() != -1) {
 						int i = questionTable.getSelectedRow();
@@ -303,12 +317,13 @@ public class BrowseQuestionsGUI extends JFrame {
 							
 							if (question.getType().equals(1)) {
 								if (answerTable.getSelectedRow() != -1) {
-									if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged().getWallet()
+									if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged(Username).getWallet()
 											.getMoney()
 											&& Integer.parseInt(betInp.getText()) >= question.getBetMinimum()) {
 										setVisible(false);
 										ConfirmGUI confirmation = new ConfirmGUI();
 										confirmation.setBusinessLogic(businessLogic);
+										confirmation.setUsername(Username);
 										confirmation.setVisible(true);
 										confirmation.previousFrame(thisFrame);
 
@@ -322,7 +337,7 @@ public class BrowseQuestionsGUI extends JFrame {
 												Integer.parseInt(betInp.getText()), infoList);
 										betInp.setText("");
 
-									} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged()
+									} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged(Username)
 											.getWallet().getMoney()) {
 										MessageTextArea.setText("You don't have enough money on you wallet!");
 									} else if (Integer.parseInt(betInp.getText()) < businessLogic
@@ -347,7 +362,7 @@ public class BrowseQuestionsGUI extends JFrame {
 									// Content of the answer will be saved as for example ----> 2-3
 									String answer2content = team1Goals + "-" + team2Goals;
 
-									if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged().getWallet()
+									if (Integer.parseInt(betInp.getText()) <= businessLogic.getUserLogged(Username).getWallet()
 											.getMoney()
 											&& Integer.parseInt(betInp.getText()) >= question.getBetMinimum()) {
 
@@ -370,12 +385,13 @@ public class BrowseQuestionsGUI extends JFrame {
 										ConfirmGUI confirmation = new ConfirmGUI();
 										confirmation.setVisible(true);
 										confirmation.setBusinessLogic(businessLogic);
+										confirmation.setUsername(Username);
 										confirmation.previousFrame(thisFrame);
 										confirmation.setValues(eventNumber, questNumber,
 												Integer.parseInt(betInp.getText()), infoList);
 										betInp.setText("");
 
-									} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged()
+									} else if (Integer.parseInt(betInp.getText()) > businessLogic.getUserLogged(Username)
 											.getWallet().getMoney()) {
 										MessageTextArea.setText("You don't have enough money on you wallet!");
 									} else if (Integer.parseInt(betInp.getText()) < question.getBetMinimum()) {

@@ -85,7 +85,7 @@ public class LoginGUI extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {	//Enter key pressed
 					
-					// userra baldin bada use case bat ireki
+					// administratzailea baldin bada bertze use case bat ireki
 					if (businessLogic.checkCredentialsAdmin(UsnametextField.getText(),
 							String.valueOf(passwordField.getPassword()))) {
 						setVisible(false);
@@ -95,10 +95,10 @@ public class LoginGUI extends JFrame {
 						prevFrame.getBifunctionalBtn().setVisible(true);
 						prevFrame.getBifunctionalBtn().setText("Create Questions");
 						prevFrame.getBtnInsertResults().setVisible(true);
-						businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
+						prevFrame.setUsername(UsnametextField.getText());
 					}
 
-					// administratzailea baldin bada bertze use case bat ireki
+					// userra baldin bada use case bat ireki
 					else if (businessLogic.checkCredentialsUser(UsnametextField.getText(),
 							String.valueOf(passwordField.getPassword()))) {
 						setVisible(false);
@@ -108,9 +108,9 @@ public class LoginGUI extends JFrame {
 						prevFrame.getBifunctionalBtn().setVisible(true);
 						prevFrame.getBifunctionalBtn().setText("View Profile");
 						prevFrame.getBtnInsertResults().setVisible(false);
-						businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
+						prevFrame.setUsername(UsnametextField.getText());
 					}
-
+					
 					else {
 						outputMessageArea.insert("                                                    ", 0);
 						outputMessageArea.insert("Insert correct credentials!!", 0);
@@ -139,7 +139,7 @@ public class LoginGUI extends JFrame {
 					prevFrame.getBifunctionalBtn().setVisible(true);
 					prevFrame.getBifunctionalBtn().setText("Create Questions");
 					prevFrame.getBtnInsertResults().setVisible(true);
-					businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
+					prevFrame.setUsername(UsnametextField.getText());
 				}
 
 				// administratzailea baldin bada bertze use case bat ireki
@@ -152,7 +152,7 @@ public class LoginGUI extends JFrame {
 					prevFrame.getBifunctionalBtn().setVisible(true);
 					prevFrame.getBifunctionalBtn().setText("View Profile");
 					prevFrame.getBtnInsertResults().setVisible(false);
-					businessLogic.markLogin(UsnametextField.getText(), String.valueOf(passwordField.getPassword()));
+					prevFrame.setUsername(UsnametextField.getText());
 				}
 
 				else {
@@ -170,6 +170,7 @@ public class LoginGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				prevFrame.setVisible(true);
+				prevFrame.setUsername(null);
 			}
 		});
 

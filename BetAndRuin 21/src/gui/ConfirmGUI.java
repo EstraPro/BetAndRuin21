@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
 
 public class ConfirmGUI extends JFrame {
 
-	
+	private String Username;
 
 	private JPanel contentPane;
 
@@ -35,6 +35,14 @@ public class ConfirmGUI extends JFrame {
 	
 	public void setBusinessLogic(BlFacade checker) {
 		businessLogic = checker;
+	}
+	
+	public String getUsername() {
+		return Username;
+	}
+
+	public void setUsername(String username) {
+		Username = username;
 	}
 
 	/**
@@ -57,7 +65,7 @@ public class ConfirmGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ConfirmGUI() {
-		
+		Username=null;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -70,7 +78,7 @@ public class ConfirmGUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			
 				if(Integer.parseInt(infoList.get(0))==1) {
-				businessLogic.storeBet(businessLogic.getQuestion(eventNum,questionNum), 
+				businessLogic.storeBet(Username, businessLogic.getQuestion(eventNum,questionNum), 
 						businessLogic.getAnswer(eventNum,questionNum, Integer.parseInt(infoList.get(1))), businessLogic.getEvent(eventNum), new Date(), amount);
 				}else if(Integer.parseInt(infoList.get(0))==2) {
 				
@@ -80,7 +88,7 @@ public class ConfirmGUI extends JFrame {
 					} catch (AnswerAlreadyExist e) {
 						e.printStackTrace();
 					};
-					businessLogic.storeBet(businessLogic.getQuestion(eventNum,questionNum), 
+					businessLogic.storeBet(Username,businessLogic.getQuestion(eventNum,questionNum), 
 							businessLogic.getAnswer(eventNum,questionNum, newAnserNum), businessLogic.getEvent(eventNum), new Date(), amount);
 				}
 				setVisible(false);

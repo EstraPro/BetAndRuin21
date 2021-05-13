@@ -439,9 +439,7 @@ public class DataAccess {
 	 * @param questionId
 	 * @param amount
 	 */
-	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
-
-		String username = getLoggedUserUserName();
+	public void storeBet(String username,Question question, Answer answer, Event event, Date date, int amount) {
 
 		this.open(false);
 
@@ -496,70 +494,6 @@ public class DataAccess {
 		List<User> users = userPassQuery.getResultList();
 
 		return users.size() != 0;
-	}
-
-	/**
-	 * Marks loggedIn attribute as true
-	 */
-	public void markLogin(String user, String passwd) {
-
-		db.getTransaction().begin();
-
-		TypedQuery<User> queryUser = db.createQuery(
-				"SELECT FROM User WHERE username.equals(\"" + user + "\") AND password.equals(\"" + passwd + "\")",
-				User.class);
-
-		List<User> users = queryUser.getResultList();
-
-		User usr = users.get(0);
-		usr.setLoggedIn(true);
-		db.persist(usr);
-		db.getTransaction().commit();
-		System.out.println(usr.getUsername() + " Logged!");
-	}
-
-	/**
-	 * Resets all Users login status
-	 */
-	public void resetLogins() {
-
-		this.open(false);
-
-		db.getTransaction().begin();
-
-		TypedQuery<User> queryAllUsers = db.createQuery("SELECT FROM User", User.class);
-
-		List<User> users = queryAllUsers.getResultList();
-
-		for (User usr : users) {
-
-			usr.setLoggedIn(false);
-			db.persist(usr);
-		}
-		db.getTransaction().commit();
-		this.close();
-	}
-
-	/**
-	 * Return id of logged user
-	 * 
-	 * @return
-	 */
-	public String getLoggedUserUserName() {
-
-		this.open(false);
-
-		db.getTransaction().begin();
-
-		TypedQuery<String> queryLoggedUsers = db.createQuery("SELECT username FROM User WHERE loggedIn=true",
-				String.class);
-
-		List<String> usernames = queryLoggedUsers.getResultList();
-
-		db.getTransaction().commit();
-		this.close();
-
-		return usernames.get(0);
 	}
 
 	/**
@@ -619,9 +553,7 @@ public class DataAccess {
 	 * 
 	 * @param amount
 	 */
-	public void insertMoneyLoggedUser(int amount) {
-
-		String username = getLoggedUserUserName();
+	public void insertMoneyLoggedUser(String username, int amount) {
 
 		this.open(false);
 
@@ -644,9 +576,8 @@ public class DataAccess {
 	 * @param pass
 	 * @param bankN
 	 */
-	public int updateUserData(String uName, String pass, String bankN) {
+	public int updateUserData(String username, String uName, String pass, String bankN) {
 		int ret = 0;
-		String username = getLoggedUserUserName();
 
 		this.open(false);
 
@@ -692,7 +623,12 @@ public class DataAccess {
 	public User copyUser(User user, String newUsername) {
 		User NewUser = new User(newUsername, user.getPassword(), user.getBirthDate(), user.getName(), user.getSurname(),
 				user.getEmail(), user.getBankAccount());
-		NewUser.setLoggedIn(true);
+		NewUser.setWallet(user.getWallet());
+		NewUser.setBetId(user.getBetId());
+		for(Bet bet: user.getMadeBets()) {
+			bet.setUser(NewUser);
+			NewUser.storeBetObject(bet);
+		}
 		return NewUser;
 	}
 
@@ -721,9 +657,7 @@ public class DataAccess {
 	 * @param remBetId
 	 * @param amount
 	 */
-	public void removeBet(Integer remBetId, int amount) {
-
-		String username = getLoggedUserUserName();
+	public void removeBet(String username, Integer remBetId, int amount) {
 
 		this.open(false);
 
@@ -739,30 +673,6 @@ public class DataAccess {
 		db.getTransaction().commit();
 
 		this.close();
-	}
-
-	/**
-	 * Checks if any user is logged in
-	 * 
-	 * @return
-	 */
-	public boolean isAnyUserLogged() {
-
-		boolean b = false;
-
-		db.getTransaction().begin();
-
-		TypedQuery<User> queryAllUsers = db.createQuery("SELECT FROM User", User.class);
-		List<User> users = queryAllUsers.getResultList();
-
-		db.getTransaction().commit();
-
-		for (User usr : users) {
-			if (usr.isLoggedIn())
-				b = true;
-		}
-
-		return b;
 	}
 
 	public int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,

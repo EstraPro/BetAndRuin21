@@ -37,7 +37,9 @@ public class CreateQuestionGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private BlFacade businessLogic;
-
+	
+	private String Username;
+	
 	private JComboBox<Event> eventComboBox = new JComboBox<Event>();
 	DefaultComboBoxModel<Event> eventModel = new DefaultComboBoxModel<Event>();
 
@@ -88,6 +90,16 @@ public class CreateQuestionGUI extends JFrame {
 		prevFrame = frame;
 
 	}
+	
+	public String getUsername() {
+		return Username;
+	}
+
+
+
+	public void setUsername(String username) {
+		Username = username;
+	}
 
 	public void setBusinessLogic(BlFacade bl) {
 		businessLogic = bl;
@@ -95,6 +107,7 @@ public class CreateQuestionGUI extends JFrame {
 
 	public CreateQuestionGUI(BlFacade bl, Vector<domain.Event> v) {
 		businessLogic = bl;
+		Username = null;
 		try {
 			jbInit(v);
 		} catch (Exception e) {
@@ -199,7 +212,7 @@ public class CreateQuestionGUI extends JFrame {
 				prevFrame.getBtnRegister().setVisible(true);
 				prevFrame.getBifunctionalBtn().setVisible(false);
 				prevFrame.getBtnInsertResults().setVisible(false);
-				businessLogic.resetLogins();
+				prevFrame.setUsername(null);
 			}
 		});
 		btnLogout.setBounds(47, 25, 89, 23);

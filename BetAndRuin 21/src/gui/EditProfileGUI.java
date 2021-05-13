@@ -22,6 +22,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
 public class EditProfileGUI extends JFrame {
+	
+	private String Username;
 
 	private JPanel contentPane;
 	private JTextField txtUsername;
@@ -33,6 +35,14 @@ public class EditProfileGUI extends JFrame {
 
 	public void setBusinessLogic(BlFacade bl) {
 		businessLogic = bl;
+	}
+	
+	public String getUsername() {
+		return Username;
+	}
+
+	public void setUsername(String username) {
+		Username = username;
 	}
 	
 	/**
@@ -65,7 +75,7 @@ public class EditProfileGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public EditProfileGUI() {
-		
+		Username=null;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 464, 328);
 		contentPane = new JPanel();
@@ -139,10 +149,11 @@ public class EditProfileGUI extends JFrame {
 					bank = txtBankaccount.getText();
 				}
 				System.out.println(uname + "" + pass + "" + bank);
-				if(businessLogic.updateUserData(uname, pass, bank)==0) {
+				if(businessLogic.updateUserData(Username, uname, pass, bank)==0) {
 					errorArea.setText("There is already a user with that username,\n please enter a differnt one.");
 				}else {
 					errorArea.setText("Changes done!");
+					Username = uname;
 				}
 				
 				
@@ -156,6 +167,7 @@ public class EditProfileGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				prevFrame.setVisible(true);
+				prevFrame.setUsername(Username);
 			}
 		});
 		btnBack.setBounds(52, 253, 117, 25);

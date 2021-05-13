@@ -31,7 +31,6 @@ public class User {
 	private int BetId = 0;
 
 	private String password;
-	private boolean loggedIn = false;
 	private String BankAccount;
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<Bet> madeBets = new ArrayList<Bet>();
@@ -191,15 +190,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public boolean isLoggedIn() {
-
-		return loggedIn;
-	}
-
-	public void setLoggedIn(boolean loggedIn) {
-		this.loggedIn = loggedIn;
 	}
 
 	public Date getBirthDate() {
