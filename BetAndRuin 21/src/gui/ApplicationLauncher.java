@@ -13,15 +13,18 @@ import businessLogic.BlFacade;
 import businessLogic.BlFacadeImplementation;
 
 public class ApplicationLauncher {
-
+	
+	private static BlFacade businessLogic;
+	
 	public static void main(String[] args) {
-
+	
+	
 		ConfigXML config = ConfigXML.getInstance();
 
 		Locale.setDefault(new Locale(config.getLocale()));
 		System.out.println("Locale: " + Locale.getDefault());
-		MainGUI initWindow = new MainGUI();
-		BlFacade businessLogic;
+		MainGUI initWindow = null;
+		
 
 		try {
 
@@ -46,6 +49,7 @@ public class ApplicationLauncher {
 				Service service = Service.create(url, qname);
 				businessLogic = service.getPort(BlFacade.class);
 			} 
+			initWindow = new MainGUI(businessLogic);
 			initWindow.setBussinessLogic(businessLogic);
 			initWindow.setVisible(true);
 		}

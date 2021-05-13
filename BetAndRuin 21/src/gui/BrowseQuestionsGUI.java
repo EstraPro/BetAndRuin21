@@ -297,6 +297,7 @@ public class BrowseQuestionsGUI extends JFrame {
 											&& Integer.parseInt(betInp.getText()) >= question.getBetMinimum()) {
 										setVisible(false);
 										ConfirmGUI confirmation = new ConfirmGUI();
+										confirmation.setBusinessLogic(businessLogic);
 										confirmation.setVisible(true);
 										confirmation.previousFrame(thisFrame);
 

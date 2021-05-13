@@ -53,7 +53,6 @@ public class EditProfileGUI extends JFrame {
 			public void run() {
 				try {
 					EditProfileGUI frame = new EditProfileGUI();
-					frame.setBusinessLogic(new BlFacadeImplementation());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,9 +65,6 @@ public class EditProfileGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public EditProfileGUI() {
-		
-		this.setBusinessLogic(new BlFacadeImplementation());
-
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 464, 328);

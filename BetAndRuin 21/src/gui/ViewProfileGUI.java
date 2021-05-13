@@ -74,7 +74,6 @@ public class ViewProfileGUI extends JFrame {
 				try {
 					ViewProfileGUI frame = new ViewProfileGUI();
 					frame.setVisible(true);
-					frame.setBusinessLogic(new BlFacadeImplementation());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -86,7 +85,6 @@ public class ViewProfileGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewProfileGUI() {
-		
 		this.setBusinessLogic(new BlFacadeImplementation());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 853, 467);
@@ -175,6 +173,7 @@ public class ViewProfileGUI extends JFrame {
 		InsertMoneyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InsertMoneyGUI InsertGUI = new InsertMoneyGUI();
+				InsertGUI.setBusinessLogic(businessLogic);
 				InsertGUI.previousFrame(thisFrame);
 				setVisible(false);
 				InsertGUI.setVisible(true);
@@ -279,6 +278,7 @@ public class ViewProfileGUI extends JFrame {
 				
 				setVisible(false);
 				EditProfileGUI newg = new EditProfileGUI();
+				newg.setBusinessLogic(businessLogic);
 				newg.setVisible(true);
 				newg.previousFrame(frame);
 			}
