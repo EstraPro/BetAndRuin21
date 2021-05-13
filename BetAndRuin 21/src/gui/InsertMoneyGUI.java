@@ -58,7 +58,6 @@ public class InsertMoneyGUI extends JFrame {
 				try {
 					InsertMoneyGUI frame = new InsertMoneyGUI();
 					frame.setVisible(true);
-					frame.setBusinessLogic(new BlFacadeImplementation());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -71,7 +70,6 @@ public class InsertMoneyGUI extends JFrame {
 	 */
 	public InsertMoneyGUI() {
 		
-		this.setBusinessLogic(new BlFacadeImplementation());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

@@ -3,10 +3,13 @@ package domain;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 public class Bet {
 	@XmlID
@@ -18,6 +21,7 @@ public class Bet {
 	private Event event;
 	private int amount;
 	private Date date;
+	private boolean avaluated;
 	
 	@XmlIDREF
 	private User user;
@@ -39,7 +43,15 @@ public class Bet {
 		this.amount = amount;
 		this.date = date;
 		this.user= user;
+		this.avaluated=false;
+		
 	}
+	
+
+	public Bet() {
+		super();
+	}
+
 
 	public Question getQuestion() {
 		return question;
@@ -88,19 +100,33 @@ public class Bet {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Question: " + question.getQuestion() + "\n" +"Answer: " + answer.getContent() + "\n" + "Event: " + event.getDescription() + ", Amount of Betting: " + amount
 				+ ", Date: " + date.toString();
 	}
-
+	
 	public double getProfit() {
 		double profit=((this.answer.getRate() * 0.01)+1)*this.amount;
 		return profit;
 	}
 	
-	
+    public boolean isAvaluated() {
+		return avaluated;
+	}
+
+	public void setAvaluated(boolean avaluated) {
+		this.avaluated = avaluated;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 
 }

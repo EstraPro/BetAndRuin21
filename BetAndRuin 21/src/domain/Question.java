@@ -183,12 +183,28 @@ public class Question implements Serializable {
 		return null;
 	}
 	
+	public Answer getSpecificAnswerbyContent(String answerCon)  {
+		for (Answer q:this.getAnswerList()){
+			if (q.getContent().compareTo(answerCon)==0)
+				return q;
+		}
+		return null;
+	}
 	public Answer addSpecificAnswer(String content,Integer rate) {
 		Answer q=new Answer(content, this, rate);
 		answerList.add(q);
 		return q;
 		
 	}
+	
+	public boolean doesAnswerExist(String answer)  {	
+		for (Answer q:this.getAnswerList()){
+			if (q.getContent().compareTo(answer)==0)
+				return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public String toString(){
 		return questionNumber + ";" + question + ";" + Float.toString(betMinimum);

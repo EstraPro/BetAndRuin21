@@ -50,7 +50,7 @@ public class LoginGUI extends JFrame {
 				try {
 					LoginGUI frame = new LoginGUI();
 					frame.setVisible(true);
-					frame.setBusinessLogic(new BlFacadeImplementation());
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -63,7 +63,6 @@ public class LoginGUI extends JFrame {
 	 */
 	public LoginGUI() {
 		
-		this.setBusinessLogic(new BlFacadeImplementation());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

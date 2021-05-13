@@ -234,13 +234,13 @@ public class CreateQuestionGUI extends JFrame {
 		
 		JLabel questType = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.questType.text")); //$NON-NLS-1$ //$NON-NLS-2$
 		questType.setBounds(new Rectangle(32, 301, 75, 20));
-		questType.setBounds(32, 332, 75, 20);
+		questType.setBounds(10, 332, 97, 20);
 		getContentPane().add(questType);
 		
 		questionTypeComboBox = new JComboBox<Integer>();
 		
 		questionTypeComboBox.setBounds(107, 331, 80, 22);
-		for(int i = 1 ; i<4; i++) {
+		for(int i = 1 ; i<3; i++) {
 			questionTypeComboBox.addItem((Integer)i);
 		}
 		getContentPane().add(questionTypeComboBox);

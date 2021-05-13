@@ -30,6 +30,7 @@ import domain.Bet;
 import domain.Event;
 import domain.Question;
 import domain.User;
+import exceptions.AnswerAlreadyExist;
 import exceptions.QuestionAlreadyExist;
 
 /**
@@ -126,18 +127,18 @@ public class DataAccess {
 				q5 = ev17.addQuestion("¿Quién ganará el partido?", 1, 1);
 				q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2, 1);
 
-				a1 = q1.addSpecificAnswer("Athletic ganara",35);
-				a2 = q1.addSpecificAnswer("Atlético ganara",54);
-				a3 = q2.addSpecificAnswer("Athletic metera el primer gol",25);
-				a4 = q2.addSpecificAnswer("Atlético metera el primer gol",44);
-				a5 = q3.addSpecificAnswer("Athletic ganara",12);
-				a6 = q3.addSpecificAnswer("Atlético ganara",33);
-				a7 = q4.addSpecificAnswer("Mas de dos",32);
-				a8 = q4.addSpecificAnswer("Menos de dos",55);
-				a9 = q5.addSpecificAnswer("Málaga ganara",23);
-				a10 = q5.addSpecificAnswer("Valencia ganara",42);
-				a11 = q6.addSpecificAnswer("Si",31);
-				a12 = q6.addSpecificAnswer("No",9);
+				a1 = q1.addSpecificAnswer("Athletic ganara", 35);
+				a2 = q1.addSpecificAnswer("Atlético ganara", 54);
+				a3 = q2.addSpecificAnswer("Athletic metera el primer gol", 25);
+				a4 = q2.addSpecificAnswer("Atlético metera el primer gol", 44);
+				a5 = q3.addSpecificAnswer("Athletic ganara", 12);
+				a6 = q3.addSpecificAnswer("Atlético ganara", 33);
+				a7 = q4.addSpecificAnswer("Mas de dos", 32);
+				a8 = q4.addSpecificAnswer("Menos de dos", 55);
+				a9 = q5.addSpecificAnswer("Málaga ganara", 23);
+				a10 = q5.addSpecificAnswer("Valencia ganara", 42);
+				a11 = q6.addSpecificAnswer("Si", 31);
+				a12 = q6.addSpecificAnswer("No", 9);
 
 			} else if (Locale.getDefault().equals(new Locale("en"))) {
 
@@ -149,18 +150,18 @@ public class DataAccess {
 				q6 = ev17.addQuestion("Will they score in the first half of the match?", 2, 1);
 				q7 = ev11.addQuestion("which will be the result?", 2, 2);
 
-				a1 = q1.addSpecificAnswer("Athletic will win",35);
-				a2 = q1.addSpecificAnswer("Atlético will win",54);
-				a3 = q2.addSpecificAnswer("Athletic will score first",25);
-				a4 = q2.addSpecificAnswer("Atlético will score first",44);
-				a5 = q3.addSpecificAnswer("Athletic will win",12);
-				a6 = q3.addSpecificAnswer("Atlético will win",33);
-				a7 = q4.addSpecificAnswer("More than two",32);
-				a8 = q4.addSpecificAnswer("Less than two",55);
-				a9 = q5.addSpecificAnswer("Málaga will win",23);
-				a10 = q5.addSpecificAnswer("Valencia will win",42);
-				a11 = q6.addSpecificAnswer("Yes",31);
-				a12 = q6.addSpecificAnswer("No",9);
+				a1 = q1.addSpecificAnswer("Athletic will win", 35);
+				a2 = q1.addSpecificAnswer("Atlético will win", 54);
+				a3 = q2.addSpecificAnswer("Athletic will score first", 25);
+				a4 = q2.addSpecificAnswer("Atlético will score first", 44);
+				a5 = q3.addSpecificAnswer("Athletic will win", 12);
+				a6 = q3.addSpecificAnswer("Atlético will win", 33);
+				a7 = q4.addSpecificAnswer("More than two", 32);
+				a8 = q4.addSpecificAnswer("Less than two", 55);
+				a9 = q5.addSpecificAnswer("Málaga will win", 23);
+				a10 = q5.addSpecificAnswer("Valencia will win", 42);
+				a11 = q6.addSpecificAnswer("Yes", 31);
+				a12 = q6.addSpecificAnswer("No", 9);
 
 			} else {
 
@@ -171,27 +172,27 @@ public class DataAccess {
 				q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1, 1);
 				q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2, 1);
 
-				a1 = q1.addSpecificAnswer("Athletic-ek irabaziko du",35);
-				a2 = q1.addSpecificAnswer("Atlético-k irabaziko du",54);
-				a3 = q2.addSpecificAnswer("Athletic-ek sartuko du lehen gola",25);
-				a4 = q2.addSpecificAnswer("Atlético-k sartuko du lehen gola",44);
-				a5 = q3.addSpecificAnswer("Athletic-ek irabaziko du",12);
-				a6 = q3.addSpecificAnswer("Atlético irabaziko du",33);
-				a7 = q4.addSpecificAnswer("Bi baino gehiago",32);
-				a8 = q4.addSpecificAnswer("Bi baino gutxiago",55);
-				a9 = q5.addSpecificAnswer("Málaga-k irabaziko du",23);
-				a10 = q5.addSpecificAnswer("Valencia-k irabaziko du",42);
-				a11 = q6.addSpecificAnswer("Bai",31);
-				a12 = q6.addSpecificAnswer("Ez",9);
+				a1 = q1.addSpecificAnswer("Athletic-ek irabaziko du", 35);
+				a2 = q1.addSpecificAnswer("Atlético-k irabaziko du", 54);
+				a3 = q2.addSpecificAnswer("Athletic-ek sartuko du lehen gola", 25);
+				a4 = q2.addSpecificAnswer("Atlético-k sartuko du lehen gola", 44);
+				a5 = q3.addSpecificAnswer("Athletic-ek irabaziko du", 12);
+				a6 = q3.addSpecificAnswer("Atlético irabaziko du", 33);
+				a7 = q4.addSpecificAnswer("Bi baino gehiago", 32);
+				a8 = q4.addSpecificAnswer("Bi baino gutxiago", 55);
+				a9 = q5.addSpecificAnswer("Málaga-k irabaziko du", 23);
+				a10 = q5.addSpecificAnswer("Valencia-k irabaziko du", 42);
+				a11 = q6.addSpecificAnswer("Bai", 31);
+				a12 = q6.addSpecificAnswer("Ez", 9);
 			}
-			/*
-			 * db.persist(a1); db.persist(a2); db.persist(a3); db.persist(a4);
-			 * db.persist(a5); db.persist(a6); db.persist(a7); db.persist(a8);
-			 * db.persist(a9); db.persist(a10); db.persist(a11); db.persist(a12);
-			 * 
-			 * db.persist(q1); db.persist(q2); db.persist(q3); db.persist(q4);
-			 * db.persist(q5); db.persist(q6);
-			 */
+			
+			  db.persist(a1); db.persist(a2); db.persist(a3); db.persist(a4);
+			  db.persist(a5); db.persist(a6); db.persist(a7); db.persist(a8);
+			  db.persist(a9); db.persist(a10); db.persist(a11); db.persist(a12);
+			 
+			  db.persist(q1); db.persist(q2); db.persist(q3); db.persist(q4);
+			  db.persist(q5); db.persist(q6);
+			 
 			db.persist(ev1);
 			db.persist(ev2);
 			db.persist(ev3);
@@ -236,10 +237,12 @@ public class DataAccess {
 	 * @return the created question, or null, or an exception
 	 * @throws QuestionAlreadyExist if the same question already exists for the
 	 *                              event
+	 * @throws AnswerAlreadyExist 
 	 */
 	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList, ArrayList<Integer> rateList, Integer type)
-			throws QuestionAlreadyExist {
-		System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
+			throws QuestionAlreadyExist, AnswerAlreadyExist {
+
+	System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
 				+ " minimum bet = " + betMinimum + "Possible Answers" + answerList.toString());
 
 		Event ev = db.find(Event.class, event.getEventNumber());
@@ -249,9 +252,18 @@ public class DataAccess {
 					ResourceBundle.getBundle("Etiquetas").getString("ErrorQuestionAlreadyExist"));
 
 		db.getTransaction().begin();
+		
 		Question q = ev.addQuestion(question, betMinimum, type);
-		for (int i =0 ; i<answerList.size(); i++) {
-			q.addSpecificAnswer(answerList.get(i), rateList.get(0));
+		
+		for (int i = 0; i < answerList.size(); i++) {
+			if(q.doesAnswerExist(answerList.get(i))) {
+				throw new AnswerAlreadyExist(
+						ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswerAlreadyExist"));
+			}else {
+				q.addSpecificAnswer(answerList.get(i), rateList.get(0));
+			}
+				
+			
 		}
 		// db.persist(q);
 		db.persist(ev); // db.persist(q) not required when CascadeType.PERSIST is added
@@ -259,6 +271,32 @@ public class DataAccess {
 		// @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 		db.getTransaction().commit();
 		return q;
+	}
+	
+	public int createAnswer(Integer eventNum, Integer questionNum, String answerContent, String answerRate) throws AnswerAlreadyExist {
+		Question qu = db.find(Question.class, questionNum);
+		int ret=0;
+		Answer ans= null;
+		if (qu.doesAnswerExist(answerContent)) {
+			ans = qu.getSpecificAnswerbyContent(answerContent);
+			ret = ans.getAnswerId();
+		}
+		else {
+			db.getTransaction().begin();
+			qu.addSpecificAnswer(answerContent,Integer.parseInt(answerRate));
+			db.persist(qu);
+			db.getTransaction().commit();
+			
+			TypedQuery<Question> query = db.createQuery("SELECT que FROM Question que WHERE que.questionNumber=?1", Question.class);
+			query.setParameter(1, questionNum);
+			List<Question> questions = query.getResultList();
+			Question question = questions.get(0);
+			ans = question.getSpecificAnswerbyContent(answerContent);
+			
+			ret = ans.getAnswerId();
+		}		
+		
+		return ret;
 	}
 
 	/**
@@ -375,7 +413,7 @@ public class DataAccess {
 			user = new User(userp, passwordp, birthDate, name, surname, email, bankAccount);
 			db.persist(user);
 			db.getTransaction().commit();
-			
+
 			System.out.println(userp + " Registered!");
 			ret = 1;
 
@@ -384,10 +422,9 @@ public class DataAccess {
 			ret = 0;
 		}
 
-		
 		return ret;
 	}
-	
+
 	/**
 	 * Updates the given bets of the user, by adding the recent one
 	 * 
@@ -413,7 +450,7 @@ public class DataAccess {
 
 		this.close();
 	}
-	
+
 	/**
 	 * Gets the needed user stored in the database
 	 * 
@@ -435,7 +472,7 @@ public class DataAccess {
 
 		return user.get(0);
 	}
-		
+
 	/**
 	 * Check user credentials
 	 * 
@@ -611,42 +648,43 @@ public class DataAccess {
 		query.setParameter(1, username);
 		List<User> users = query.getResultList();
 		User modifiedUser = null;
-		
+
 		try {
 			if (!uName.isEmpty()) {
-				modifiedUser = this.copyUser(users.get(0),uName);
+				modifiedUser = this.copyUser(users.get(0), uName);
 				if (!pass.isEmpty())
 					modifiedUser.updatePassword(pass);
 				if (!bankN.isEmpty())
 					modifiedUser.updateBankNumber(bankN);
-				
+
 				db.persist(modifiedUser);
 				db.getTransaction().commit();
 				this.deleteUser(users.get(0));
-				
-			}else {
+
+			} else {
 				if (!pass.isEmpty())
 					users.get(0).updatePassword(pass);
 				if (!bankN.isEmpty())
 					users.get(0).updateBankNumber(bankN);
 			}
-				
+
 			ret = 1;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println("UserName Already Exist");
 			ret = 0;
 		}
 		this.close();
 		return ret;
 	}
-	
+
 	/**
 	 * 
 	 * @param user
 	 * @return
 	 */
 	public User copyUser(User user, String newUsername) {
-		User NewUser = new User(newUsername, user.getPassword(), user.getBirthDate(),user.getName(), user.getSurname(), user.getEmail() ,user.getBankAccount());
+		User NewUser = new User(newUsername, user.getPassword(), user.getBirthDate(), user.getName(), user.getSurname(),
+				user.getEmail(), user.getBankAccount());
 		NewUser.setLoggedIn(true);
 		return NewUser;
 	}
@@ -656,17 +694,17 @@ public class DataAccess {
 	 * @param username
 	 */
 	public void deleteUser(User username) {
-		
+
 		db.getTransaction().begin();
-		
+
 		User conFlightRes = null;
 		try {
-			 conFlightRes = db.find(User.class, username.getUsername());
-		}catch(IllegalArgumentException e) {
+			conFlightRes = db.find(User.class, username.getUsername());
+		} catch (IllegalArgumentException e) {
 			db.merge(username);
 		}
 		db.remove(conFlightRes);
-		
+
 		db.getTransaction().commit();
 	}
 
@@ -719,4 +757,66 @@ public class DataAccess {
 
 		return b;
 	}
+
+	public int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
+			ArrayList<String> questionsContent, ArrayList<Date> dateList) {
+
+		// sortuko ditut errore kasu desberdinak 0=Ondo joan da, 1=Zeozer jan duela,
+		// arrayek size desberdina, 2=Zeozer Txarto idatzita dago dokumentuan, 3=Datak txarto daude, duela asko pasata edo oso goiz da oraindik
+		int ret = 0;
+
+		if (eventList.size() == questionType.size() && questionType.size() == resultList.size()
+				&& resultList.size() == dateList.size()) {
+			// Begiratu ia datak ondo dauden, zuk erabaki zein den pasatako egunen limitea
+			boolean correctDates = this.checkDates(dateList);
+			if (correctDates) {
+				try {
+					for (int i = 0; i < eventList.size(); i++) {
+						// Begiratu ia event-a existitzen den data hortan,si eso numeroa pasa
+						Integer eventNum = this.eventExists(eventList.get(i), dateList.get(i));
+						//Event horretako Bet-ak lortu
+						ArrayList<Integer> bets = getBetsNum(eventNum);
+						//Dagoen bet bakoitzeko ebaluatu
+						for(Integer bet: bets) {
+							this.evaluateBet(bet, questionType.get(i), resultList.get(i));
+							//Ez dut pentsatu hainbeste nola egin. Pasatu dizut Question content list, dala questiona zein dan(String question)
+						}
+
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					ret = 2;
+				}
+			} else {
+				ret = 3;
+			}
+
+		} else {
+			ret = 1;
+		}
+		return ret;
+
+	}
+
+	private void evaluateBet(Integer bet, Integer questionType, String result) {
+		// Ez ahaztu jartzea bet-aren evaluated boolean berria = true moduan mese
+		
+	}
+
+	private ArrayList<Integer> getBetsNum(Integer eventNum) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private boolean checkDates(ArrayList<Date> dateList) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private Integer eventExists(String string, Date date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

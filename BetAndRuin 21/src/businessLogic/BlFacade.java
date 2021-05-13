@@ -11,6 +11,7 @@ import domain.Answer;
 import domain.Event;
 import domain.Question;
 import domain.User;
+import exceptions.AnswerAlreadyExist;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
 
@@ -29,10 +30,11 @@ public interface BlFacade  {
 	 * @return the created question, or null, or an exception
 	 * @throws EventFinished if current data is after data of the event
  	 * @throws QuestionAlreadyExist if the same question already exists for the event
+	 * @throws AnswerAlreadyExist 
 	 */
 	@WebMethod
 	Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList, ArrayList<Integer> rateList, Integer type) 
-			throws EventFinished, QuestionAlreadyExist;
+			throws EventFinished, QuestionAlreadyExist, AnswerAlreadyExist;
 		
 	/**
 	 * This method retrieves all the events of a given date 
@@ -85,6 +87,11 @@ public interface BlFacade  {
 	@WebMethod public Event getEvent(Integer eventNum);
 	
 	@WebMethod public void storeBet(Question question, Answer answer, Event event, Date date, int amount);
+
+	@WebMethod int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
+			ArrayList<String> questionsContent, ArrayList<Date> dateList);
+
+	@WebMethod Integer createAnswer(Integer eventNum, Integer questionNum, String string, String string2) throws AnswerAlreadyExist;
 	
 	
 	

@@ -48,8 +48,10 @@ public class MainGUI extends JFrame {
 		businessLogic = afi;
 	}
 
-	public MainGUI() {
+	public MainGUI(BlFacade bl) {
 		super();
+		this.setBussinessLogic(bl);
+		businessLogic.resetLogins();
 		setResizable(true);
 		
 		addWindowListener(new WindowAdapter() {
@@ -65,7 +67,6 @@ public class MainGUI extends JFrame {
 			}
 		});
 		
-		this.setBussinessLogic(new BlFacadeImplementation());
 		this.setBounds(100, 100, 348, 309);
 
 		this.initializeMainPane();
@@ -76,6 +77,7 @@ public class MainGUI extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					setVisible(false);
 					InsertResultsGUI InsertWindow = new InsertResultsGUI();
+					InsertWindow.setBusinessLogic(businessLogic);
 					InsertWindow.setVisible(true);
 					InsertWindow.previousFrame(thisFrame);
 				}
@@ -85,7 +87,6 @@ public class MainGUI extends JFrame {
 		}
 		
 		btnInsertResults.setVisible(false);
-		businessLogic.resetLogins();
 
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
 		//this.pack();
@@ -121,6 +122,7 @@ public class MainGUI extends JFrame {
 						
 						setVisible(false);
 						RegisterGUI RegisterWindow = new RegisterGUI();
+						RegisterWindow.setBusinessLogic(businessLogic);
 						RegisterWindow.setVisible(true);
 						RegisterWindow.previousFrame(thisFrame);
 					}
@@ -137,6 +139,7 @@ public class MainGUI extends JFrame {
 						
 						setVisible(false);
 						LoginGUI LoginWindow = new LoginGUI();
+						LoginWindow.setBusinessLogic(businessLogic);
 						LoginWindow.setVisible(true);
 						LoginWindow.previousFrame(thisFrame);
 					}
@@ -181,10 +184,11 @@ public class MainGUI extends JFrame {
 					if(businessLogic.getLoggedUserUserName().equals("admin")) {
 						CreateQuestionGUI nextGUI = new CreateQuestionGUI(businessLogic, null);
 						nextGUI.previousFrame(thisFrame);
-						nextGUI.setVisible(true);	
+						nextGUI.setVisible(true);
 						
 					}else {
 						ViewProfileGUI nextGUI = new ViewProfileGUI();
+						nextGUI.setBusinessLogic(businessLogic);
 						nextGUI.previousFrame(thisFrame);
 						nextGUI.setVisible(true);	
 					}

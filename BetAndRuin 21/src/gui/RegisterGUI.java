@@ -53,7 +53,6 @@ public class RegisterGUI extends JFrame {
 			public void run() {
 				try {
 					RegisterGUI frame = new RegisterGUI();
-					frame.setBusinessLogic(new BlFacadeImplementation());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,7 +65,7 @@ public class RegisterGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public RegisterGUI() {
-		this.setBusinessLogic(new BlFacadeImplementation());
+
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 540, 591);

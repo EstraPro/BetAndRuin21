@@ -2,10 +2,12 @@ package domain;
 
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 public class Answer {
 	
@@ -31,6 +33,10 @@ public class Answer {
 		this.rate= rate;
 	}
 	
+	public Answer() {
+		super();
+	}
+
 	/**
 	 * Constructor with questions to add
 	 * @param content

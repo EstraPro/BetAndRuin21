@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -52,6 +53,16 @@ public class User {
 		wallet = new Wallet();
 	}
 	
+	
+	/**
+	 * 
+	 */
+	public User() {
+		super();
+	}
+
+
+
 	/**
 	 * Method to update to new username
 	 * @param newName
@@ -118,8 +129,14 @@ public class User {
 		this.BankAccount = BankAccount;
 	}
 
-	public ArrayList<Bet> getAllBets() {
-		return (ArrayList<Bet>) madeBets;
+	public ArrayList<Bet> getAllOngoingBets() {
+		ArrayList<Bet> ret= new ArrayList<Bet>();
+		for(Bet lag: madeBets) {
+			if(!lag.isAvaluated()) {
+				ret.add(lag);
+			}
+		}
+		return ret;
 	}
 
 	/*
@@ -151,6 +168,15 @@ public class User {
 		wallet.removeMoney(amount);
 		BetId++;
 	}
+	
+	/**
+	 * For the copy user method only
+	 * @param bet
+	 */
+	public void storeBetObject(Bet bet) {
+		madeBets.add(bet);
+	}
+	
 
 	public String getUsername() {
 		return username;
@@ -224,6 +250,17 @@ public class User {
 	public void setBankAccount(String bankAccount) {
 		BankAccount = bankAccount;
 	}
+	
+
+	public int getBetId() {
+		return BetId;
+	}
+
+
+	public void setBetId(int betId) {
+		BetId = betId;
+	}
+
 
 	/**
 	 * Method to remove a bet made by an user with id remBetId
