@@ -132,7 +132,7 @@ public class User {
 	public ArrayList<Bet> getAllOngoingBets() {
 		ArrayList<Bet> ret= new ArrayList<Bet>();
 		for(Bet lag: madeBets) {
-			if(!lag.isAvaluated()) {
+			if(!lag.isEvaluated()) {
 				ret.add(lag);
 			}
 		}

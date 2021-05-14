@@ -278,7 +278,11 @@ public class BlFacadeImplementation implements BlFacade {
 	@WebMethod
 	public Question getQuestion(int eventNum, int questionNum) {
 
-		return dbManager.getQuestion(eventNum, questionNum);
+		dbManager.open(false);
+		Question q = dbManager.getQuestion(eventNum, questionNum);		
+		dbManager.close();
+		
+		return q;
 	}
 
 	/**
@@ -293,7 +297,11 @@ public class BlFacadeImplementation implements BlFacade {
 	@WebMethod
 	public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum) {
 
-		return dbManager.getAnswer(eventNum, questionNum, answerNum);
+		dbManager.open(false);
+		Answer a = dbManager.getAnswer(eventNum, questionNum, answerNum);
+		dbManager.close();
+		
+		return a;
 	}
 
 	/**
@@ -306,7 +314,11 @@ public class BlFacadeImplementation implements BlFacade {
 	@WebMethod
 	public Event getEvent(Integer eventNum) {
 
-		return dbManager.getEvent(eventNum);
+		dbManager.open(false);
+		Event e = dbManager.getEvent(eventNum);
+		dbManager.close();
+		
+		return e;
 	}
 
 	/**
@@ -354,10 +366,10 @@ public class BlFacadeImplementation implements BlFacade {
 
 	@Override
 	@WebMethod
-	public int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
-			ArrayList<String> questionsContent, ArrayList<Date> dateList) {
+	public int manageResults(ArrayList<Integer> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
+			ArrayList<Integer> questionList, ArrayList<Date> dateList) {
 		dbManager.open(false);
-		int ret = dbManager.manageResults(eventList,questionType,resultList,questionsContent, dateList);
+		int ret = dbManager.manageResults(eventList,questionType,resultList,questionList, dateList);
 		dbManager.close();
 		return ret;
 	}

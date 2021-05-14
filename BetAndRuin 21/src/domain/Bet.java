@@ -21,7 +21,7 @@ public class Bet {
 	private Event event;
 	private int amount;
 	private Date date;
-	private boolean avaluated;
+	private boolean evaluated;
 	
 	@XmlIDREF
 	private User user;
@@ -43,7 +43,7 @@ public class Bet {
 		this.amount = amount;
 		this.date = date;
 		this.user= user;
-		this.avaluated=false;
+		this.evaluated=false;
 		
 	}
 	
@@ -112,12 +112,12 @@ public class Bet {
 		return profit;
 	}
 	
-    public boolean isAvaluated() {
-		return avaluated;
+    public boolean isEvaluated() {
+		return evaluated;
 	}
 
-	public void setAvaluated(boolean avaluated) {
-		this.avaluated = avaluated;
+	public void setEvaluated(boolean avaluated) {
+		this.evaluated = avaluated;
 	}
 
 	public User getUser() {

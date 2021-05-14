@@ -88,8 +88,8 @@ public interface BlFacade  {
 	
 	@WebMethod public void storeBet(Question question, Answer answer, Event event, Date date, int amount);
 
-	@WebMethod int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
-			ArrayList<String> questionsContent, ArrayList<Date> dateList);
+	@WebMethod int manageResults(ArrayList<Integer> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
+			ArrayList<Integer> questionList, ArrayList<Date> dateList);
 
 	@WebMethod Integer createAnswer(Integer eventNum, Integer questionNum, String string, String string2) throws AnswerAlreadyExist;
 	

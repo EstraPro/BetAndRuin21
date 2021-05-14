@@ -563,19 +563,15 @@ public class DataAccess {
 	 */
 	public Event getEvent(Integer eventNum) {
 
-		this.open(false);
-
-		db.getTransaction().begin();
-
+		//this.open(false);
+		
 		TypedQuery<Event> queryEvent = db.createQuery("SELECT e FROM Event e WHERE e.eventNumber = ?1", Event.class);
 		queryEvent.setParameter(1, eventNum);
 
 		Event event = queryEvent.getResultList().get(0);
 
-		db.getTransaction().commit();
-
-		this.close();
-
+		//this.close();
+		
 		return event;
 
 	}
@@ -758,9 +754,11 @@ public class DataAccess {
 		return b;
 	}
 
-	public int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
-			ArrayList<String> questionsContent, ArrayList<Date> dateList) {
+	public int manageResults(ArrayList<Integer> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
+			ArrayList<Integer> questionList, ArrayList<Date> dateList) {
 
+		//this.open(false);
+		
 		// sortuko ditut errore kasu desberdinak 0=Ondo joan da, 1=Zeozer jan duela,
 		// arrayek size desberdina, 2=Zeozer Txarto idatzita dago dokumentuan, 3=Datak txarto daude, duela asko pasata edo oso goiz da oraindik
 		int ret = 0;
@@ -773,9 +771,9 @@ public class DataAccess {
 				try {
 					for (int i = 0; i < eventList.size(); i++) {
 						// Begiratu ia event-a existitzen den data hortan,si eso numeroa pasa
-						Integer eventNum = this.eventExists(eventList.get(i), dateList.get(i));
-						//Event horretako Bet-ak lortu
-						ArrayList<Integer> bets = getBetsNum(eventNum);
+						if(!eventExists(eventList.get(i), dateList.get(i))) System.out.println("NO event exits on this date");;
+						//Event ta question horretako Bet-ak lortu
+						ArrayList<Integer> bets = getBetsNum(eventList.get(i), questionList.get(i));
 						//Dagoen bet bakoitzeko ebaluatu
 						for(Integer bet: bets) {
 							this.evaluateBet(bet, questionType.get(i), resultList.get(i));
@@ -794,28 +792,140 @@ public class DataAccess {
 		} else {
 			ret = 1;
 		}
+		
+		//this.close();
+		
 		return ret;
-
 	}
 
+	/**
+	 * 
+	 * Evaluates and marks the bet
+	 * @param bet
+	 * @param questionType
+	 * @param result
+	 */
 	private void evaluateBet(Integer bet, Integer questionType, String result) {
 		// Ez ahaztu jartzea bet-aren evaluated boolean berria = true moduan mese
+
+		//this.open(false);
 		
+		boolean hasWon = false;
+		User afortunated = null;
+
+		TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.id = ?1", Bet.class);
+		query.setParameter(1, bet);
+		List<Bet> bets = query.getResultList();
+
+		if (bets.get(0).getAnswer().getContent().equals(result)) hasWon = true;
+		
+		afortunated = bets.get(0).getUser();
+
+		if (hasWon) {
+
+			String uname = afortunated.getUsername();
+			
+			db.getTransaction().begin();
+
+			TypedQuery<User> query2 = db.createQuery("SELECT u FROM User u WHERE u.username = ?3", User.class);
+			query2.setParameter(3, uname);
+			List<User> users = query2.getResultList();
+
+			users.get(0).getWallet().insertMoney((int) Math.round(bets.get(0).getProfit()));
+
+			System.out.println("MONEY :  " + (int) Math.round(bets.get(0).getProfit()));
+			
+			User temp = users.get(0);
+			
+			db.persist(temp);
+			
+			db.getTransaction().commit();
+		}
+
+		this.markBet(bet);
+		
+		//this.close();
 	}
 
-	private ArrayList<Integer> getBetsNum(Integer eventNum) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Marks the bet as evaluated
+	 * @param betID
+	 */
+	private void markBet(Integer betID) {
+		
+		//this.open(false);
+		
+		db.getTransaction().begin();
+		TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.id = ?1", Bet.class);
+		query.setParameter(1, betID);
+		List<Bet> bets = query.getResultList();
+
+		bets.get(0).setEvaluated(true);
+
+		db.getTransaction().commit();
+
+		//this.close();
 	}
 
+	/**
+	 * Returns the IDs of the bets of the given event
+	 * @param eventNum
+	 * @return
+	 */
+	private ArrayList<Integer> getBetsNum(Integer eventNum, Integer questNum) {
+		
+		//this.open(false);
+		
+		TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.event = ?1 AND b.question = ?2", Bet.class);
+		query.setParameter(1, this.getEvent(eventNum));
+		query.setParameter(2, this.getQuestion(eventNum, questNum));
+		List<Bet> bets = query.getResultList();
+		
+		ArrayList<Integer> sol = new ArrayList<Integer>();
+		
+		for (Bet b : bets) {
+			sol.add(b.getId());
+		}
+		
+		//this.close();
+
+		return sol;
+	}
+
+	/**
+	 * Checks if the given Date list contains correct dates
+	 * @param dateList
+	 * @return
+	 */
 	private boolean checkDates(ArrayList<Date> dateList) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		boolean b = true;
+		
+		for (Date d : dateList) {
+			b = d instanceof Date;
+		}
+		
+		return b;
 	}
 
-	private Integer eventExists(String string, Date date) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Checks id the given even exists on that date
+	 * @param eventNum
+	 * @param date
+	 * @return
+	 */
+	private boolean eventExists(Integer eventNum, Date date) {
+		
+		//this.open(false);
+		
+		TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventNumber=?1 AND ev.eventDate=?2", Event.class);
+		query.setParameter(1, eventNum);
+		query.setParameter(2, date);
+		List<Event> events = query.getResultList();
+		
+		//this.close();
+		
+		return (events.size() != 0);
 	}
 
 

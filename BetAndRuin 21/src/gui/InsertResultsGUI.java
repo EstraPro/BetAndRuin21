@@ -85,7 +85,7 @@ public class InsertResultsGUI extends JFrame {
 		contentPane.add(inputText);
 		inputText.setColumns(10);
 
-		JLabel lblFilePath = new JLabel("Introduce where the results file is placed in your computer:");
+		JLabel lblFilePath = new JLabel("Introduce the file name to be uploaded:");
 		lblFilePath.setBounds(26, 74, 380, 14);
 		contentPane.add(lblFilePath);
 
@@ -116,7 +116,7 @@ public class InsertResultsGUI extends JFrame {
 						 * Hutsik dauden zutabeak ez kontuan hartu listan, ez gorde (" ") adibidez
 						 */
 						//
-						POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(file));
+						POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream("result_files/" + file));
 						HSSFWorkbook wb = new HSSFWorkbook(fs);
 						HSSFSheet sheet = wb.getSheetAt(0);
 						HSSFRow row;
@@ -125,10 +125,10 @@ public class InsertResultsGUI extends JFrame {
 						int rows; // No of rows
 						rows = sheet.getPhysicalNumberOfRows();
 
-						ArrayList<String> eventList = new ArrayList<String>();
+						ArrayList<Integer> eventList = new ArrayList<Integer>();
 						ArrayList<Integer> questionType = new ArrayList<Integer>();
 						ArrayList<String> resultList = new ArrayList<String>();
-						ArrayList<String> questionsContent = new ArrayList<String>();
+						ArrayList<Integer> questionList = new ArrayList<Integer>();
 						ArrayList<Date> dateList = new ArrayList<Date>();
 
 						for (int r = 0; r < rows; r++) {
@@ -140,21 +140,24 @@ public class InsertResultsGUI extends JFrame {
 										
 										switch (c) {
 										case 0:
-											eventList.add(cell.getStringCellValue());
+											eventList.add((int) cell.getNumericCellValue());		
+											System.out.println((int) cell.getNumericCellValue());
 											break;
 										case 1:
-											questionType.add(Integer.parseInt(cell.getStringCellValue()));
+											questionType.add((int) cell.getNumericCellValue());	
+											System.out.println((int) cell.getNumericCellValue());
 											break;
 										case 2:
 											resultList.add(cell.getStringCellValue());
+											System.out.println(cell.getStringCellValue());
 											break;
 										case 3:
-											questionsContent.add(cell.getStringCellValue());
+											questionList.add((int) cell.getNumericCellValue());	
+											System.out.println((int) cell.getNumericCellValue());
 											break;
 										case 4:
-											String sDate1=cell.getStringCellValue();  
-										    Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);  
-											dateList.add(date1);
+											dateList.add(cell.getDateCellValue());
+											System.out.println(cell.getDateCellValue());
 											break;
 										default:
 									
@@ -164,7 +167,7 @@ public class InsertResultsGUI extends JFrame {
 								}
 							}
 						}
-						int depends = businessLogic.manageResults(eventList, questionType, resultList,questionsContent, dateList);
+						int depends = businessLogic.manageResults(eventList, questionType, resultList, questionList, dateList);
 						switch (depends) {
 						case 0:
 							errorArea.setText("Results entered and managed!");
@@ -181,14 +184,11 @@ public class InsertResultsGUI extends JFrame {
 						}
 
 					} catch (FileNotFoundException e1) {
-					
+						System.out.println("That's not a file, stupid bitch!");
+						errorArea.setText("That's not a file, stupid bitch!");
 					} catch (IOException e1) {
 						errorArea.setText("Can't find a existing file with that path.");
 						System.out.println("Some thing wrong with I/O");
-						e1.printStackTrace();
-					} catch (ParseException e1) {
-						System.out.println("Some date is written wrong");
-						errorArea.setText("Some date is written wrong");
 						e1.printStackTrace();
 					}
 
