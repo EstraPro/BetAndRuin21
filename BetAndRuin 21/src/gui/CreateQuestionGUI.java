@@ -213,6 +213,7 @@ public class CreateQuestionGUI extends JFrame {
 				prevFrame.getBifunctionalBtn().setVisible(false);
 				prevFrame.getBtnInsertResults().setVisible(false);
 				prevFrame.setUsername(null);
+				businessLogic.logout(Username);
 			}
 		});
 		btnLogout.setBounds(47, 25, 89, 23);

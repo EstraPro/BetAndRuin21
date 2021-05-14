@@ -83,7 +83,13 @@ public interface BlFacade  {
 	@WebMethod int manageResults(ArrayList<String> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
 			ArrayList<String> questionsContent, ArrayList<Date> dateList);
 
-	@WebMethod Integer createAnswer(Integer eventNum, Integer questionNum, String string, String string2) throws AnswerAlreadyExist;
+	@WebMethod public Integer createAnswer(Integer eventNum, Integer questionNum, String string, String string2) throws AnswerAlreadyExist;
+
+	@WebMethod public void resetLogins();
+
+	@WebMethod public void markLogin(String text, String valueOf);
+
+	@WebMethod public void logout(String username);
 	
 	
 	

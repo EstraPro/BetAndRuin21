@@ -343,6 +343,7 @@ public class ViewProfileGUI extends JFrame {
 				prevFrame.getBtnRegister().setVisible(true);
 				prevFrame.getBifunctionalBtn().setVisible(false);
 				prevFrame.setUsername(null);
+				businessLogic.logout(Username);
 			}
 		});
 

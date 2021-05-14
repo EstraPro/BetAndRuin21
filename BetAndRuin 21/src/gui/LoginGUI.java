@@ -83,8 +83,61 @@ public class LoginGUI extends JFrame {
 		passwordField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {	//Enter key pressed
-					
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (!businessLogic.getUserLogged(UsnametextField.getText()).isLoggedIn()) {	//Enter key pressed
+						
+						// administratzailea baldin bada bertze use case bat ireki
+						if (businessLogic.checkCredentialsAdmin(UsnametextField.getText(),
+								String.valueOf(passwordField.getPassword()))) {
+							setVisible(false);
+							prevFrame.setVisible(true);
+							prevFrame.getBtnLogin().setVisible(false);
+							prevFrame.getBtnRegister().setVisible(false);
+							prevFrame.getBifunctionalBtn().setVisible(true);
+							prevFrame.getBifunctionalBtn().setText("Create Questions");
+							prevFrame.getBtnInsertResults().setVisible(true);
+							prevFrame.setUsername(UsnametextField.getText());
+						}
+
+						// userra baldin bada use case bat ireki
+						else if (businessLogic.checkCredentialsUser(UsnametextField.getText(),
+								String.valueOf(passwordField.getPassword()))) {
+							setVisible(false);
+							prevFrame.setVisible(true);
+							prevFrame.getBtnLogin().setVisible(false);
+							prevFrame.getBtnRegister().setVisible(false);
+							prevFrame.getBifunctionalBtn().setVisible(true);
+							prevFrame.getBifunctionalBtn().setText("View Profile");
+							prevFrame.getBtnInsertResults().setVisible(false);
+							prevFrame.setUsername(UsnametextField.getText());
+							businessLogic.markLogin(UsnametextField.getText(),String.valueOf(passwordField.getPassword()));
+						}
+						
+						else {
+							outputMessageArea.insert("                                                    ", 0);
+							outputMessageArea.insert("Insert correct credentials!!", 0);
+						}
+						
+					}else {
+						outputMessageArea.setText("");
+						outputMessageArea.setText(UsnametextField.getText()+" already logged!");
+					}
+				}
+				
+			}
+		});
+		passwordField.setBackground(new Color(255, 255, 255));
+
+		JButton btnNewButton = new JButton("LOGIN");
+		btnNewButton.setForeground(Color.BLACK);
+		btnNewButton.setBackground(SystemColor.controlShadow);
+		btnNewButton.addActionListener(new ActionListener() {
+
+			// LOGIN botoia
+
+			public void actionPerformed(ActionEvent e) {
+				
+				if(!businessLogic.getUserLogged(UsnametextField.getText()).isLoggedIn()) {
 					// administratzailea baldin bada bertze use case bat ireki
 					if (businessLogic.checkCredentialsAdmin(UsnametextField.getText(),
 							String.valueOf(passwordField.getPassword()))) {
@@ -109,56 +162,18 @@ public class LoginGUI extends JFrame {
 						prevFrame.getBifunctionalBtn().setText("View Profile");
 						prevFrame.getBtnInsertResults().setVisible(false);
 						prevFrame.setUsername(UsnametextField.getText());
+						businessLogic.markLogin(UsnametextField.getText(),String.valueOf(passwordField.getPassword()));
 					}
-					
+
 					else {
 						outputMessageArea.insert("                                                    ", 0);
 						outputMessageArea.insert("Insert correct credentials!!", 0);
 					}
+				}else {
+					outputMessageArea.setText("");
+					outputMessageArea.setText(UsnametextField.getText()+" already logged!");
+				}
 					
-				}
-			}
-		});
-		passwordField.setBackground(new Color(255, 255, 255));
-
-		JButton btnNewButton = new JButton("LOGIN");
-		btnNewButton.setForeground(Color.BLACK);
-		btnNewButton.setBackground(SystemColor.controlShadow);
-		btnNewButton.addActionListener(new ActionListener() {
-
-			// LOGIN botoia
-
-			public void actionPerformed(ActionEvent e) {
-				// userra baldin bada use case bat ireki
-				if (businessLogic.checkCredentialsAdmin(UsnametextField.getText(),
-						String.valueOf(passwordField.getPassword()))) {
-					setVisible(false);
-					prevFrame.setVisible(true);
-					prevFrame.getBtnLogin().setVisible(false);
-					prevFrame.getBtnRegister().setVisible(false);
-					prevFrame.getBifunctionalBtn().setVisible(true);
-					prevFrame.getBifunctionalBtn().setText("Create Questions");
-					prevFrame.getBtnInsertResults().setVisible(true);
-					prevFrame.setUsername(UsnametextField.getText());
-				}
-
-				// administratzailea baldin bada bertze use case bat ireki
-				else if (businessLogic.checkCredentialsUser(UsnametextField.getText(),
-						String.valueOf(passwordField.getPassword()))) {
-					setVisible(false);
-					prevFrame.setVisible(true);
-					prevFrame.getBtnLogin().setVisible(false);
-					prevFrame.getBtnRegister().setVisible(false);
-					prevFrame.getBifunctionalBtn().setVisible(true);
-					prevFrame.getBifunctionalBtn().setText("View Profile");
-					prevFrame.getBtnInsertResults().setVisible(false);
-					prevFrame.setUsername(UsnametextField.getText());
-				}
-
-				else {
-					outputMessageArea.insert("                                                    ", 0);
-					outputMessageArea.insert("Insert correct credentials!!", 0);
-				}
 			}
 		});
 

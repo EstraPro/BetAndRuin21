@@ -336,4 +336,26 @@ public class BlFacadeImplementation implements BlFacade {
 		return ret;
 	}
 
+	@Override
+	public void resetLogins() {
+		dbManager.resetLogins();
+		
+	}
+
+	@Override
+	public void markLogin(String text, String valueOf) {
+		dbManager.open(false);
+		dbManager.markLogin( text, valueOf);
+		dbManager.close();
+		
+	}
+
+	@Override
+	public void logout(String username) {
+		dbManager.open(false);
+		dbManager.logout( username);
+		dbManager.close();
+		
+	}
+
 }

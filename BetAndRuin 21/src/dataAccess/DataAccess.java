@@ -455,6 +455,49 @@ public class DataAccess {
 
 		this.close();
 	}
+	
+	/**
+	 * Marks loggedIn attribute as true
+	 */
+	public void markLogin(String user, String passwd) {
+
+		db.getTransaction().begin();
+
+		TypedQuery<User> queryUser = db.createQuery(
+				"SELECT FROM User WHERE username.equals(\"" + user + "\") AND password.equals(\"" + passwd + "\")",
+				User.class);
+
+		List<User> users = queryUser.getResultList();
+
+		User usr = users.get(0);
+		usr.setLoggedIn(true);
+		db.persist(usr);
+		db.getTransaction().commit();
+		System.out.println(usr.getUsername() + " Logged!");
+	}
+	
+	
+	/**
+	 * Resets all Users login status
+	 */
+	public void resetLogins() {
+
+		this.open(false);
+
+		db.getTransaction().begin();
+
+		TypedQuery<User> queryAllUsers = db.createQuery("SELECT FROM User", User.class);
+
+		List<User> users = queryAllUsers.getResultList();
+
+		for (User usr : users) {
+
+			usr.setLoggedIn(false);
+			db.persist(usr);
+		}
+		db.getTransaction().commit();
+		this.close();
+	}
 
 	/**
 	 * Gets the needed user stored in the database
@@ -476,6 +519,21 @@ public class DataAccess {
 		this.close();
 
 		return user.get(0);
+	}
+	
+	public void logout(String username) {
+		db.getTransaction().begin();
+
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = ?1", User.class);
+		query.setParameter(1, username);
+		List<User> user = query.getResultList();
+		
+		User usr = user.get(0);
+		usr.setLoggedIn(false);
+		db.persist(usr);
+		
+		db.getTransaction().commit();
+		
 	}
 	
 	/**
@@ -756,6 +814,8 @@ public class DataAccess {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 
 }

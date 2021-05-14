@@ -107,6 +107,7 @@ public class MainGUI extends JFrame {
 		mainPane = new JPanel();
 		mainPane.setLayout(null);
 		
+		businessLogic.resetLogins();
 		selectOptionLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
 		selectOptionLbl.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		selectOptionLbl.setBounds(35, 0, 265, 38);
