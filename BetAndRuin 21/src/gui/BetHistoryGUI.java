@@ -106,15 +106,19 @@ public class BetHistoryGUI extends JFrame {
 		tableBets = new JTable(tableModel);
 
 		Object[] ezaugarriList = new Object[7];
-		for (Bet lag : businessLogic.getUserLogged(Username).getAllOngoingBets()) {
+		for (Bet lag : businessLogic.getUserLogged(Username).getAllEvaluatedBets()) {
 			ezaugarriList[0] = lag.getId();
 			ezaugarriList[1] = lag.getEvent().getDescription();
 			ezaugarriList[2] = lag.getQuestion().getQuestion();
 			ezaugarriList[3] = lag.getAnswer().getContent();
 			ezaugarriList[4] = lag.getAmount();
 			ezaugarriList[5] = df.format(lag.getDate());
-			//if
-			ezaugarriList[6] = lag.getProfit();
+			if(lag.isHasWon()) {
+				ezaugarriList[6] = "+"+lag.getProfit();
+			}else {
+				ezaugarriList[6] = "-"+lag.getAmount();
+			}
+			
 
 			tableModel.insertRow(tableModel.getRowCount(), ezaugarriList);
 		}

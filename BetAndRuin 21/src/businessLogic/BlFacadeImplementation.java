@@ -349,12 +349,14 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@Override
+	@WebMethod
 	public void resetLogins() {
 		dbManager.resetLogins();
 		
 	}
 
 	@Override
+	@WebMethod
 	public void markLogin(String text, String valueOf) {
 		dbManager.open(false);
 		dbManager.markLogin( text, valueOf);
@@ -363,6 +365,7 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@Override
+	@WebMethod
 	public void logout(String username) {
 		dbManager.open(false);
 		dbManager.logout( username);
