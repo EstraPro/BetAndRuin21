@@ -22,6 +22,7 @@ public class Bet {
 	private int amount;
 	private Date date;
 	private boolean evaluated;
+	private boolean hasWon;
 	
 	@XmlIDREF
 	private User user;
@@ -36,14 +37,15 @@ public class Bet {
 	 */
 	public Bet(int id, Question question, Answer answer, Event event, Date date, int amount, User user) {
 		super();
-		this.id=id;
+		this.id = id;
 		this.question = question;
 		this.answer = answer;
 		this.event = event;
 		this.amount = amount;
 		this.date = date;
-		this.user= user;
-		this.evaluated=false;
+		this.user = user;
+		this.evaluated = false;
+		this.hasWon = false;
 		
 	}
 	
@@ -126,6 +128,16 @@ public class Bet {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+
+	public boolean isHasWon() {
+		return hasWon;
+	}
+
+
+	public void setHasWon(boolean hasWon) {
+		this.hasWon = hasWon;
 	}
 	
 

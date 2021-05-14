@@ -837,6 +837,8 @@ public class DataAccess {
 
 		if (hasWon) {
 
+			bets.get(0).setHasWon(true);
+			
 			String uname = afortunated.getUsername();
 			
 			db.getTransaction().begin();
