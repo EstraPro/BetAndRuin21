@@ -23,7 +23,8 @@ import java.awt.Font;
 public class MainGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	private String Username;
 	private JPanel mainPane;
 	protected JLabel selectOptionLbl;
 	private JButton browseQuestionsBtn;
@@ -47,13 +48,22 @@ public class MainGUI extends JFrame {
 	public void setBussinessLogic(BlFacade afi) {
 		businessLogic = afi;
 	}
+	public String getUsername() {
+		return Username;
+	}
+
+
+
+	public void setUsername(String username) {
+		Username = username;
+	}
 
 	public MainGUI(BlFacade bl) {
 		super();
 		this.setBussinessLogic(bl);
-		businessLogic.resetLogins();
+		Username=null;
 		setResizable(true);
-		
+		System.out.println(Username);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -97,6 +107,7 @@ public class MainGUI extends JFrame {
 		mainPane = new JPanel();
 		mainPane.setLayout(null);
 		
+		businessLogic.resetLogins();
 		selectOptionLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
 		selectOptionLbl.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		selectOptionLbl.setBounds(35, 0, 265, 38);
@@ -162,6 +173,7 @@ public class MainGUI extends JFrame {
 				
 				setVisible(false);
 				BrowseQuestionsGUI findQuestionsWindow = new BrowseQuestionsGUI(businessLogic);
+				findQuestionsWindow.setUsername(Username);	
 				findQuestionsWindow.setVisible(true);
 				findQuestionsWindow.previousFrame(thisFrame);
 			}
@@ -181,16 +193,18 @@ public class MainGUI extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 					setVisible(false);
-					if(businessLogic.getLoggedUserUserName().equals("admin")) {
+					if(Username.equals("admin")) {
 						CreateQuestionGUI nextGUI = new CreateQuestionGUI(businessLogic, null);
 						nextGUI.previousFrame(thisFrame);
 						nextGUI.setVisible(true);
-						
+						nextGUI.setUsername(Username);
+					
 					}else {
-						ViewProfileGUI nextGUI = new ViewProfileGUI();
+						ViewProfileGUI nextGUI = new ViewProfileGUI(Username);
+						nextGUI.setUsername(Username);
 						nextGUI.setBusinessLogic(businessLogic);
 						nextGUI.previousFrame(thisFrame);
-						nextGUI.setVisible(true);	
+						nextGUI.setVisible(true);
 					}
 					
 			}
@@ -260,8 +274,8 @@ public class MainGUI extends JFrame {
 		BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("ViewProfile"));
 		btnInsertResults.setText(ResourceBundle.getBundle("Etiquetas").getString("btnInsertResults"));
 		
-		if(businessLogic.isAnyUserLogged())
-			if(businessLogic.getLoggedUserUserName().equals("admin"))
+		if(Username!=(null))
+			if(Username.equals("admin"))
 				BifunctionalBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));;
 				
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));

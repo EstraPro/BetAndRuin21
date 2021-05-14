@@ -241,10 +241,17 @@ public class DataAccess {
 	 */
 	public Question createQuestion(Event event, String question, float betMinimum, ArrayList<String> answerList, ArrayList<Integer> rateList, Integer type)
 			throws QuestionAlreadyExist, AnswerAlreadyExist {
+		
+		if(type.equals(1))
+		{
+			System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
+					+ " minimum bet = " + betMinimum + "Possible Answers" + answerList.toString());
+		}else if(type.equals(2)){
+			System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
+					+ " minimum bet = " + betMinimum);
+			}
 
-	System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " + question
-				+ " minimum bet = " + betMinimum + "Possible Answers" + answerList.toString());
-
+		
 		Event ev = db.find(Event.class, event.getEventNumber());
 
 		if (ev.doesQuestionExist(question))
@@ -255,15 +262,15 @@ public class DataAccess {
 		
 		Question q = ev.addQuestion(question, betMinimum, type);
 		
-		for (int i = 0; i < answerList.size(); i++) {
-			if(q.doesAnswerExist(answerList.get(i))) {
-				throw new AnswerAlreadyExist(
-						ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswerAlreadyExist"));
-			}else {
-				q.addSpecificAnswer(answerList.get(i), rateList.get(0));
+		if(type.equals(1)) {
+			for (int i = 0; i < answerList.size(); i++) {
+				if(q.doesAnswerExist(answerList.get(i))) {
+					throw new AnswerAlreadyExist(
+							ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswerAlreadyExist"));
+				}else {
+					q.addSpecificAnswer(answerList.get(i), rateList.get(0));
+				}		
 			}
-				
-			
 		}
 		// db.persist(q);
 		db.persist(ev); // db.persist(q) not required when CascadeType.PERSIST is added
@@ -432,9 +439,7 @@ public class DataAccess {
 	 * @param questionId
 	 * @param amount
 	 */
-	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
-
-		String username = getLoggedUserUserName();
+	public void storeBet(String username,Question question, Answer answer, Event event, Date date, int amount) {
 
 		this.open(false);
 
@@ -448,6 +453,49 @@ public class DataAccess {
 
 		db.getTransaction().commit();
 
+		this.close();
+	}
+	
+	/**
+	 * Marks loggedIn attribute as true
+	 */
+	public void markLogin(String user, String passwd) {
+
+		db.getTransaction().begin();
+
+		TypedQuery<User> queryUser = db.createQuery(
+				"SELECT FROM User WHERE username.equals(\"" + user + "\") AND password.equals(\"" + passwd + "\")",
+				User.class);
+
+		List<User> users = queryUser.getResultList();
+
+		User usr = users.get(0);
+		usr.setLoggedIn(true);
+		db.persist(usr);
+		db.getTransaction().commit();
+		System.out.println(usr.getUsername() + " Logged!");
+	}
+	
+	
+	/**
+	 * Resets all Users login status
+	 */
+	public void resetLogins() {
+
+		this.open(false);
+
+		db.getTransaction().begin();
+
+		TypedQuery<User> queryAllUsers = db.createQuery("SELECT FROM User", User.class);
+
+		List<User> users = queryAllUsers.getResultList();
+
+		for (User usr : users) {
+
+			usr.setLoggedIn(false);
+			db.persist(usr);
+		}
+		db.getTransaction().commit();
 		this.close();
 	}
 
@@ -472,67 +520,22 @@ public class DataAccess {
 
 		return user.get(0);
 	}
-
-	/**
-	 * Check user credentials
-	 * 
-	 * @param usname
-	 * @param passwd
-	 * @return
-	 */
-	public boolean checkUser(String usname, String passwd) {
-
-		TypedQuery<User> userPassQuery = db.createQuery(
-				"SELECT FROM User WHERE username.equals(\"" + usname + "\") AND password.equals(\"" + passwd + "\")",
-				User.class);
-
-		List<User> users = userPassQuery.getResultList();
-
-		return users.size() != 0;
-	}
-
-	/**
-	 * Marks loggedIn attribute as true
-	 */
-	public void markLogin(String user, String passwd) {
-
+	
+	public void logout(String username) {
 		db.getTransaction().begin();
 
-		TypedQuery<User> queryUser = db.createQuery(
-				"SELECT FROM User WHERE username.equals(\"" + user + "\") AND password.equals(\"" + passwd + "\")",
-				User.class);
-
-		List<User> users = queryUser.getResultList();
-
-		User usr = users.get(0);
-		usr.setLoggedIn(true);
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = ?1", User.class);
+		query.setParameter(1, username);
+		List<User> user = query.getResultList();
+		
+		User usr = user.get(0);
+		usr.setLoggedIn(false);
 		db.persist(usr);
+		
 		db.getTransaction().commit();
-		System.out.println(usr.getUsername() + " Logged!");
+		
 	}
-
-	/**
-	 * Resets all Users login status
-	 */
-	public void resetLogins() {
-
-		this.open(false);
-
-		db.getTransaction().begin();
-
-		TypedQuery<User> queryAllUsers = db.createQuery("SELECT FROM User", User.class);
-
-		List<User> users = queryAllUsers.getResultList();
-
-		for (User usr : users) {
-
-			usr.setLoggedIn(false);
-			db.persist(usr);
-		}
-		db.getTransaction().commit();
-		this.close();
-	}
-
+	
 	/**
 	 * Return id of logged user
 	 * 
@@ -553,6 +556,24 @@ public class DataAccess {
 		this.close();
 
 		return usernames.get(0);
+	}
+
+	/**
+	 * Check user credentials
+	 * 
+	 * @param usname
+	 * @param passwd
+	 * @return
+	 */
+	public boolean checkUser(String usname, String passwd) {
+
+		TypedQuery<User> userPassQuery = db.createQuery(
+				"SELECT FROM User WHERE username.equals(\"" + usname + "\") AND password.equals(\"" + passwd + "\")",
+				User.class);
+
+		List<User> users = userPassQuery.getResultList();
+
+		return users.size() != 0;
 	}
 
 	/**
@@ -608,9 +629,7 @@ public class DataAccess {
 	 * 
 	 * @param amount
 	 */
-	public void insertMoneyLoggedUser(int amount) {
-
-		String username = getLoggedUserUserName();
+	public void insertMoneyLoggedUser(String username, int amount) {
 
 		this.open(false);
 
@@ -633,9 +652,8 @@ public class DataAccess {
 	 * @param pass
 	 * @param bankN
 	 */
-	public int updateUserData(String uName, String pass, String bankN) {
+	public int updateUserData(String username, String uName, String pass, String bankN) {
 		int ret = 0;
-		String username = getLoggedUserUserName();
 
 		this.open(false);
 
@@ -681,7 +699,12 @@ public class DataAccess {
 	public User copyUser(User user, String newUsername) {
 		User NewUser = new User(newUsername, user.getPassword(), user.getBirthDate(), user.getName(), user.getSurname(),
 				user.getEmail(), user.getBankAccount());
-		NewUser.setLoggedIn(true);
+		NewUser.setWallet(user.getWallet());
+		NewUser.setBetId(user.getBetId());
+		for(Bet bet: user.getMadeBets()) {
+			bet.setUser(NewUser);
+			NewUser.storeBetObject(bet);
+		}
 		return NewUser;
 	}
 
@@ -710,9 +733,7 @@ public class DataAccess {
 	 * @param remBetId
 	 * @param amount
 	 */
-	public void removeBet(Integer remBetId, int amount) {
-
-		String username = getLoggedUserUserName();
+	public void removeBet(String username, Integer remBetId, int amount) {
 
 		this.open(false);
 
@@ -757,8 +778,6 @@ public class DataAccess {
 	public int manageResults(ArrayList<Integer> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
 			ArrayList<Integer> questionList, ArrayList<Date> dateList) {
 
-		//this.open(false);
-		
 		// sortuko ditut errore kasu desberdinak 0=Ondo joan da, 1=Zeozer jan duela,
 		// arrayek size desberdina, 2=Zeozer Txarto idatzita dago dokumentuan, 3=Datak txarto daude, duela asko pasata edo oso goiz da oraindik
 		int ret = 0;
@@ -792,9 +811,6 @@ public class DataAccess {
 		} else {
 			ret = 1;
 		}
-		
-		//this.close();
-		
 		return ret;
 	}
 
@@ -807,8 +823,6 @@ public class DataAccess {
 	 */
 	private void evaluateBet(Integer bet, Integer questionType, String result) {
 		// Ez ahaztu jartzea bet-aren evaluated boolean berria = true moduan mese
-
-		//this.open(false);
 		
 		boolean hasWon = false;
 		User afortunated = null;

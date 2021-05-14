@@ -53,17 +53,11 @@ public interface BlFacade  {
 	@WebMethod public Vector<Date> getEventsMonth(Date date);
 		
 	
-	@WebMethod public User getUserLogged();
-	
-	@WebMethod public String getLoggedUserUserName();
+	@WebMethod public User getUserLogged(String username);
 	
 	@WebMethod public Question getQuestion(int eventNum, int questionNum);
 	
 	@WebMethod public boolean isInt(String str);
-
-	@WebMethod public boolean isAnyUserLogged();
-
-	@WebMethod public void resetLogins();
 	
 	@WebMethod public boolean passwdMatches(String pass1, String pass2);
 	
@@ -73,25 +67,29 @@ public interface BlFacade  {
 	@WebMethod public boolean checkCredentialsAdmin(String usname, String passwd);
 	
 	@WebMethod public boolean checkCredentialsUser(String usname, String passwd);
-	
-	@WebMethod public void markLogin(String user, String passwd);
 
-	@WebMethod public void removeBet(Integer remBetId, int valueAt);
+	@WebMethod public void removeBet(String username, Integer remBetId, int amount);
 	
-	@WebMethod public void insertMoneyLoggedUser(int amount);
+	@WebMethod public void insertMoneyLoggedUser(String username ,int amount);
 	
-	@WebMethod public int updateUserData(String uName, String pass, String bankN);
+	@WebMethod public int updateUserData(String username ,String uName, String pass, String bankN);
 	
 	@WebMethod public Answer getAnswer(Integer eventNum, Integer questionNum, Integer answerNum);
 	
 	@WebMethod public Event getEvent(Integer eventNum);
 	
-	@WebMethod public void storeBet(Question question, Answer answer, Event event, Date date, int amount);
+	@WebMethod public void storeBet(String username,Question question, Answer answer, Event event, Date date, int amount);
 
 	@WebMethod int manageResults(ArrayList<Integer> eventList, ArrayList<Integer> questionType, ArrayList<String> resultList,
 			ArrayList<Integer> questionList, ArrayList<Date> dateList);
 
-	@WebMethod Integer createAnswer(Integer eventNum, Integer questionNum, String string, String string2) throws AnswerAlreadyExist;
+	@WebMethod public Integer createAnswer(Integer eventNum, Integer questionNum, String string, String string2) throws AnswerAlreadyExist;
+
+	@WebMethod public void resetLogins();
+
+	@WebMethod public void markLogin(String text, String valueOf);
+
+	@WebMethod public void logout(String username);
 	
 	
 	

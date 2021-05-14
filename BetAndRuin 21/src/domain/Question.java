@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -16,7 +17,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Question implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	@XmlID
 	@Id 
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@GeneratedValue

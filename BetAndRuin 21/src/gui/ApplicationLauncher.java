@@ -38,7 +38,7 @@ public class ApplicationLauncher {
 				
 		}else {
 
-				String serviceName= "http://" + config.getBusinessLogicNode() + ":" + 
+				String serviceName= "http://localhost:" /*+ config.getBusinessLogicNode() + ":"*/ + 
 						config.getBusinessLogicPort() + "/ws/" + config.getBusinessLogicName() +
 						"?wsdl";
 				URL url = new URL(serviceName);
@@ -54,6 +54,7 @@ public class ApplicationLauncher {
 			initWindow.setVisible(true);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			initWindow.selectOptionLbl.setText("Error: " + e.toString());
 			initWindow.selectOptionLbl.setForeground(Color.RED);		
 			System.out.println("Error in ApplicationLauncher: " + e.toString());

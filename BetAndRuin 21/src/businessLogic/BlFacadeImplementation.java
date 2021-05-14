@@ -127,24 +127,15 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 	@Override
 	@WebMethod
-	public User getUserLogged(){
+	public User getUserLogged(String username){
 		//dbManager.open(false);
-		User ret = dbManager.getUserByUsername(getLoggedUserUserName());
+		User ret = dbManager.getUserByUsername(username);
 		//dbManager.close();
 		return ret;
 		
 	}
 	
-	/**
-	 * Return id of logged user
-	 * @return
-	 */
-	@Override
-	@WebMethod
-	public String getLoggedUserUserName() {
-		
-		return dbManager.getLoggedUserUserName();
-	}
+
 	
 	@Override
 	@WebMethod 
@@ -156,21 +147,7 @@ public class BlFacadeImplementation implements BlFacade {
 			return false;
 		}
 	}
-	@Override
-	@WebMethod 
-	public boolean isAnyUserLogged() {
-		
-		dbManager.open(false);
-		boolean lag = dbManager.isAnyUserLogged();
-		dbManager.close();
-		return lag;
-	};
-	
-	@Override
-	@WebMethod 
-	public void resetLogins() {
-		dbManager.resetLogins();
-	}
+
 	
 	/**
 	 * Checks credentials for user
@@ -240,17 +217,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return ret;
 	}
 
-	/**
-	 * Marks loggedIn attribute as true
-	 */
-	@Override
-	@WebMethod
-	public void markLogin(String user, String passwd) {
-		dbManager.open(false);
-		dbManager.markLogin(user, passwd);
-		dbManager.close();
-		
-	}
 
 
 	/**
@@ -262,9 +228,9 @@ public class BlFacadeImplementation implements BlFacade {
 	 */
 	@Override
 	@WebMethod
-	public void storeBet(Question question, Answer answer, Event event, Date date, int amount) {
+	public void storeBet(String username,Question question, Answer answer, Event event, Date date, int amount) {
 
-		dbManager.storeBet(question, answer, event, date, amount);
+		dbManager.storeBet(username, question, answer, event, date, amount);
 	}
 
 	/**
@@ -329,9 +295,9 @@ public class BlFacadeImplementation implements BlFacade {
 	 */
 	@Override
 	@WebMethod
-	public void insertMoneyLoggedUser(int amount) {
+	public void insertMoneyLoggedUser(String username ,int amount) {
 
-		dbManager.insertMoneyLoggedUser(amount);
+		dbManager.insertMoneyLoggedUser(username, amount);
 	}
 	
 	
@@ -346,9 +312,9 @@ public class BlFacadeImplementation implements BlFacade {
 	 */
 	@Override
 	@WebMethod
-	public int updateUserData(String uName, String pass, String bankN) {
+	public int updateUserData(String username ,String uName, String pass, String bankN) {
 		
-		return dbManager.updateUserData(uName, pass, bankN);
+		return dbManager.updateUserData(username, uName, pass, bankN);
 	}
 
 	/**
@@ -359,9 +325,9 @@ public class BlFacadeImplementation implements BlFacade {
 	 */
 	@Override
 	@WebMethod
-	public void removeBet(Integer remBetId, int amount) {
+	public void removeBet(String username, Integer remBetId, int amount) {
 
-		dbManager.removeBet(remBetId, amount);
+		dbManager.removeBet(username, remBetId, amount);
 	}
 
 	@Override
@@ -380,6 +346,28 @@ public class BlFacadeImplementation implements BlFacade {
 		int ret = dbManager.createAnswer(eventNum,questionNum,answerContent,answerRate);
 		dbManager.close();
 		return ret;
+	}
+
+	@Override
+	public void resetLogins() {
+		dbManager.resetLogins();
+		
+	}
+
+	@Override
+	public void markLogin(String text, String valueOf) {
+		dbManager.open(false);
+		dbManager.markLogin( text, valueOf);
+		dbManager.close();
+		
+	}
+
+	@Override
+	public void logout(String username) {
+		dbManager.open(false);
+		dbManager.logout( username);
+		dbManager.close();
+		
 	}
 
 }

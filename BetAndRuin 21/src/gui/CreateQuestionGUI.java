@@ -37,7 +37,9 @@ public class CreateQuestionGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private BlFacade businessLogic;
-
+	
+	private String Username;
+	
 	private JComboBox<Event> eventComboBox = new JComboBox<Event>();
 	DefaultComboBoxModel<Event> eventModel = new DefaultComboBoxModel<Event>();
 
@@ -67,6 +69,8 @@ public class CreateQuestionGUI extends JFrame {
 	private JTextField answers2Text;
 	private final JTextField answers3Text = new JTextField();
 	
+	JLabel lblAnswers;
+	
 	private JComboBox<Integer> ratecomboBox1;
 	private JComboBox<Integer> ratecomboBox2;
 	private JComboBox<Integer> ratecomboBox3;
@@ -86,6 +90,16 @@ public class CreateQuestionGUI extends JFrame {
 		prevFrame = frame;
 
 	}
+	
+	public String getUsername() {
+		return Username;
+	}
+
+
+
+	public void setUsername(String username) {
+		Username = username;
+	}
 
 	public void setBusinessLogic(BlFacade bl) {
 		businessLogic = bl;
@@ -93,6 +107,7 @@ public class CreateQuestionGUI extends JFrame {
 
 	public CreateQuestionGUI(BlFacade bl, Vector<domain.Event> v) {
 		businessLogic = bl;
+		Username = null;
 		try {
 			jbInit(v);
 		} catch (Exception e) {
@@ -163,8 +178,8 @@ public class CreateQuestionGUI extends JFrame {
 		eventDateLbl.setBounds(47, 59, 140, 25);
 		getContentPane().add(eventDateLbl);
 		
-		JLabel lblAnswers = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.lblNewLabel.text")); //$NON-NLS-1$ //$NON-NLS-2$
-		lblAnswers.setBounds(32, 382, 75, 14);
+		lblAnswers = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.lblNewLabel.text")); //$NON-NLS-1$ //$NON-NLS-2$
+		lblAnswers.setBounds(32, 382, 455, 14);
 		getContentPane().add(lblAnswers);
 		
 		answersText = new JTextField();
@@ -197,7 +212,8 @@ public class CreateQuestionGUI extends JFrame {
 				prevFrame.getBtnRegister().setVisible(true);
 				prevFrame.getBifunctionalBtn().setVisible(false);
 				prevFrame.getBtnInsertResults().setVisible(false);
-				businessLogic.resetLogins();
+				prevFrame.setUsername(null);
+				businessLogic.logout(Username);
 			}
 		});
 		btnLogout.setBounds(47, 25, 89, 23);
@@ -238,6 +254,38 @@ public class CreateQuestionGUI extends JFrame {
 		getContentPane().add(questType);
 		
 		questionTypeComboBox = new JComboBox<Integer>();
+		questionTypeComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(questionTypeComboBox.getSelectedIndex()!=-1){
+					if((int)questionTypeComboBox.getSelectedItem()==1) {
+						answersText.setVisible(true);
+						answers1Text.setVisible(true);
+						answers2Text.setVisible(true);
+						answers3Text.setVisible(true);
+						ratecomboBox1.setVisible(true);
+						ratecomboBox2.setVisible(true);
+						ratecomboBox3.setVisible(true);
+						ratecomboBox4.setVisible(true);
+						lblRates.setVisible(true);
+						lblAnswers.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestionGUI.lblNewLabel.text"));
+						
+					}
+					if((int)questionTypeComboBox.getSelectedItem()==2) {
+						answersText.setVisible(false);
+						answers1Text.setVisible(false);
+						answers2Text.setVisible(false);
+						answers3Text.setVisible(false);
+						ratecomboBox1.setVisible(false);
+						ratecomboBox2.setVisible(false);
+						ratecomboBox3.setVisible(false);
+						ratecomboBox4.setVisible(false);
+						lblRates.setVisible(false);
+						lblAnswers.setText("No need to enter answers for this type of questions.");
+						
+					}
+				}
+			}
+		});
 		
 		questionTypeComboBox.setBounds(107, 331, 80, 22);
 		for(int i = 1 ; i<3; i++) {
@@ -358,35 +406,17 @@ public class CreateQuestionGUI extends JFrame {
 			// Displays an exception if the query field is empty
 			String inputQuestion = queryText.getText();
 			
-			//Inserts the Answers in the input depending on how many answers the admin enters.
-			ArrayList<String> inputAnswerTotal = new ArrayList<String>();
-			ArrayList<Integer> inputRateTotal = new ArrayList<Integer>();
-			
-			String inputAnswer = answersText.getText();
-			String inputAnswer1 = answers1Text.getText();
-			String inputAnswer2 = answers2Text.getText();
-			String inputAnswer3 = answers3Text.getText();
-			
 			Integer inputType = (Integer) questionTypeComboBox.getSelectedItem();
 			
 			
 			
-			if(inputAnswer.length() > 1 && ratecomboBox1.getSelectedIndex()!=-1 ) {
-				inputRateTotal.add((Integer) ratecomboBox1.getSelectedItem());
-				inputAnswerTotal.add(inputAnswer);
-			}
-			if(inputAnswer1.length() > 1 && ratecomboBox2.getSelectedIndex()!=-1 ) {
-				inputRateTotal.add((Integer) ratecomboBox2.getSelectedItem());
-				inputAnswerTotal.add(inputAnswer1);
-			}
-			if(inputAnswer2.length() > 1 && ratecomboBox3.getSelectedIndex()!=-1 ) {
-				inputRateTotal.add((Integer) ratecomboBox3.getSelectedItem());
-				inputAnswerTotal.add(inputAnswer2);
-			}
-			if(inputAnswer3.length() > 1 && ratecomboBox4.getSelectedIndex()!=-1 ) {
-				inputRateTotal.add((Integer) ratecomboBox4.getSelectedItem());
-				inputAnswerTotal.add(inputAnswer3);
-			}
+			
+			
+			
+			
+			
+			
+			
 			
 			
 			if (inputQuestion.length() > 0) {
@@ -397,13 +427,48 @@ public class CreateQuestionGUI extends JFrame {
 				if (inputPrice <= 0)
 					errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
 				else {
-					if(inputAnswerTotal.size() >= 1 && inputRateTotal.size() >= 1) {
-						
-						businessLogic.createQuestion(event, inputQuestion, inputPrice, inputAnswerTotal,inputRateTotal,inputType);
-					}else {
-						msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswer"));
+					if(questionTypeComboBox.getSelectedIndex()!=-1) {
+						if((int)questionTypeComboBox.getSelectedItem()==1) {
+							
+							//Inserts the Answers in the input depending on how many answers the admin enters.
+							ArrayList<String> inputAnswerTotal = new ArrayList<String>();
+							ArrayList<Integer> inputRateTotal = new ArrayList<Integer>();
+							
+							String inputAnswer = answersText.getText();
+							String inputAnswer1 = answers1Text.getText();
+							String inputAnswer2 = answers2Text.getText();
+							String inputAnswer3 = answers3Text.getText();
+							
+							
+							if(inputAnswer.length() > 1 && ratecomboBox1.getSelectedIndex()!=-1 ) {
+								inputRateTotal.add((Integer) ratecomboBox1.getSelectedItem());
+								inputAnswerTotal.add(inputAnswer);
+							}
+							if(inputAnswer1.length() > 1 && ratecomboBox2.getSelectedIndex()!=-1 ) {
+								inputRateTotal.add((Integer) ratecomboBox2.getSelectedItem());
+								inputAnswerTotal.add(inputAnswer1);
+							}
+							if(inputAnswer2.length() > 1 && ratecomboBox3.getSelectedIndex()!=-1 ) {
+								inputRateTotal.add((Integer) ratecomboBox3.getSelectedItem());
+								inputAnswerTotal.add(inputAnswer2);
+							}
+							if(inputAnswer3.length() > 1 && ratecomboBox4.getSelectedIndex()!=-1 ) {
+								inputRateTotal.add((Integer) ratecomboBox4.getSelectedItem());
+								inputAnswerTotal.add(inputAnswer3);
+							}
+							
+							if(inputAnswerTotal.size() >= 1 && inputRateTotal.size() >= 1) {
+								
+								businessLogic.createQuestion(event, inputQuestion, inputPrice, inputAnswerTotal,inputRateTotal,inputType);
+								
+							}else {
+								msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorAnswer"));
+							}
+						}
+						if((int)questionTypeComboBox.getSelectedItem()==2){
+							businessLogic.createQuestion(event, inputQuestion, inputPrice, null ,null ,inputType);
+						}
 					}
-					
 					msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("QuestionCreated"));
 				}
 			} else
