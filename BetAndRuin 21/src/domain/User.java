@@ -22,14 +22,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @Entity
 public class User {
 	@XmlID
-	@Id	
+	@Id
 	private String username;
 	private Date birthDate;
 	private String Name;
 	private String Surname;
 	private String Email;
 	private int BetId = 0;
-	
+
 	private boolean loggedIn = false;
 	private String password;
 	private String BankAccount;
@@ -51,8 +51,7 @@ public class User {
 		password = passwd;
 		wallet = new Wallet();
 	}
-	
-	
+
 	/**
 	 * 
 	 */
@@ -60,37 +59,39 @@ public class User {
 		super();
 	}
 
-
-
 	/**
 	 * Method to update to new username
+	 * 
 	 * @param newName
 	 */
 	public void updateUsername(String newName) {
-		
+
 		this.username = newName;
 	}
-	
+
 	/**
 	 * Method to update password
+	 * 
 	 * @param newPass
 	 */
 	public void updatePassword(String newPass) {
-		
+
 		this.password = newPass;
 	}
-	
+
 	/**
 	 * Method to update bank account number
+	 * 
 	 * @param newNum
 	 */
 	public void updateBankNumber(String newNum) {
-		
+
 		this.BankAccount = newNum;
 	}
 
 	/**
 	 * Wallet getter
+	 * 
 	 * @return
 	 */
 	public Wallet getWallet() {
@@ -99,6 +100,7 @@ public class User {
 
 	/**
 	 * Wallet setter
+	 * 
 	 * @param wallet
 	 */
 	public void setWallet(Wallet wallet) {
@@ -129,9 +131,9 @@ public class User {
 	}
 
 	public ArrayList<Bet> getAllOngoingBets() {
-		ArrayList<Bet> ret= new ArrayList<Bet>();
-		for(Bet lag: madeBets) {
-			if(!lag.isAvaluated()) {
+		ArrayList<Bet> ret = new ArrayList<Bet>();
+		for (Bet lag : madeBets) {
+			if (!lag.isAvaluated()) {
 				ret.add(lag);
 			}
 		}
@@ -167,15 +169,15 @@ public class User {
 		wallet.removeMoney(amount);
 		BetId++;
 	}
-	
+
 	/**
 	 * For the copy user method only
+	 * 
 	 * @param bet
 	 */
 	public void storeBetObject(Bet bet) {
 		madeBets.add(bet);
 	}
-	
 
 	public String getUsername() {
 		return username;
@@ -236,21 +238,19 @@ public class User {
 	public String getBankAccount() {
 		return BankAccount;
 	}
-			
+
 	public void setBankAccount(String bankAccount) {
 		BankAccount = bankAccount;
 	}
-	
 
 	public int getBetId() {
 		return BetId;
 	}
 
-
 	public void setBetId(int betId) {
 		BetId = betId;
 	}
-	
+
 	public boolean isLoggedIn() {
 
 		return loggedIn;
@@ -258,6 +258,18 @@ public class User {
 
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
+	}
+
+	public ArrayList<Bet> getAllEvaluatedBets() {
+
+		ArrayList<Bet> ret = new ArrayList<Bet>();
+		for (Bet lag : madeBets) {
+			if (lag.isAvaluated()) {
+				ret.add(lag);
+			}
+		}
+		return ret;
+
 	}
 
 	/**
@@ -273,4 +285,4 @@ public class User {
 		}
 		System.out.println("Bets: " + madeBets.size());
 	}
-}	
+}

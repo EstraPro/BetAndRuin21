@@ -147,8 +147,8 @@ public class ViewProfileGUI extends JFrame {
 
 		JLabel lblMoneyShow = new JLabel("Money");
 		lblMoneyShow.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 18));
-		lblMoneyShow.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMoneyShow.setBounds(628, 8, 107, 35);
+		lblMoneyShow.setHorizontalAlignment(SwingConstants.LEFT);
+		lblMoneyShow.setBounds(591, 8, 79, 35);
 		contentPane.add(lblMoneyShow);
 		lblMoneyShow.setText(businessLogic.getUserLogged(Username).getWallet().getMoney() + "€");
 
@@ -197,12 +197,12 @@ public class ViewProfileGUI extends JFrame {
 			}
 		});
 		InsertMoneyButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		InsertMoneyButton.setBounds(552, 105, 163, 52);
+		InsertMoneyButton.setBounds(680, 7, 140, 40);
 		contentPane.add(InsertMoneyButton);
 
 		JLabel currentMoneytextLbl = new JLabel("Current Money:");
 		currentMoneytextLbl.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		currentMoneytextLbl.setBounds(547, 11, 178, 35);
+		currentMoneytextLbl.setBounds(492, 8, 178, 35);
 		contentPane.add(currentMoneytextLbl);
 
 		JButton btnBack = new JButton("Close");
@@ -277,7 +277,7 @@ public class ViewProfileGUI extends JFrame {
 		lblUsername.setText("Username: " + businessLogic.getUserLogged(Username).getUsername());
 
 		JButton btnRefresh = new JButton("Refresh");
-		btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		btnRefresh.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int currency = businessLogic.getUserLogged(Username).getWallet().getMoney();
@@ -289,7 +289,7 @@ public class ViewProfileGUI extends JFrame {
 
 			}
 		});
-		btnRefresh.setBounds(549, 58, 79, 31);
+		btnRefresh.setBounds(680, 55, 95, 31);
 		contentPane.add(btnRefresh);
 
 		JLabel lblBetsList = new JLabel("Made Bets:");
@@ -335,6 +335,22 @@ public class ViewProfileGUI extends JFrame {
 		ErrorMessageArea = new JTextArea();
 		ErrorMessageArea.setBounds(507, 181, 308, 52);
 		contentPane.add(ErrorMessageArea);
+		
+		
+		JButton btnNewButton = new JButton("Win/Loss");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BetHistoryGUI historyGUI= new BetHistoryGUI(businessLogic,Username);
+				historyGUI.previousFrame(frame);
+				historyGUI.setVisible(true);
+				historyGUI.setBusinessLogic(businessLogic);
+				historyGUI.setUsername(Username);
+				setVisible(false);
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNewButton.setBounds(680, 97, 128, 35);
+		contentPane.add(btnNewButton);
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
