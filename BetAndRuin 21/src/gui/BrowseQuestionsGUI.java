@@ -110,6 +110,7 @@ public class BrowseQuestionsGUI extends JFrame {
 
 
 	public BrowseQuestionsGUI(BlFacade bl) {
+		Locale.setDefault((new Locale("en")));
 		businessLogic = bl;
 		try {
 			jbInit();
@@ -119,6 +120,7 @@ public class BrowseQuestionsGUI extends JFrame {
 	}
 	
 	private void jbInit() throws Exception {
+		
 		this.setSize(new Dimension(889, 613));
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		eventScrollPane.setBounds(283, 50, 346, 150);
@@ -156,7 +158,7 @@ public class BrowseQuestionsGUI extends JFrame {
 				jButton2_actionPerformed(e);
 			}
 		});
-
+		System.out.println("\n"+Locale.getDefault() +"\n");
 		datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
 		CreateQuestionGUI.paintDaysWithEvents(calendar, datesWithEventsInCurrentMonth);
 
@@ -252,9 +254,10 @@ public class BrowseQuestionsGUI extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int i = eventTable.getSelectedRow();
 				domain.Event ev = (domain.Event) eventTableModel.getValueAt(i, 2); // obtain ev object
-
+				
+				
 				Vector<Question> questions = ev.getQuestions();
-
+				System.out.println("\n"+Locale.getDefault() +"\n");
 				try {
 					questionTableModel.setDataVector(null, questionColumnNames);
 					questionTableModel.setColumnCount(4); // another column added to allocate question objects
@@ -461,7 +464,7 @@ public class BrowseQuestionsGUI extends JFrame {
 				int i = questionTable.getSelectedRow();
 				domain.Question question = (domain.Question) questionTableModel.getValueAt(i, 3);// obtain question
 																									// object
-
+				System.out.println("\n"+Locale.getDefault() +"\n");
 				Integer qtype = question.getType();
 
 				if (qtype.equals((Integer) 1)) {

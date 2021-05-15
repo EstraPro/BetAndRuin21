@@ -41,7 +41,7 @@ public class ViewProfileGUI extends JFrame {
 
 	private JPanel contentPane;
 
-	private BlFacade businessLogic;
+	private static BlFacade businessLogic;
 
 	private MainGUI prevFrame;
 
@@ -87,7 +87,7 @@ public class ViewProfileGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewProfileGUI frame = new ViewProfileGUI(Username);
+					ViewProfileGUI frame = new ViewProfileGUI(Username,businessLogic);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -99,9 +99,11 @@ public class ViewProfileGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ViewProfileGUI(String User) {
+	public ViewProfileGUI(String User,BlFacade businessLogic) {
 		Username = User;
-		this.setBusinessLogic(new BlFacadeImplementation());
+		
+		System.out.println(User);
+		this.setBusinessLogic(businessLogic);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 853, 467);
 		contentPane = new JPanel();

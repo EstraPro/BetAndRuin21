@@ -58,9 +58,8 @@ public class MainGUI extends JFrame {
 		Username = username;
 	}
 
-	public MainGUI(BlFacade bl) {
+	public MainGUI() {
 		super();
-		this.setBussinessLogic(bl);
 		Username=null;
 		setResizable(true);
 		System.out.println(Username);
@@ -107,7 +106,6 @@ public class MainGUI extends JFrame {
 		mainPane = new JPanel();
 		mainPane.setLayout(null);
 		
-		businessLogic.resetLogins();
 		selectOptionLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
 		selectOptionLbl.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 		selectOptionLbl.setBounds(35, 0, 265, 38);
@@ -153,6 +151,7 @@ public class MainGUI extends JFrame {
 						LoginWindow.setBusinessLogic(businessLogic);
 						LoginWindow.setVisible(true);
 						LoginWindow.previousFrame(thisFrame);
+						businessLogic.resetLogins();
 					}
 				});
 				panel.add(btnLogin);
@@ -200,7 +199,7 @@ public class MainGUI extends JFrame {
 						nextGUI.setUsername(Username);
 					
 					}else {
-						ViewProfileGUI nextGUI = new ViewProfileGUI(Username);
+						ViewProfileGUI nextGUI = new ViewProfileGUI(Username,businessLogic);
 						nextGUI.setUsername(Username);
 						nextGUI.setBusinessLogic(businessLogic);
 						nextGUI.previousFrame(thisFrame);

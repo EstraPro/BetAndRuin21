@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
   <businessLogic local="false"> 
-	<businessLogicNode>0.0.0.0</businessLogicNode>
+	<businessLogicNode>158.227.125.86</businessLogicNode>
 	<businessLogicPort>1099</businessLogicPort>
 	<businessLogicName>Bets</businessLogicName>
   </businessLogic>
-  <dataAccess local="false">
+  <dataAccess local="true">
 	<dataAccessNode>0.0.0.0</dataAccessNode>
 	<dataAccessPort>6136</dataAccessPort>
 	<dataBaseFilename>bets.temp</dataBaseFilename>

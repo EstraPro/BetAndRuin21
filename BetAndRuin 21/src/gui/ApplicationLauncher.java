@@ -14,7 +14,6 @@ import businessLogic.BlFacadeImplementation;
 
 public class ApplicationLauncher {
 	
-	private static BlFacade businessLogic;
 	
 	public static void main(String[] args) {
 	
@@ -23,9 +22,10 @@ public class ApplicationLauncher {
 
 		Locale.setDefault(new Locale(config.getLocale()));
 		System.out.println("Locale: " + Locale.getDefault());
-		MainGUI initWindow = null;
+		MainGUI initWindow = new MainGUI();
+		BlFacade businessLogic;
 		
-
+		
 		try {
 
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -38,7 +38,7 @@ public class ApplicationLauncher {
 				
 		}else {
 
-				String serviceName= "http://localhost:" /*+ config.getBusinessLogicNode() + ":"*/ + 
+				String serviceName= "http://"+ config.getBusinessLogicNode() + ":" + 
 						config.getBusinessLogicPort() + "/ws/" + config.getBusinessLogicName() +
 						"?wsdl";
 				URL url = new URL(serviceName);
@@ -49,7 +49,7 @@ public class ApplicationLauncher {
 				Service service = Service.create(url, qname);
 				businessLogic = service.getPort(BlFacade.class);
 			} 
-			initWindow = new MainGUI(businessLogic);
+			
 			initWindow.setBussinessLogic(businessLogic);
 			initWindow.setVisible(true);
 		}

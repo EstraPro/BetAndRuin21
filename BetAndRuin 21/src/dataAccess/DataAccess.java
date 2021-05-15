@@ -117,7 +117,8 @@ public class DataAccess {
 			Answer a10;
 			Answer a11;
 			Answer a12;
-
+			
+			
 			if (Locale.getDefault().equals(new Locale("es"))) {
 
 				q1 = ev1.addQuestion("¿Quién ganará el partido?", 1, 1);
@@ -141,7 +142,31 @@ public class DataAccess {
 				a12 = q6.addSpecificAnswer("No", 9);
 
 			} else if (Locale.getDefault().equals(new Locale("en"))) {
+				
+				q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1, 1);
+				q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2, 1);
+				q3 = ev11.addQuestion("Zeinek irabaziko du partidua?", 1, 1);
+				q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2, 1);
+				q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1, 1);
+				q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2, 1);
 
+				a1 = q1.addSpecificAnswer("Athletic-ek irabaziko du", 35);
+				a2 = q1.addSpecificAnswer("Atlético-k irabaziko du", 54);
+				a3 = q2.addSpecificAnswer("Athletic-ek sartuko du lehen gola", 25);
+				a4 = q2.addSpecificAnswer("Atlético-k sartuko du lehen gola", 44);
+				a5 = q3.addSpecificAnswer("Athletic-ek irabaziko du", 12);
+				a6 = q3.addSpecificAnswer("Atlético irabaziko du", 33);
+				a7 = q4.addSpecificAnswer("Bi baino gehiago", 32);
+				a8 = q4.addSpecificAnswer("Bi baino gutxiago", 55);
+				a9 = q5.addSpecificAnswer("Málaga-k irabaziko du", 23);
+				a10 = q5.addSpecificAnswer("Valencia-k irabaziko du", 42);
+				a11 = q6.addSpecificAnswer("Bai", 31);
+				a12 = q6.addSpecificAnswer("Ez", 9);
+
+				
+
+			} else {
+				
 				q1 = ev1.addQuestion("Who will win the match?", 1, 1);
 				q2 = ev1.addQuestion("Which team will score first?", 2, 1);
 				q3 = ev11.addQuestion("Who will win the match?", 1, 1);
@@ -162,28 +187,7 @@ public class DataAccess {
 				a10 = q5.addSpecificAnswer("Valencia will win", 42);
 				a11 = q6.addSpecificAnswer("Yes", 31);
 				a12 = q6.addSpecificAnswer("No", 9);
-
-			} else {
-
-				q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1, 1);
-				q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2, 1);
-				q3 = ev11.addQuestion("Zeinek irabaziko du partidua?", 1, 1);
-				q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2, 1);
-				q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1, 1);
-				q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2, 1);
-
-				a1 = q1.addSpecificAnswer("Athletic-ek irabaziko du", 35);
-				a2 = q1.addSpecificAnswer("Atlético-k irabaziko du", 54);
-				a3 = q2.addSpecificAnswer("Athletic-ek sartuko du lehen gola", 25);
-				a4 = q2.addSpecificAnswer("Atlético-k sartuko du lehen gola", 44);
-				a5 = q3.addSpecificAnswer("Athletic-ek irabaziko du", 12);
-				a6 = q3.addSpecificAnswer("Atlético irabaziko du", 33);
-				a7 = q4.addSpecificAnswer("Bi baino gehiago", 32);
-				a8 = q4.addSpecificAnswer("Bi baino gutxiago", 55);
-				a9 = q5.addSpecificAnswer("Málaga-k irabaziko du", 23);
-				a10 = q5.addSpecificAnswer("Valencia-k irabaziko du", 42);
-				a11 = q6.addSpecificAnswer("Bai", 31);
-				a12 = q6.addSpecificAnswer("Ez", 9);
+				
 			}
 			
 			  db.persist(a1); db.persist(a2); db.persist(a3); db.persist(a4);
@@ -900,6 +904,7 @@ public class DataAccess {
 		ArrayList<Integer> sol = new ArrayList<Integer>();
 		
 		for (Bet b : bets) {
+			if(!b.isEvaluated())
 			sol.add(b.getId());
 		}
 		

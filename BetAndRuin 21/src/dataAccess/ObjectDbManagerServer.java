@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
@@ -46,6 +47,7 @@ public class ObjectDbManagerServer extends JDialog {
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		contentPanel.add(buttonPane, BorderLayout.SOUTH);
 
+		Locale.setDefault((new Locale("en")));
 		JButton okButton = new JButton("Stop DATA ACCESS");
 		okButton.addActionListener(new ActionListener() {
 
@@ -95,6 +97,7 @@ public class ObjectDbManagerServer extends JDialog {
 
 	public static void main(String[] args) {
 		try {
+			//Locale.setDefault(Locale.ENGLISH);
 			ObjectDbManagerServer dialog = new ObjectDbManagerServer();
 			dialog.setVisible(true);
 		} catch (Exception e) {
